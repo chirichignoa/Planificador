@@ -1,8 +1,8 @@
 define(function () {
     'use strict';
 
-    function FunctionalUnit(cycleExecute, type) {
-        /*this.cycles_execution = cycleExecute;*/this.cycles_execution = 0; //Cant de ciclos que lleva
+    function FunctionalUnit(type) {
+        this.cycles_execution = 0; //Cant de ciclos que lleva
         this.type = type;
         //this.current_cycle = 0;
         this.occupied = false;
@@ -16,7 +16,6 @@ define(function () {
         return {
 
             execute: function (instr) {
-                //this.cycles_execution = this.cycles_execution;
                 this.instruction.push(instr);
                 this.occupied = true;
 

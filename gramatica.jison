@@ -17,7 +17,7 @@
 "SW" {return 'SW';}
 "," {return ',';}
 "(" {return '(';}
-")" {return '(';}
+")" {return ')';}
 [R-r][0-9]/d* {return 'REGISTER';}
 [0-9]\d* {return 'NUMBER';}
 

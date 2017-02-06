@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>ROB</title>
+        <title>Planificador</title>
         <meta charset="utf-8"/>
         <script data-main="js/app" src="js/require.js"></script>
         <script src="js/app/jquery.js"></script>
@@ -26,29 +26,29 @@
             padding: 80px 0 0 0 !important;
         }
 
-        #editor { 
+        #editor {
             width: 500px;
             height: 500px;
         }
-            
+
         #sigma-container {
            width:  400px;
            height:  300px;
         }
-            
+
         #tables-container {
             width: auto;
             overflow-x: auto;
         }
-            
+
         #tables-container table {
             display: table-cell;
             width: auto;
         }
-            
+
         .processor-table {
             padding: 0 20px 0 0 !important;
-            border: none !important;   
+            border: none !important;
         }
 
         #configuration-pane {
@@ -152,9 +152,9 @@
                               </div>
                               <div class="col-md-5 col-centered">
                                   <h3>Configuración <span class="glyphicon glyphicon-cog"></span></h3>
-                                  <div id="configuration-pane">    
+                                  <div id="configuration-pane">
 
-                                  <h4>Dispatcher</h4>                        
+                                  <h4>Dispatcher</h4>
 
                                       <p>Tamaño del dispatcher
                                           <select id="dispatcherSize" class="btn btn-sm btn-default">
@@ -194,7 +194,7 @@
                                       <ul>
                                           <li>
                                               <p>Propósito general</p>
-                                              <p> 
+                                              <p>
                                                   <span>Cantidad:</span>
                                                   <select id="multi_type" class="btn btn-sm btn-default">
                                                         <option value="0">0</option>
@@ -375,13 +375,13 @@
                             <!--tabla 3-->
                             <table class="table table-bordered processor-table" id="functional-unities-table">
                                 <tbody></tbody>
-                            </table> 
+                            </table>
 
                             <!--ROB-->
                             <table class="table table-bordered processor-table" id="rob-table">
                                 <tbody></tbody>
                             </table>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>

@@ -18,7 +18,7 @@
 "," {return ',';}
 "(" {return '(';}
 ")" {return ')';}
-[R-r][0-9]/d* {return 'REGISTER';}
+[R-r][0-9]\d* {return 'REGISTER';}
 [0-9]\d* {return 'NUMBER';}
 
 /lex

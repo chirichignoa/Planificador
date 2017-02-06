@@ -7,11 +7,27 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
     var reservationStationsSize = 0,
         dispatcherSize          = 0,
-        functionalUnits         = [];
+        functionalUnits         = [],
+        instructionsCycles      = [];
 
     function addFunctionalUnits(type) {
         for(var i = 0; i < parseInt($("#"+type).val()); i++)
             functionalUnits.push(new FunctionalUnit(type));
+    }
+
+    function initInstructionsCycles(){
+      instructionsCycles["ADD"] = parseInt($("#addCycles").val());
+      instructionsCycles["ADDF"] = parseInt($("#addfCycles").val());
+      instructionsCycles["SUB"] = parseInt($("#subCycles").val());
+      instructionsCycles["SUBF"] = parseInt($("#subfCycles").val());
+      instructionsCycles["MUL"] = parseInt($("#mulCycles").val());
+      instructionsCycles["MULF"] = parseInt($("#mulfCycles").val());
+      instructionsCycles["DIV"] = parseInt($("#divCycles").val());
+      instructionsCycles["DIVF"] = parseInt($("#divfCycles").val());
+      instructionsCycles["LD"] = parseInt($("#ldCycles").val());
+      instructionsCycles["LW"] = parseInt($("#lwCycles").val());
+      instructionsCycles["SD"] = parseInt($("#sdCycles").val());
+      instructionsCycles["SW"] = parseInt($("#swCycles").val());
     }
 
     function generateTablesHeaders(str, number) {
@@ -25,6 +41,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
         reservationStationsSize = 0;
         dispatcherSize = 0;
         functionalUnits = [];
+        instructionsCycles = [];
         $('#keys-list').html('');
         $('#dependencies-list').html('');
     }
@@ -44,8 +61,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
         $("#about").click(function(){
             $.notify({
-                    message: "Trabajo final de cátedra de <i>Arquitectura de Computadoras y Técnicas Digitales</i>. Implementado por <strong>Tomás Juárez</strong> y <strong>Guillermo Pacheco</strong>, a cargo de los docentes <strong>Ing. Martín Menchón</strong> e <strong>Ing. Marcerlo Tosini</strong>." 
-                },{                
+                    message: "Trabajo final de cátedra de <i>Arquitectura de Computadoras y Técnicas Digitales</i>. Implementado por <strong>Tomás Juárez</strong> y <strong>Guillermo Pacheco</strong>, a cargo de los docentes <strong>Ing. Martín Menchón</strong> e <strong>Ing. Marcerlo Tosini</strong>."
+                },{
                     type: 'success'
             });
         });
@@ -78,6 +95,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                 addFunctionalUnits("mem_int");
                 addFunctionalUnits("mem_float");
 
+                initInstructionsCycles();
+
                 if(functionalUnits.length > 0) {
 
                     FUTableHeader = generateTablesHeaders("UF", functionalUnits.length);
@@ -101,7 +120,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                         var dependencies = instr[i].getDependencies();
                         for (var dependency in dependencies) {
                             $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
-                            
+
                             graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
                         }
                     }
@@ -110,16 +129,16 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                 }
                 else {
                      $.notify({
-                        message: "Debes establecer al menos una unidad funcional para ejecutar las instrucciones." 
-                    },{                
+                        message: "Debes establecer al menos una unidad funcional para ejecutar las instrucciones."
+                    },{
                         type: 'warning'
                     });
                 }
             }
             else {
                 $.notify({
-                    message: "<strong>:'(</strong> ocurrió un error durante la etapa de parsing. Por favor, revisa tus instrucciones." 
-                },{                
+                    message: "<strong>:'(</strong> ocurrió un error durante la etapa de parsing. Por favor, revisa tus instrucciones."
+                },{
                     type: 'danger'
                 });
 
@@ -134,8 +153,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
             }
             else {
                 $.notify({
-                    message: "<strong>:D</strong> La ejecución de las instrucciones fueron completadas con éxito." 
-                },{                
+                    message: "<strong>:D</strong> La ejecución de las instrucciones fueron completadas con éxito."
+                },{
                     type: 'success'
                 });
             }

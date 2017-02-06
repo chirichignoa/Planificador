@@ -8,7 +8,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     var reservationStationsSize = 0,
         dispatcherSize          = 0,
         functionalUnits         = [],
-        instructionsCycles      = [];
+        instructionsCycles      = {};
 
     function addFunctionalUnits(type) {
         for(var i = 0; i < parseInt($("#"+type).val()); i++)

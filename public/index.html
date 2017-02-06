@@ -28,7 +28,7 @@
 
         #editor {
             width: 500px;
-            height: 500px;
+            height: 650px;
         }
 
         #sigma-container {
@@ -112,10 +112,10 @@
                 <h4 class="modal-title">Modal title</h4>
               </div>
               <div class="modal-body">
-                <p><pre>{add | sub | mul | div} $t0, $t1, $t2</pre> para operaciones aritméticas de enteros.</p>
-                <p><pre>{addf | subf | mulf | divf} $t0, $t1, $t2</pre> para operaciones aritméticas de punto flotante.</p>
-                <p><pre>{lw | sw} $t0, 80($t1), $t2</pre> para operaciones de memoria de enteros.</p>
-                <p><pre>{lf | sf} $t0, 4($t1), $t2</pre> para operaciones de memoria de punto flotante.</p>
+                <p><pre>{add | sub | mul | div} r0, r1, r2</pre> para operaciones aritméticas de enteros.</p>
+                <p><pre>{addf | subf | mulf | divf} r0, r1, r2</pre> para operaciones aritméticas de punto flotante.</p>
+                <p><pre>{lw | sw} r0, 80(r1)</pre> para operaciones de memoria de enteros.</p>
+                <p><pre>{lf | sf} r0, 4(r1)</pre> para operaciones de memoria de punto flotante.</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Entendido</button>
@@ -134,7 +134,7 @@
                   <a class="btn btn-danger navbar-btn btn-sm" href="https://github.com/tomijuarez/ReOrder-Buffer/blob/master/report/report.pdf">Informe</a>
                   <a class="btn btn-danger navbar-btn btn-sm" href="#" id="about">Autores</a>
                 </div>
-                  <h1 class="text-center" id="title">ReOrder Buffer</h1>
+                  <h1 class="text-center" id="title">Planificador</h1>
             </div>
 
             <div class="main-content" id="fullpage">
@@ -188,6 +188,170 @@
                                                 <option value="10">10</option>
                                           </select>
                                       </p>
+
+                                      <h4>Ciclos por instruccion </h4>
+                                      <p>
+                                        <span>ADD:</span>
+                                          <select id="addCycles" class="btn btn-sm btn-default">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                          </select>
+                                          <span>ADDF:</span>
+                                            <select id="addfCycles" class="btn btn-sm btn-default">
+                                                  <option value="1">1</option>
+                                                  <option value="2">2</option>
+                                                  <option value="3">3</option>
+                                                  <option value="4">4</option>
+                                                  <option value="5">5</option>
+                                                  <option value="6">6</option>
+                                                  <option value="7">7</option>
+                                                  <option value="8">8</option>
+                                                  <option value="9">9</option>
+                                                  <option value="10">10</option>
+                                            </select>
+                                            <span>SUB:</span>
+                                              <select id="subCycles" class="btn btn-sm btn-default">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                              </select>
+                                              <span>SUBF:</span>
+                                                <select id="subfCycles" class="btn btn-sm btn-default">
+                                                      <option value="1">1</option>
+                                                      <option value="2">2</option>
+                                                      <option value="3">3</option>
+                                                      <option value="4">4</option>
+                                                      <option value="5">5</option>
+                                                      <option value="6">6</option>
+                                                      <option value="7">7</option>
+                                                      <option value="8">8</option>
+                                                      <option value="9">9</option>
+                                                      <option value="10">10</option>
+                                                </select>
+                                              </p>
+                                              <p>
+                                                <span>MUL:</span>
+                                                  <select id="mulCycles" class="btn btn-sm btn-default">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                  </select>
+                                                  <span>MULF:</span>
+                                                    <select id="mulfCycles" class="btn btn-sm btn-default">
+                                                          <option value="1">1</option>
+                                                          <option value="2">2</option>
+                                                          <option value="3">3</option>
+                                                          <option value="4">4</option>
+                                                          <option value="5">5</option>
+                                                          <option value="6">6</option>
+                                                          <option value="7">7</option>
+                                                          <option value="8">8</option>
+                                                          <option value="9">9</option>
+                                                          <option value="10">10</option>
+                                                    </select>
+                                                    <span>DIV:</span>
+                                                      <select id="divCycles" class="btn btn-sm btn-default">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                      </select>
+                                                      <span>DIVF:</span>
+                                                        <select id="divfCycles" class="btn btn-sm btn-default">
+                                                              <option value="1">1</option>
+                                                              <option value="2">2</option>
+                                                              <option value="3">3</option>
+                                                              <option value="4">4</option>
+                                                              <option value="5">5</option>
+                                                              <option value="6">6</option>
+                                                              <option value="7">7</option>
+                                                              <option value="8">8</option>
+                                                              <option value="9">9</option>
+                                                              <option value="10">10</option>
+                                                        </select>
+                                                      </p>
+                                                      <p>
+                                                      <span>LD:</span>
+                                                        <select id="ldCycles" class="btn btn-sm btn-default">
+                                                              <option value="1">1</option>
+                                                              <option value="2">2</option>
+                                                              <option value="3">3</option>
+                                                              <option value="4">4</option>
+                                                              <option value="5">5</option>
+                                                              <option value="6">6</option>
+                                                              <option value="7">7</option>
+                                                              <option value="8">8</option>
+                                                              <option value="9">9</option>
+                                                              <option value="10">10</option>
+                                                        </select>
+                                                        <span>LW:</span>
+                                                          <select id="lwCycles" class="btn btn-sm btn-default">
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                                <option value="10">10</option>
+                                                          </select>
+                                                          <span>SD:</span>
+                                                            <select id="sdCycles" class="btn btn-sm btn-default">
+                                                                  <option value="1">1</option>
+                                                                  <option value="2">2</option>
+                                                                  <option value="3">3</option>
+                                                                  <option value="4">4</option>
+                                                                  <option value="5">5</option>
+                                                                  <option value="6">6</option>
+                                                                  <option value="7">7</option>
+                                                                  <option value="8">8</option>
+                                                                  <option value="9">9</option>
+                                                                  <option value="10">10</option>
+                                                            </select>
+                                                            <span>SW:</span>
+                                                              <select id="swCycles" class="btn btn-sm btn-default">
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                              </select>
+                                                            </p>
 
                                       <h4>Unidades funcionales</h4>
 

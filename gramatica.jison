@@ -1,9 +1,8 @@
-/* description: Parses end executes mathematical expressions. */
-
 /* lexical grammar */
 %lex
 %%
 
+\s+                   /* skip whitespace */
 "ADD" {return 'ADD';}
 "ADDF" {return 'ADDF';}
 "SUB" {return 'SUB';}
@@ -16,55 +15,56 @@
 "LW" {return 'LW';}
 "SD" {return 'SD';}
 "SW" {return 'SW';}
+"," {return ',';}
+"(" {return '(';}
+")" {return '(';}
+[R-r][0-9]/d* {return 'REGISTER';}
 [0-9]\d* {return 'NUMBER';}
-[R-r][0-9]\d* {return 'REGISTER';}
-<<EOF>> {return 'EOF';}
 
 /lex
 
-%start instruccion
+%start Instruccion
 
 %% /* language grammar */
 
-instruccion : 
-           Instruccion_Aritmetica operando ‘,’ operando ‘,’ operando instruccion
-         | Instruccion_Aritmetica operando ‘,’ operando ‘,’ operando EOF
-         | Instruccion_Mem operando ‘,’ offset ‘(‘ operando ‘)’ instruccion
-         | Instruccion_Mem operando ‘,’ offset ‘(‘ operando ‘)’ EOF
-         | Instruccion_Mem operando ‘,’ operando instruccion
-         | Instruccion_Mem operando ‘,’ operando EOF
+Instruccion :
+           Instruccion_Aritmetica Operando","Operando","Operando Instruccion
+         | Instruccion_Aritmetica Operando","Operando","Operando {console.log("Instruccion");}
+         | Instruccion_Memoria Operando "," Offset "(" Operando ")" Instruccion
+         | Instruccion_Memoria Operando "," Offset "(" Operando ")"
+         | Instruccion_Memoria Operando "," Operando Instruccion
+         | Instruccion_Memoria Operando "," Operando
 ;
 
-Instruccion_Aritmetica : instruc_entera
-			    		| instruc_pflotante 
+Instruccion_Aritmetica : Instruccion_Entera
+                        | Instruccion_PFlotante
 ;
 
-instruc_entera : ADD {console.log("ADD");}
-		| SUB
-		| MUL
-		| DIV
+Instruccion_Entera : ADD {console.log("ADD");}
+		| SUB {console.log("SUB");}
+		| MUL {console.log("MUL");}
+		| DIV {console.log("DIV");}
 ;
 
-instruc_pflotante : ADDF
+Instruccion_PFlotante : ADDF
 		    | SUBF
 		    | MULF
 		    | DIVF
 ;
 
-instruccion_Mem : instruc_Mem_entera
-         | instruc_Mem_pflotante 
+Instruccion_Memoria : Instruccion_Memoria_Entera
+         | Instruccion_Memoria_PFlotante
 ;
 
-instruc_Mem_entera : LD
+Instruccion_Memoria_Entera : LD
 			| SD
 ;
 
-instruc_Mem_pflotante : LW
+Instruccion_Memoria_PFlotante : LW
 		    	     | SW
-;	
-
-operando : REGISTER
 ;
 
-offset : NUMBER
+Operando: REGISTER;
+
+Offset : NUMBER
 ;

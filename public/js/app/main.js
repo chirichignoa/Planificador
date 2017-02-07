@@ -41,7 +41,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
         reservationStationsSize = 0;
         dispatcherSize = 0;
         functionalUnits = [];
-        instructionsCycles = [];
+        instructionsCycles = {};
         $('#keys-list').html('');
         $('#dependencies-list').html('');
     }

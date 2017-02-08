@@ -104,7 +104,7 @@ case 4:this.$.type = "arith_float";
                          this.$.instr = $$[$0].instr;
 break;
 case 5:console.log("Gramat: ADD");
-              this.$.instr = ADD;
+              this.$.instr = "ADD";
               console.log(this.$.instr);
 break;
 case 6:console.log("Gramat: SUB");

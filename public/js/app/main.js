@@ -105,7 +105,7 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
 
                     $("#non-tables").alert("close");
 
-                    UiManager.constructTables(dispatcherTableHeader, rsTableHeader, FUTableHeader);
+                    //UiManager.constructTables(dispatcherTableHeader, rsTableHeader, FUTableHeader);
 
                     var instr = Parser.getStack().getInstructions();
                     //cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);

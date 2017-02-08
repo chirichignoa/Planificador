@@ -9,7 +9,7 @@ define(function () {
         this.instructionString = str;
         this.type = type;
         this.cycles = cycles; //NUEVO
-
+        console.log("CREANDOSE INSTRUCCION");
         this.execute = false;
     }
 

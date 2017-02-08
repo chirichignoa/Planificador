@@ -28,36 +28,64 @@
 %% /* language grammar */
 
 Instruccion :
-           Instruccion_Aritmetica REGISTER","REGISTER","REGISTER Instruccion
-         | Instruccion_Aritmetica REGISTER","REGISTER","REGISTER
-         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" Instruccion
-         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")"
+           Instruccion_Aritmetica REGISTER","REGISTER","REGISTER Instruccion {     
+								var instructionId = "s" + instructionCounter;
+								RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
+								stack.addInstruction(RType);
+								instructionCounter++;}
+         | Instruccion_Aritmetica REGISTER","REGISTER","REGISTER {
+								var instructionId = "s" + instructionCounter;
+								RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
+								stack.addInstruction(RType);
+								instructionCounter++;}}
+         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" Instruccion {
+									var instructionId = "s" + instructionCounter;
+									RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
+									stack.addInstruction(RType);
+									instructionCounter++;}
+         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" {
+									var instructionId = "s" + instructionCounter;
+									RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
+									stack.addInstruction(RType);
+									instructionCounter++;}
 ;
 
-Instruccion_Aritmetica : Instruccion_Entera
-                        | Instruccion_PFlotante
+Instruccion_Aritmetica : Instruccion_Entera {$$.type = "arith_int"}
+                        | Instruccion_PFlotante {$$.type = "arith_float"}
 ;
 
-Instruccion_Entera : ADD {console.log("Gramat: ADD");}
-		| SUB {console.log("Gramat: SUB");}
-		| MUL {console.log("Gramat: MUL");}
-		| DIV {console.log("Gramat: DIV");}
+Instruccion_Entera : ADD {console.log("Gramat: ADD");
+			  $$.instr = "ADD";}
+		| SUB {console.log("Gramat: SUB");
+			  $$.instr = "SUB";}
+		| MUL {console.log("Gramat: MUL");
+			  $$.instr = "MUL";}
+		| DIV {console.log("Gramat: DIV");
+			  $$.instr = "DIV";}
 ;
 
-Instruccion_PFlotante : ADDF {console.log("Gramat: ADDF");}
-		    | SUBF {console.log("Gramat: SUBF");}
-		    | MULF {console.log("Gramat: MULF");}
-		    | DIVF {console.log("Gramat: DIVF");}
+Instruccion_PFlotante : ADDF {console.log("Gramat: ADDF");
+			      $$.instr = "ADDF";}
+		    | SUBF {console.log("Gramat: SUBF");
+			    $$.instr = "SUBF";}
+		    | MULF {console.log("Gramat: MULF");
+			    $$.instr = "MULF";}
+		    | DIVF {console.log("Gramat: DIVF");
+			    $$.instr = "DIVF";}
 ;
 
-Instruccion_Memoria : Instruccion_Memoria_Entera
-         | Instruccion_Memoria_PFlotante
+Instruccion_Memoria : Instruccion_Memoria_Entera {$$.type = "mem_int"}
+         | Instruccion_Memoria_PFlotante {$$.type = "mem_float"}
 ;
 
-Instruccion_Memoria_Entera : LD {console.log("Gramat: LD");}
-			| SD {console.log("Gramat: SD");}
+Instruccion_Memoria_Entera : LD {console.log("Gramat: LD");
+			         $$.instr = "LD";}
+			| SD {console.log("Gramat: SD");
+			         $$.instr = "SD";}
 ;
 
-Instruccion_Memoria_PFlotante : LW {console.log("Gramat: LW");}
-		    	     | SW {console.log("Gramat: SW");}
+Instruccion_Memoria_PFlotante : LW {console.log("Gramat: LW");
+			            $$.instr = "LW";}
+		    	     | SW {console.log("Gramat: SW");
+			           $$.instr = "SW";}
 ;

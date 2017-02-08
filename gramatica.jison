@@ -28,26 +28,22 @@
 %% /* language grammar */
 
 Instruccion :
-           Instruccion_Aritmetica REGISTER","REGISTER","REGISTER Instruccion {     
-								var instructionId = "s" + instructionCounter;
-								RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
-								stack.addInstruction(RType);
-								instructionCounter++;}
-         | Instruccion_Aritmetica REGISTER","REGISTER","REGISTER {
-								var instructionId = "s" + instructionCounter;
-								RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
-								stack.addInstruction(RType);
-								instructionCounter++;}}
-         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" Instruccion {
-									var instructionId = "s" + instructionCounter;
-									RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
-									stack.addInstruction(RType);
-									instructionCounter++;}
-         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" {
-									var instructionId = "s" + instructionCounter;
-									RType = new Instruction(instructionId, $2, [$4,$6], $$.instruc, $$.type,9);
-									stack.addInstruction(RType);
-									instructionCounter++;}
+           Instruccion_Aritmetica REGISTER","REGISTER","REGISTER Instruccion {var instructionId = "s" + instructionCounter;
+								              instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
+									      stack.addInstruction(instruction);
+									      instructionCounter++;}
+         | Instruccion_Aritmetica REGISTER","REGISTER","REGISTER {var instructionId = "s" + instructionCounter;
+								  instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
+								  stack.addInstruction(instruction);
+								  instructionCounter++;}
+         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" Instruccion {var instructionId = "s" + instructionCounter;
+									         instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
+										 stack.addInstruction(instruction);
+										 instructionCounter++;}
+         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" {var instructionId = "s" + instructionCounter;
+							             instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
+								     stack.addInstruction(instruction);
+								     instructionCounter++;}
 ;
 
 Instruccion_Aritmetica : Instruccion_Entera {$$.type = "arith_int"}

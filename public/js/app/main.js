@@ -79,10 +79,13 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
         $("#init").click(function(){
 
             var lines = editor.getSession().doc.getAllLines();
-            Parser.clearStack();
 
             if (runParser(Parser, lines)) {
 
+                
+            Parser.clearStack();
+            initInstructionsCycles();
+            Parser.setInstructionsCycles(instructionsCycles);
                 console.log("TAMANO DE LA PILA"+Parser.getStack().size());
                 reset();
                 graph = new Graph();
@@ -95,8 +98,6 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
                 addFunctionalUnits("arith_float");
                 addFunctionalUnits("mem_int");
                 addFunctionalUnits("mem_float");
-
-                initInstructionsCycles();
 
                 if(functionalUnits.length > 0) {
 

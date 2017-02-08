@@ -110,7 +110,7 @@ define(function () {
                 return this.type;
             },
 
-            getCycles: funtion () { //NUEVO
+            getCycles: function () { //NUEVO
                 return this.cycles;
             },
 

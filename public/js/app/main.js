@@ -80,12 +80,12 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
 
             var lines = editor.getSession().doc.getAllLines();
 
-            if (runParser(Parser, lines)) {
-
-                
             Parser.clearStack();
             initInstructionsCycles();
             Parser.setInstructionsCycles(instructionsCycles);
+
+            if (runParser(Parser, lines)) {
+
                 console.log("TAMANO DE LA PILA"+Parser.getStack().size());
                 reset();
                 graph = new Graph();

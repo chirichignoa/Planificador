@@ -80,7 +80,7 @@ var parser = {trace: function trace(){},
 yy: {},
 symbols_: {"error":2,"Instruccion":3,"Instruccion_Aritmetica":4,"REGISTER":5,",":6,"Instruccion_Memoria":7,"OFFSET":8,"(":9,")":10,"Instruccion_Entera":11,"Instruccion_PFlotante":12,"ADD":13,"SUB":14,"MUL":15,"DIV":16,"ADDF":17,"SUBF":18,"MULF":19,"DIVF":20,"Instruccion_Memoria_Entera":21,"Instruccion_Memoria_PFlotante":22,"LD":23,"SD":24,"LW":25,"SW":26,"$accept":0,"$end":1},
 terminals_: {2:"error",5:"REGISTER",6:",",8:"OFFSET",9:"(",10:")",13:"ADD",14:"SUB",15:"MUL",16:"DIV",17:"ADDF",18:"SUBF",19:"MULF",20:"DIVF",23:"LD",24:"SD",25:"LW",26:"SW"},
-productions_: [0,[3,7],[3,6],[3,8],[3,7],[4,1],[4,1],[11,1],[11,1],[11,1],[11,1],[12,1],[12,1],[12,1],[12,1],[7,1],[7,1],[21,1],[21,1],[22,1],[22,1]],
+productions_: [0,[3,6],[3,7],[4,1],[4,1],[11,1],[11,1],[11,1],[11,1],[12,1],[12,1],[12,1],[12,1],[7,1],[7,1],[21,1],[21,1],[22,1],[22,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */
 /**/) {
 /* this == yyval */
@@ -88,73 +88,68 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:var instructionId = "s" + instructionCounter;
-                                              instruction = new Instruction(instructionId, $$[$0-5], [$$[$0-3],$$[$0-1]], $$[$0-6].instr, $$[$0-6].type,instructionsCycles["ADD"]);//$$[$0-6].instr]);
-                                          stack.addInstruction(instruction);
-                                          instructionCounter++;
-break;
-case 2:var instructionId = "s" + instructionCounter;
                                   instruction = new Instruction(instructionId, $$[$0-4], [$$[$0-2],$$[$0]], $$[$0-5].instr, $$[$0-5].type,instructionsCycles[$$[$0-5].instr]);
                                   stack.addInstruction(instruction);
                                   instructionCounter++;
 break;
-case 3:var instructionId = "s" + instructionCounter;
-                                             instruction = new Instruction(instructionId, $$[$0-6], [$$[$0-4],$$[$0-2]], $$[$0-7].instr, $$[$0-7].type,instructionsCycles[$$[$0-7].instr]);
-                                         stack.addInstruction(instruction);
-                                         instructionCounter++;
-break;
-case 4:var instructionId = "s" + instructionCounter;
+case 2:var instructionId = "s" + instructionCounter;
                                          instruction = new Instruction(instructionId, $$[$0-5], [$$[$0-3],$$[$0-1]], $$[$0-6].instr, $$[$0-6].type,instructionsCycles[$$[$0-6].instr]);
                                      stack.addInstruction(instruction);
                                      instructionCounter++;
 break;
-case 5:this.$.type = "arith_int"
+case 3:this.$.type = "arith_int";
+                         this.$.instr = $$[$0].instr;
 break;
-case 6:this.$.type = "arith_float"
+case 4:this.$.type = "arith_float";
+                         this.$.instr = $$[$0].instr;
 break;
-case 7:console.log("Gramat: ADD");
-              this.$.instr = "ADD";
+case 5:console.log("Gramat: ADD");
+              this.$.instr = ADD;
+              console.log(this.$.instr);
 break;
-case 8:console.log("Gramat: SUB");
+case 6:console.log("Gramat: SUB");
               this.$.instr = "SUB";
 break;
-case 9:console.log("Gramat: MUL");
+case 7:console.log("Gramat: MUL");
               this.$.instr = "MUL";
 break;
-case 10:console.log("Gramat: DIV");
+case 8:console.log("Gramat: DIV");
               this.$.instr = "DIV";
 break;
-case 11:console.log("Gramat: ADDF");
+case 9:console.log("Gramat: ADDF");
                   this.$.instr = "ADDF";
 break;
-case 12:console.log("Gramat: SUBF");
+case 10:console.log("Gramat: SUBF");
                 this.$.instr = "SUBF";
 break;
-case 13:console.log("Gramat: MULF");
+case 11:console.log("Gramat: MULF");
                 this.$.instr = "MULF";
 break;
-case 14:console.log("Gramat: DIVF");
+case 12:console.log("Gramat: DIVF");
                 this.$.instr = "DIVF";
 break;
-case 15:this.$.type = "mem_int"
+case 13:this.$.type = "mem_int";
+                             this.$.instr = $$[$0].instr;
 break;
-case 16:this.$.type = "mem_float"
+case 14:this.$.type = "mem_float";
+                         this.$.instr = $$[$0].instr;
 break;
-case 17:console.log("Gramat: LD");
+case 15:console.log("Gramat: LD");
                      this.$.instr = "LD";
 break;
-case 18:console.log("Gramat: SD");
+case 16:console.log("Gramat: SD");
                      this.$.instr = "SD";
 break;
-case 19:console.log("Gramat: LW");
+case 17:console.log("Gramat: LW");
                         this.$.instr = "LW";
 break;
-case 20:console.log("Gramat: SW");
+case 18:console.log("Gramat: SW");
                        this.$.instr = "SW";
 break;
 }
 },
-table: [{3:1,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{1:[3]},{5:[1,20]},{5:[1,21]},{5:[2,5]},{5:[2,6]},{5:[2,15]},{5:[2,16]},{5:[2,7]},{5:[2,8]},{5:[2,9]},{5:[2,10]},{5:[2,11]},{5:[2,12]},{5:[2,13]},{5:[2,14]},{5:[2,17]},{5:[2,18]},{5:[2,19]},{5:[2,20]},{6:[1,22]},{6:[1,23]},{5:[1,24]},{8:[1,25]},{6:[1,26]},{9:[1,27]},{5:[1,28]},{5:[1,29]},{1:[2,2],3:30,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{10:[1,31]},{1:[2,1]},{1:[2,4],3:32,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{1:[2,3]}],
-defaultActions: {4:[2,5],5:[2,6],6:[2,15],7:[2,16],8:[2,7],9:[2,8],10:[2,9],11:[2,10],12:[2,11],13:[2,12],14:[2,13],15:[2,14],16:[2,17],17:[2,18],18:[2,19],19:[2,20],30:[2,1],32:[2,3]},
+table: [{3:1,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{1:[3]},{5:[1,20]},{5:[1,21]},{5:[2,3]},{5:[2,4]},{5:[2,13]},{5:[2,14]},{5:[2,5]},{5:[2,6]},{5:[2,7]},{5:[2,8]},{5:[2,9]},{5:[2,10]},{5:[2,11]},{5:[2,12]},{5:[2,15]},{5:[2,16]},{5:[2,17]},{5:[2,18]},{6:[1,22]},{6:[1,23]},{5:[1,24]},{8:[1,25]},{6:[1,26]},{9:[1,27]},{5:[1,28]},{5:[1,29]},{1:[2,1]},{10:[1,30]},{1:[2,2]}],
+defaultActions: {4:[2,3],5:[2,4],6:[2,13],7:[2,14],8:[2,5],9:[2,6],10:[2,7],11:[2,8],12:[2,9],13:[2,10],14:[2,11],15:[2,12],16:[2,15],17:[2,16],18:[2,17],19:[2,18],28:[2,1],30:[2,2]},
 parseError: function parseError(str,hash){if(hash.recoverable){this.trace(str)}else{throw new Error(str)}},
 parse: function parse(input) {
     var self = this, stack = [0], vstack = [null], lstack = [], table = this.table, yytext = '', yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;

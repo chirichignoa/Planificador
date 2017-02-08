@@ -28,26 +28,20 @@
 %% /* language grammar */
 
 Instruccion :
-           Instruccion_Aritmetica REGISTER","REGISTER","REGISTER Instruccion {var instructionId = "s" + instructionCounter;
-								              instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
-									      stack.addInstruction(instruction);
-									      instructionCounter++;}
-         | Instruccion_Aritmetica REGISTER","REGISTER","REGISTER {var instructionId = "s" + instructionCounter;
+           Instruccion_Aritmetica REGISTER","REGISTER","REGISTER {var instructionId = "s" + instructionCounter;
 								  instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
 								  stack.addInstruction(instruction);
 								  instructionCounter++;}
-         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" Instruccion {var instructionId = "s" + instructionCounter;
-									         instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
-										 stack.addInstruction(instruction);
-										 instructionCounter++;}
          | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" {var instructionId = "s" + instructionCounter;
 							             instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
 								     stack.addInstruction(instruction);
 								     instructionCounter++;}
 ;
 
-Instruccion_Aritmetica : Instruccion_Entera {$$.type = "arith_int"}
-                        | Instruccion_PFlotante {$$.type = "arith_float"}
+Instruccion_Aritmetica : Instruccion_Entera {$$.type = "arith_int";
+					     $$.instr = $1.instr;}
+                        | Instruccion_PFlotante {$$.type = "arith_float";
+					     $$.instr = $1.instr;}
 ;
 
 Instruccion_Entera : ADD {console.log("Gramat: ADD");
@@ -70,8 +64,10 @@ Instruccion_PFlotante : ADDF {console.log("Gramat: ADDF");
 			    $$.instr = "DIVF";}
 ;
 
-Instruccion_Memoria : Instruccion_Memoria_Entera {$$.type = "mem_int"}
-         | Instruccion_Memoria_PFlotante {$$.type = "mem_float"}
+Instruccion_Memoria : Instruccion_Memoria_Entera {$$.type = "mem_int";
+					         $$.instr = $1.instr;}
+		    | Instruccion_Memoria_PFlotante {$$.type = "mem_float";
+						 $$.instr = $1.instr;}
 ;
 
 Instruccion_Memoria_Entera : LD {console.log("Gramat: LD");

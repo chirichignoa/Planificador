@@ -19,7 +19,7 @@
 "(" {return '(';}
 ")" {return ')';}
 [R-r][0-9]\d* {return 'REGISTER';}
-[0-9]\d* {return 'NUMBER';}
+[0-9]\d* {return 'OFFSET';}
 
 /lex
 
@@ -28,43 +28,36 @@
 %% /* language grammar */
 
 Instruccion :
-           Instruccion_Aritmetica Operando","Operando","Operando Instruccion
-         | Instruccion_Aritmetica Operando","Operando","Operando {console.log("Instruccion");}
-         | Instruccion_Memoria Operando "," Offset "(" Operando ")" Instruccion
-         | Instruccion_Memoria Operando "," Offset "(" Operando ")"
-         | Instruccion_Memoria Operando "," Operando Instruccion
-         | Instruccion_Memoria Operando "," Operando
+           Instruccion_Aritmetica REGISTER","REGISTER","REGISTER Instruccion
+         | Instruccion_Aritmetica REGISTER","REGISTER","REGISTER
+         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" Instruccion
+         | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")"
 ;
 
 Instruccion_Aritmetica : Instruccion_Entera
                         | Instruccion_PFlotante
 ;
 
-Instruccion_Entera : ADD {console.log("ADD");}
-		| SUB {console.log("SUB");}
-		| MUL {console.log("MUL");}
-		| DIV {console.log("DIV");}
+Instruccion_Entera : ADD {console.log("Gramat: ADD");}
+		| SUB {console.log("Gramat: SUB");}
+		| MUL {console.log("Gramat: MUL");}
+		| DIV {console.log("Gramat: DIV");}
 ;
 
-Instruccion_PFlotante : ADDF
-		    | SUBF
-		    | MULF
-		    | DIVF
+Instruccion_PFlotante : ADDF {console.log("Gramat: ADDF");}
+		    | SUBF {console.log("Gramat: SUBF");}
+		    | MULF {console.log("Gramat: MULF");}
+		    | DIVF {console.log("Gramat: DIVF");}
 ;
 
 Instruccion_Memoria : Instruccion_Memoria_Entera
          | Instruccion_Memoria_PFlotante
 ;
 
-Instruccion_Memoria_Entera : LD
-			| SD
+Instruccion_Memoria_Entera : LD {console.log("Gramat: LD");}
+			| SD {console.log("Gramat: SD");}
 ;
 
-Instruccion_Memoria_PFlotante : LW
-		    	     | SW
-;
-
-Operando: REGISTER;
-
-Offset : NUMBER
+Instruccion_Memoria_PFlotante : LW {console.log("Gramat: LW");}
+		    	     | SW {console.log("Gramat: SW");}
 ;

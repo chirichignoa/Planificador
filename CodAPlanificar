@@ -3,13 +3,13 @@ Codigo a planificar que esta de ejemplo en la filmina para comprobar:
 reemplazado a,b,c,d,e  -->  0,4,8,12,16
 
 
-LW r1,4(r0)
-LW r2,8(r0)
+LD r1,4(r0)
+LD r2,8(r0)
 ADD r3,r1,r2
-LW r4,12(r0)
+LD r4,12(r0)
 SUB r5,r3,r4
-SW r5,0(r0)
-LW r6,16(r0)
+SD r5,0(r0)
+LD r6,16(r0)
 SUB r8,r6,r4
 CMP r9,r8,r0
 BC R9,_THEN

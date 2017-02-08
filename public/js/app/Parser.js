@@ -76,29 +76,43 @@ var instructionCounter = 0;
 var parser = (function(){
 var parser = {trace: function trace(){},
 yy: {},
-symbols_: {"error":2,"Instruccion":3,"Instruccion_Aritmetica":4,"Operando":5,",":6,"Instruccion_Memoria":7,"Offset":8,"(":9,")":10,"Instruccion_Entera":11,"Instruccion_PFlotante":12,"ADD":13,"SUB":14,"MUL":15,"DIV":16,"ADDF":17,"SUBF":18,"MULF":19,"DIVF":20,"Instruccion_Memoria_Entera":21,"Instruccion_Memoria_PFlotante":22,"LD":23,"SD":24,"LW":25,"SW":26,"REGISTER":27,"NUMBER":28,"$accept":0,"$end":1},
-terminals_: {2:"error",6:",",9:"(",10:")",13:"ADD",14:"SUB",15:"MUL",16:"DIV",17:"ADDF",18:"SUBF",19:"MULF",20:"DIVF",23:"LD",24:"SD",25:"LW",26:"SW",27:"REGISTER",28:"NUMBER"},
-productions_: [0,[3,7],[3,6],[3,8],[3,7],[3,5],[3,4],[4,1],[4,1],[11,1],[11,1],[11,1],[11,1],[12,1],[12,1],[12,1],[12,1],[7,1],[7,1],[21,1],[21,1],[22,1],[22,1],[5,1],[8,1]],
+symbols_: {"error":2,"Instruccion":3,"Instruccion_Aritmetica":4,"REGISTER":5,",":6,"Instruccion_Memoria":7,"OFFSET":8,"(":9,")":10,"Instruccion_Entera":11,"Instruccion_PFlotante":12,"ADD":13,"SUB":14,"MUL":15,"DIV":16,"ADDF":17,"SUBF":18,"MULF":19,"DIVF":20,"Instruccion_Memoria_Entera":21,"Instruccion_Memoria_PFlotante":22,"LD":23,"SD":24,"LW":25,"SW":26,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"REGISTER",6:",",8:"OFFSET",9:"(",10:")",13:"ADD",14:"SUB",15:"MUL",16:"DIV",17:"ADDF",18:"SUBF",19:"MULF",20:"DIVF",23:"LD",24:"SD",25:"LW",26:"SW"},
+productions_: [0,[3,7],[3,6],[3,8],[3,7],[4,1],[4,1],[11,1],[11,1],[11,1],[11,1],[12,1],[12,1],[12,1],[12,1],[7,1],[7,1],[21,1],[21,1],[22,1],[22,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */
 /**/) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
-case 2:console.log("Instruccion");
+case 7:console.log("Gramat: ADD");
 break;
-case 9:console.log("ADD");
+case 8:console.log("Gramat: SUB");
 break;
-case 10:console.log("SUB");
+case 9:console.log("Gramat: MUL");
 break;
-case 11:console.log("MUL");
+case 10:console.log("Gramat: DIV");
 break;
-case 12:console.log("DIV");
+case 11:console.log("Gramat: ADDF");
+break;
+case 12:console.log("Gramat: SUBF");
+break;
+case 13:console.log("Gramat: MULF");
+break;
+case 14:console.log("Gramat: DIVF");
+break;
+case 17:console.log("Gramat: LD");
+break;
+case 18:console.log("Gramat: SD");
+break;
+case 19:console.log("Gramat: LW");
+break;
+case 20:console.log("Gramat: SW");
 break;
 }
 },
-table: [{3:1,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{1:[3]},{5:20,27:[1,21]},{5:22,27:[1,21]},{27:[2,7]},{27:[2,8]},{27:[2,17]},{27:[2,18]},{27:[2,9]},{27:[2,10]},{27:[2,11]},{27:[2,12]},{27:[2,13]},{27:[2,14]},{27:[2,15]},{27:[2,16]},{27:[2,19]},{27:[2,20]},{27:[2,21]},{27:[2,22]},{6:[1,23]},{1:[2,23],6:[2,23],10:[2,23],13:[2,23],14:[2,23],15:[2,23],16:[2,23],17:[2,23],18:[2,23],19:[2,23],20:[2,23],23:[2,23],24:[2,23],25:[2,23],26:[2,23]},{6:[1,24]},{5:25,27:[1,21]},{5:27,8:26,27:[1,21],28:[1,28]},{6:[1,29]},{9:[1,30]},{1:[2,6],3:31,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{9:[2,24]},{5:32,27:[1,21]},{5:33,27:[1,21]},{1:[2,5]},{1:[2,2],3:34,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{10:[1,35]},{1:[2,1]},{1:[2,4],3:36,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{1:[2,3]}],
-defaultActions: {4:[2,7],5:[2,8],6:[2,17],7:[2,18],8:[2,9],9:[2,10],10:[2,11],11:[2,12],12:[2,13],13:[2,14],14:[2,15],15:[2,16],16:[2,19],17:[2,20],18:[2,21],19:[2,22],28:[2,24],31:[2,5],34:[2,1],36:[2,3]},
+table: [{3:1,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{1:[3]},{5:[1,20]},{5:[1,21]},{5:[2,5]},{5:[2,6]},{5:[2,15]},{5:[2,16]},{5:[2,7]},{5:[2,8]},{5:[2,9]},{5:[2,10]},{5:[2,11]},{5:[2,12]},{5:[2,13]},{5:[2,14]},{5:[2,17]},{5:[2,18]},{5:[2,19]},{5:[2,20]},{6:[1,22]},{6:[1,23]},{5:[1,24]},{8:[1,25]},{6:[1,26]},{9:[1,27]},{5:[1,28]},{5:[1,29]},{1:[2,2],3:30,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{10:[1,31]},{1:[2,1]},{1:[2,4],3:32,4:2,7:3,11:4,12:5,13:[1,8],14:[1,9],15:[1,10],16:[1,11],17:[1,12],18:[1,13],19:[1,14],20:[1,15],21:6,22:7,23:[1,16],24:[1,17],25:[1,18],26:[1,19]},{1:[2,3]}],
+defaultActions: {4:[2,5],5:[2,6],6:[2,15],7:[2,16],8:[2,7],9:[2,8],10:[2,9],11:[2,10],12:[2,11],13:[2,12],14:[2,13],15:[2,14],16:[2,17],17:[2,18],18:[2,19],19:[2,20],30:[2,1],32:[2,3]},
 parseError: function parseError(str,hash){if(hash.recoverable){this.trace(str)}else{throw new Error(str)}},
 parse: function parse(input) {
     var self = this, stack = [0], vstack = [null], lstack = [], table = this.table, yytext = '', yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;
@@ -327,15 +341,15 @@ case 13:return 6;
 break;
 case 14:return 9;
 break;
-case 15:return 9;
+case 15:return 10;
 break;
-case 16:return 27;
+case 16:return 5;
 break;
-case 17:return 28;
+case 17:return 8;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:ADD\b)/,/^(?:ADDF\b)/,/^(?:SUB\b)/,/^(?:SUBF\b)/,/^(?:MUL\b)/,/^(?:MULF\b)/,/^(?:DIV\b)/,/^(?:DIVF\b)/,/^(?:LD\b)/,/^(?:LW\b)/,/^(?:SD\b)/,/^(?:SW\b)/,/^(?:,)/,/^(?:\()/,/^(?:\))/,/^(?:[R-r][0-9](?=d*))/,/^(?:[0-9]\d*)/],
+rules: [/^(?:\s+)/,/^(?:ADD\b)/,/^(?:ADDF\b)/,/^(?:SUB\b)/,/^(?:SUBF\b)/,/^(?:MUL\b)/,/^(?:MULF\b)/,/^(?:DIV\b)/,/^(?:DIVF\b)/,/^(?:LD\b)/,/^(?:LW\b)/,/^(?:SD\b)/,/^(?:SW\b)/,/^(?:,)/,/^(?:\()/,/^(?:\))/,/^(?:[R-r][0-9]\d*)/,/^(?:[0-9]\d*)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],"inclusive":true}}
 };
 return lexer;
@@ -358,7 +372,6 @@ if (typeof module !== 'undefined' && require.main === module) {
   exports.main(process.argv.slice(1));
 }
 }
-
 /**
  * Devuelve el stack de objetos de instrucciones una vez que pasan el parsing.
  * Estas instancias ya tienen dentro las dependencias

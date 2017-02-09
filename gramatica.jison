@@ -29,55 +29,55 @@
 
 Instruccion :
            Instruccion_Aritmetica REGISTER","REGISTER","REGISTER {var instructionId = "s" + instructionCounter;
-								  instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
+								  instruction = new Instruction(instructionId, $2, [$4,$6], $1,type,instructionsCycles[$1]);
 								  stack.addInstruction(instruction);
 								  instructionCounter++;}
          | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" {var instructionId = "s" + instructionCounter;
-							             instruction = new Instruction(instructionId, $2, [$4,$6], $1.instr, $1.type,instructionsCycles[$1.instr]);
+							             instruction = new Instruction(instructionId, $2, [$4,$6], $1,type,instructionsCycles[$1]);
 								     stack.addInstruction(instruction);
 								     instructionCounter++;}
 ;
 
-Instruccion_Aritmetica : Instruccion_Entera {$$.type = "arith_int";
-					     $$.instr = $1.instr;}
-                        | Instruccion_PFlotante {$$.type = "arith_float";
-					     $$.instr = $1.instr;}
+Instruccion_Aritmetica : Instruccion_Entera {type = "arith_int";
+					     $$ = $1;}
+                        | Instruccion_PFlotante {type = "arith_float";
+					     $$ = $1;}
 ;
 
 Instruccion_Entera : ADD {console.log("Gramat: ADD");
-			  $$.instr = "ADD";}
+			  $$ = "ADD";}
 		| SUB {console.log("Gramat: SUB");
-			  $$.instr = "SUB";}
+			  $$ = "SUB";}
 		| MUL {console.log("Gramat: MUL");
-			  $$.instr = "MUL";}
+			  $$ = "MUL";}
 		| DIV {console.log("Gramat: DIV");
-			  $$.instr = "DIV";}
+			  $$ = "DIV";}
 ;
 
 Instruccion_PFlotante : ADDF {console.log("Gramat: ADDF");
-			      $$.instr = "ADDF";}
+			      $$ = "ADDF";}
 		    | SUBF {console.log("Gramat: SUBF");
-			    $$.instr = "SUBF";}
+			    $$ = "SUBF";}
 		    | MULF {console.log("Gramat: MULF");
-			    $$.instr = "MULF";}
+			    $$ = "MULF";}
 		    | DIVF {console.log("Gramat: DIVF");
-			    $$.instr = "DIVF";}
+			    $$ = "DIVF";}
 ;
 
-Instruccion_Memoria : Instruccion_Memoria_Entera {$$.type = "mem_int";
-					         $$.instr = $1.instr;}
-		    | Instruccion_Memoria_PFlotante {$$.type = "mem_float";
-						 $$.instr = $1.instr;}
+Instruccion_Memoria : Instruccion_Memoria_Entera {type = "mem_int";
+					         $$ = $1;}
+		    | Instruccion_Memoria_PFlotante {type = "mem_float";
+						 $$ = $1;}
 ;
 
 Instruccion_Memoria_Entera : LD {console.log("Gramat: LD");
-			         $$.instr = "LD";}
+			         $$ = "LD";}
 			| SD {console.log("Gramat: SD");
-			         $$.instr = "SD";}
+			         $$ = "SD";}
 ;
 
 Instruccion_Memoria_PFlotante : LW {console.log("Gramat: LW");
-			            $$.instr = "LW";}
+			            $$ = "LW";}
 		    	     | SW {console.log("Gramat: SW");
-			           $$.instr = "SW";}
+			           $$ = "SW";}
 ;

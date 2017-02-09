@@ -90,7 +90,6 @@ var $0 = $$.length - 1;
 switch (yystate) {
 case 1:var instructionId = "s" + instructionCounter;
                                   instruction = new Instruction(instructionId, $$[$0-4], [$$[$0-2],$$[$0]], $$[$0-5],type,instructionsCycles[$$[$0-5]]);
-                                  console.log($$[$0-5]);
                                   stack.addInstruction(instruction);
                                   instructionCounter++;
 break;
@@ -423,11 +422,10 @@ parser.getStack = function() {
 parser.clearStack = function() {
     instructionCounter = 0;
     stack.clear();
-    instructionsCycles = {};
 }
 
-parser.setInstructionsCycles =  function(instructionsCycles){
-    this.instructionsCycles = instructionsCycles;
+parser.setInstructionsCycles =  function(iC){
+    instructionsCycles = iC;
 }
 
 return parser;

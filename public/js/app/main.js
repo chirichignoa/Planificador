@@ -41,12 +41,12 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
         reservationStationsSize = 0;
         dispatcherSize = 0;
         functionalUnits = [];
-        instructionsCycles = {};
         $('#keys-list').html('');
         $('#dependencies-list').html('');
     }
 
     function runParser(_parser, lines) {
+        Parser.setInstructionsCycles(instructionsCycles);
         try {
             for (var i = 0; i < lines.length; i++)
                 _parser.parse(lines[i]);
@@ -82,7 +82,6 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
 
             Parser.clearStack();
             initInstructionsCycles();
-            Parser.setInstructionsCycles(instructionsCycles);
 
             if (runParser(Parser, lines)) {
 

@@ -4,7 +4,14 @@ define(function () {
     function Instruction(id, writeReg, readRegs, str, type, cycles) {
         this.instructionId = id;
         this.writeRegister = writeReg;
-        this.readRegisters = [].concat(readRegs);
+        if((type == "mem_int") || (type == "mem_float")) {
+            this.offset = readRegs.[0];
+            this.readRegisters = [].concat(readRegs.[1]);
+        }
+        else {
+            this.offset = " ";
+            this.readRegisters = [].concat(readRegs);
+        }
         this.dependencies = [];
         this.instructionString = str;
         this.type = type;
@@ -120,6 +127,18 @@ define(function () {
 
             setExecute: function () {
                 this.execute = true;
+            }
+
+            printInstruction : function(){
+                console.log("Instruccion: ");
+                console.log("Id "+ id);
+                console.log("WriteRegister: "+ writeRegister);
+                console.log("ReadRegisters: "+ readRegisters.toString());
+                console.log("Dependencies: "+ dependencies.toString());
+                console.log("InstructionStr "+ instructionString);
+                console.log("Type: "+ type);
+                console.log("Cycles: "+ cycles);
+                console.log("Execute: "+ execute);
             }
 
         }

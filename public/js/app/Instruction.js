@@ -5,8 +5,8 @@ define(function () {
         this.instructionId = id;
         this.writeRegister = writeReg;
         if((type == "mem_int") || (type == "mem_float")) {
-            this.offset = readRegs.[0];
-            this.readRegisters = [].concat(readRegs.[1]);
+            this.offset = readRegs[0];
+            this.readRegisters = [].concat(readRegs[1]);
         }
         else {
             this.offset = " ";
@@ -16,7 +16,6 @@ define(function () {
         this.instructionString = str;
         this.type = type;
         this.cycles = cycles; //NUEVO
-        console.log("CREANDOSE INSTRUCCION: "+str+" "+cycles);
         this.execute = false;
     }
 
@@ -127,20 +126,19 @@ define(function () {
 
             setExecute: function () {
                 this.execute = true;
-            }
+            },
 
-            printInstruction : function(){
+            printInstruction : function() {
                 console.log("Instruccion: ");
-                console.log("Id "+ id);
-                console.log("WriteRegister: "+ writeRegister);
-                console.log("ReadRegisters: "+ readRegisters.toString());
-                console.log("Dependencies: "+ dependencies.toString());
-                console.log("InstructionStr "+ instructionString);
-                console.log("Type: "+ type);
-                console.log("Cycles: "+ cycles);
-                console.log("Execute: "+ execute);
-            }
-
+                console.log("Id "+ this.instructionId);
+                console.log("WriteRegister: "+ this.writeRegister);
+                console.log("ReadRegisters: "+ this.readRegisters.toString());
+                console.log("Dependencies: "+ this.dependencies.toString());
+                console.log("InstructionStr "+ this.instructionString);
+                console.log("Type: "+ this.type);
+                console.log("Cycles: "+ this.cycles);
+                console.log("Execute: "+ this.execute);
+            },
         }
     })();
 

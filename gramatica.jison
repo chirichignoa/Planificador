@@ -33,9 +33,14 @@ Instruccion :
 								  stack.addInstruction(instruction);
 								  instructionCounter++;}
          | Instruccion_Memoria REGISTER "," OFFSET "(" REGISTER ")" {var instructionId = "s" + instructionCounter;
-							             instruction = new Instruction(instructionId, $2, [$4,$6], $1,type,instructionsCycles[$1]);
-								     stack.addInstruction(instruction);
-								     instructionCounter++;}
+								    if(($1 == "LD") || ($1 == "LW")){
+								        instruction = new Instruction(instructionId, $2, [$4,$6], $1,type,instructionsCycles[$1]);
+								    }
+								    else {
+								        instruction = new Instruction(instructionId, $6, [$4,$2], $1,type,instructionsCycles[$1]);
+								    }
+								    stack.addInstruction(instruction);
+								    instructionCounter++;}
 ;
 
 Instruccion_Aritmetica : Instruccion_Entera {type = "arith_int";

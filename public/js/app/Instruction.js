@@ -13,6 +13,7 @@ define(function () {
             this.readRegisters = [].concat(readRegs);
         }
         this.dependencies = [];
+        this.dependenciesWAW = [];
         this.instructionString = str;
         this.type = type;
         this.cycles = cycles; //NUEVO
@@ -72,10 +73,15 @@ define(function () {
             },
 
             setDependency: function (anotherInstruction) {
-                var writeRegister = anotherInstruction.getWriteRegister(); ;
+                var writeRegister = anotherInstruction.getWriteRegister(); 
+
+                /*if (this.writeRegister == writeRegister) {
+                    this.dependencies.push(anotherInstruction);
+                    console.log("DEPENDENCIA WAW POR " + this.dependencies[0].getWriteRegister());                   
+                    break;*/
 
                 for (var i = 0; i < this.readRegisters.length; i++)
-                    if (countDependencies(this.dependencies) == 0) {
+                    if (countDependencies(this.dependencies) == 0) { 
                         if (this.readRegisters[i] == writeRegister) {
                             this.dependencies.push(anotherInstruction);
                             break;
@@ -89,7 +95,6 @@ define(function () {
                                 break;
                             }
                     }
-
             },
 
             dependencyExists: function (anotherId) {

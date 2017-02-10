@@ -91,14 +91,17 @@ switch (yystate) {
 case 1:var instructionId = "s" + instructionCounter;
                                   instruction = new Instruction(instructionId, $$[$0-4], [$$[$0-2],$$[$0]], $$[$0-5],type,instructionsCycles[$$[$0-5]]);
                                   stack.addInstruction(instruction);
-                                  instruction.printInstruction();
                                   instructionCounter++;
 break;
 case 2:var instructionId = "s" + instructionCounter;
-                                         instruction = new Instruction(instructionId, $$[$0-5], [$$[$0-3],$$[$0-1]], $$[$0-6],type,instructionsCycles[$$[$0-6]]);
-                                     stack.addInstruction(instruction);
-                                     instruction.printInstruction();
-                                     instructionCounter++;
+                                    if(($$[$0-6] == "LD") || ($$[$0-6] == "LW")){
+                                        instruction = new Instruction(instructionId, $$[$0-5], [$$[$0-3],$$[$0-1]], $$[$0-6],type,instructionsCycles[$$[$0-6]]);
+                                    }
+                                    else {
+                                        instruction = new Instruction(instructionId, $$[$0-1], [$$[$0-3],$$[$0-5]], $$[$0-6],type,instructionsCycles[$$[$0-6]]);
+                                    }
+                                    stack.addInstruction(instruction);
+                                    instructionCounter++;
 break;
 case 3:type = "arith_int";
                          this.$ = $$[$0];

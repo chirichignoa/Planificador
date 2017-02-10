@@ -118,13 +118,21 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
 
                     for (var i in instr) {
                         graph.addNode(instr[i].getId(), i, instr.length);
-
+                        //RAW
                         var dependencies = instr[i].getDependencies();
                         for (var dependency in dependencies) {
                             $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
 
                             graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
                         }
+                        //WAW
+                        var dependenciesWAW = instr[i].getDependenciesWAW();
+                        for (var dependency in dependenciesWAW) {
+                            $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesWAW[dependency].getId() + " por " + dependenciesWAW[dependency].getWriteRegister() + "</pre></li>");
+
+                            graph.addEdge(instr[i].getId(), dependenciesWAW[dependency].getId());
+                        }
+
                     }
 
                     graph.draw($);

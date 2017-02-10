@@ -75,10 +75,13 @@ define(function () {
             setDependency: function (anotherInstruction) {
                 var writeRegister = anotherInstruction.getWriteRegister(); 
 
-                /*if (this.writeRegister == writeRegister) {
-                    this.dependencies.push(anotherInstruction);
-                    console.log("DEPENDENCIA WAW POR " + this.dependencies[0].getWriteRegister());                   
-                    break;*/
+                if((this.instructionString != "SD") && (this.instructionString != "SW")) { //SALVANDO WAW con STORE, ya que usa la direc de memoria del writeRegister y no su valor.
+                    if (this.writeRegister == writeRegister) {
+                        this.dependenciesWAW.push(anotherInstruction);
+                        console.log("DEPENDENCIA WAW POR " + this.dependenciesWAW[0].getWriteRegister());       
+                    }
+                }
+
                 if((this.instructionString != "LD") && (this.instructionString != "LW")) { //SALVANDO RAW con LOAD, ya que usa la direc de memoria del readRegister y no su valor.
                     for (var i = 0; i < this.readRegisters.length; i++)
                         if (countDependencies(this.dependencies) == 0) { 
@@ -107,6 +110,10 @@ define(function () {
 
             getDependencies: function () {
                 return this.dependencies;
+            },
+
+            getDependenciesWAW: function () {
+                return this.dependenciesWAW;
             },
 
             getRegistersInDependency: function (anotherInstruction) {

@@ -100,6 +100,14 @@
           margin: 10px 0 0 0px;
         }
 
+        .color-square {
+          float: left;
+          width:15px;
+          height:15px;
+          border:1px solid #000;
+          margin: 0 5px 5px 0;
+        }
+
         </style>
     </head>
     <body>
@@ -452,7 +460,12 @@
                             </div>
 
                             <div class="row row-centered">
-
+                                <div class="col-md-5 col-centered" id="types-dependencies">
+                                    <h3>Referencias del grafico</h3>
+                                    <p><pre><div style="background-color:#11BFAE;" class="color-square">&nbsp;</div>Dependencia RAW</pre></p>
+                                    <p><pre><div style="background-color:#FF0018;" class="color-square">&nbsp;</div>Dependencia WAW</pre></p>
+                                    <p><pre><div style="background-color:#DFDF00;" class="color-square">&nbsp;</div>Dependencia RAW y WAW simultaneamente</pre></p>
+                                </div>
                                 <div class="col-md-5 col-centered" id="dependencies">
                                     <h3>Dependencias detectadas</h3>
                                     <ul id="dependencies-list"></ul>

@@ -130,7 +130,7 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
                         for (var dependency in dependenciesWAW) {
                             $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesWAW[dependency].getId() + " por " + dependenciesWAW[dependency].getWriteRegister() + "</pre></li>");
 
-                            graph.addEdge(instr[i].getId(), dependenciesWAW[dependency].getId());
+                            graph.addEdgeWaw(instr[i].getId(), dependenciesWAW[dependency].getId());
                         }
 
                     }

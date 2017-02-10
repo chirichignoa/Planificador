@@ -118,21 +118,36 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
 
                     for (var i in instr) {
                         graph.addNode(instr[i].getId(), i, instr.length);
-                        //RAW
-                        var dependencies = instr[i].getDependencies();
-                        for (var dependency in dependencies) {
-                            $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
 
-                            graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
-                        }
-                        //WAW
+                        var dependenciesRAW = instr[i].getDependencies();
                         var dependenciesWAW = instr[i].getDependenciesWAW();
-                        for (var dependency in dependenciesWAW) {
-                            $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesWAW[dependency].getId() + " por " + dependenciesWAW[dependency].getWriteRegister() + "</pre></li>");
+                        var ambas = false;
 
-                            graph.addEdgeWaw(instr[i].getId(), dependenciesWAW[dependency].getId());
+                        if(dependenciesWAW.length == 0) { //Solo dependencias RAW
+                            console.log("CHAAAAAAAAOOO");
+                            for (var dependency in dependenciesRAW) {
+                                $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
+
+                                graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#11BFAE");
+                            }
                         }
-
+                        else {
+                            for (var dependency in dependenciesWAW) {
+                                if(dependency != dependenciesWAW[0]) { //Solo RAW
+                                    $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
+                                    graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#11BFAE");
+                                }
+                                else { //DEPENDENCIAS RAW y WAW por el mismo reg                                    
+                                    $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
+                                    graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#000000");
+                                    ambas = true;
+                                }
+                            }
+                        }
+                        if(ambas) {                                                               
+                            $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesWAW[dependency].getId() + " por " + dependenciesWAW[dependency].getWriteRegister() + "</pre></li>");
+                            graph.addEdge(instr[i].getId(), dependenciesWAW[dependency].getId(),"#FF0018");
+                        }
                     }
 
                     graph.draw($);

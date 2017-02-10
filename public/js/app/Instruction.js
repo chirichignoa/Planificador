@@ -79,22 +79,26 @@ define(function () {
                     this.dependencies.push(anotherInstruction);
                     console.log("DEPENDENCIA WAW POR " + this.dependencies[0].getWriteRegister());                   
                     break;*/
-
-                for (var i = 0; i < this.readRegisters.length; i++)
-                    if (countDependencies(this.dependencies) == 0) { 
-                        if (this.readRegisters[i] == writeRegister) {
-                            this.dependencies.push(anotherInstruction);
-                            break;
-                        }
-                    }
-                    else {
-                        if (countDependencies(this.dependencies) < 2 && !this.sameOperands())
-                            console.log("DEPENDENCIA POR " + this.dependencies[0].getWriteRegister());
-                            if (anotherInstruction.getWriteRegister() != this.dependencies[0].getWriteRegister() && this.readRegisters[i] == writeRegister) {
+                if((this.instructionString != "LD") && (this.instructionString != "LW")) { //SALVANDO RAW con LOAD, ya que usa la direc de memoria del readRegister y no su valor.
+                    for (var i = 0; i < this.readRegisters.length; i++)
+                        if (countDependencies(this.dependencies) == 0) { 
+                            if (this.readRegisters[i] == writeRegister) {
                                 this.dependencies.push(anotherInstruction);
                                 break;
                             }
-                    }
+                        }
+                        else {
+                            if (countDependencies(this.dependencies) < 2 && !this.sameOperands())
+                                console.log("DEPENDENCIA POR " + this.dependencies[0].getWriteRegister());
+                                if (anotherInstruction.getWriteRegister() != this.dependencies[0].getWriteRegister() && this.readRegisters[i] == writeRegister) {
+                                    this.dependencies.push(anotherInstruction);
+                                    break;
+                                }
+                        }
+                }
+                else {
+                    console.log("HOLIII");
+                }
             },
 
             dependencyExists: function (anotherId) {

@@ -30,7 +30,7 @@ define(["./libs/sigma/sigma"], function (sigma) {
             "type" : "arrow",
             "color" : color
         };
-
+        
         data["edges"].push(edge);
     }
 

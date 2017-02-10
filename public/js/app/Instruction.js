@@ -78,7 +78,7 @@ define(function () {
                 if((this.instructionString != "SD") && (this.instructionString != "SW")) { //SALVANDO WAW con STORE, ya que usa la direc de memoria del writeRegister y no su valor.
                     if (this.writeRegister == writeRegister) {
                         this.dependenciesWAW.push(anotherInstruction);
-                        console.log("DEPENDENCIA WAW POR " + this.dependenciesWAW[0].getWriteRegister());       
+                        //console.log("DEPENDENCIA WAW POR " + this.dependenciesWAW[0].getWriteRegister());       
                     }
                 }
 
@@ -92,15 +92,12 @@ define(function () {
                         }
                         else {
                             if (countDependencies(this.dependencies) < 2 && !this.sameOperands())
-                                console.log("DEPENDENCIA POR " + this.dependencies[0].getWriteRegister());
+                                //console.log("DEPENDENCIA RAW POR " + this.dependencies[0].getWriteRegister());
                                 if (anotherInstruction.getWriteRegister() != this.dependencies[0].getWriteRegister() && this.readRegisters[i] == writeRegister) {
                                     this.dependencies.push(anotherInstruction);
                                     break;
                                 }
                         }
-                }
-                else {
-                    console.log("HOLIII");
                 }
             },
 

@@ -121,32 +121,31 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
 
                         var dependenciesRAW = instr[i].getDependencies();
                         var dependenciesWAW = instr[i].getDependenciesWAW();
-                        var ambas = false;
 
-                        if(dependenciesWAW.length == 0) { //Solo dependencias RAW
-                            console.log("CHAAAAAAAAOOO");
+                        if(dependenciesWAW.length == 0) { //La dependencia es solo RAW
                             for (var dependency in dependenciesRAW) {
                                 $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
-
                                 graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#11BFAE");
                             }
                         }
                         else {
-                            for (var dependency in dependenciesWAW) {
-                                if(dependency != dependenciesWAW[0]) { //Solo RAW
+                            var drawWAW = false;
+                            for (var dependency in dependenciesRAW) {
+                                if(dependenciesRAW[dependency] != dependenciesWAW[0]) { //La dependencia es solo RAW 
                                     $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
                                     graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#11BFAE");
                                 }
-                                else { //DEPENDENCIAS RAW y WAW por el mismo reg                                    
+                                else { //La dependencia entre las instr es RAW y WAW                           
                                     $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
-                                    graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#000000");
-                                    ambas = true;
+                                    graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#DFDF00");
+                                    drawWAW = true;
                                 }
+                            }               
+          
+                            if(!drawWAW) { //La dependencia es solo WAW                                                                                       
+                                $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesWAW[0].getId() + " por " + dependenciesWAW[0].getWriteRegister() + "</pre></li>");
+                                graph.addEdge(instr[i].getId(), dependenciesWAW[0].getId(),"#FF0018");
                             }
-                        }
-                        if(ambas) {                                                               
-                            $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesWAW[dependency].getId() + " por " + dependenciesWAW[dependency].getWriteRegister() + "</pre></li>");
-                            graph.addEdge(instr[i].getId(), dependenciesWAW[dependency].getId(),"#FF0018");
                         }
                     }
 

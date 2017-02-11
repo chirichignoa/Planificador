@@ -34,19 +34,6 @@ define(["./libs/sigma/sigma"], function (sigma) {
         data["edges"].push(edge);
     }
 
-     Graph.prototype.addEdgeWaw = function (from, to) {
-        var edge = {
-            "id": from + to + "waw",
-            "size" : 3,
-            "source": from,
-            "target": to,
-            "type" : "arrow",
-            "color" : "#FF0018"
-        };
-
-        data["edges"].push(edge);
-    }
-
     Graph.prototype.draw = function ($) {
         $('#sg').html('<div id="sigma-container"></div>');
         new sigma({

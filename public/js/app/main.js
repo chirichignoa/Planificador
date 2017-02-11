@@ -1,9 +1,9 @@
-define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Graph", /*"UiManager",*/ "jquery", "./libs/ace/ace", "./libs/ace/mode/assembly_x86", "./libs/ace/theme/tomorrow", "./libs/fullPage/jquery.fullPage", "./libs/notification/notification"], function (Instruction, /*stack, Processor,*/ FunctionalUnit, Parser, Graph,/* UI,*/ $, ace, mode, theme, fullpage, notification) {
+define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph", "UiManager", "jquery", "./libs/ace/ace", "./libs/ace/mode/assembly_x86", "./libs/ace/theme/tomorrow", "./libs/fullPage/jquery.fullPage", "./libs/notification/notification"], function (Instruction, stack, Processor, FunctionalUnit, Parser, Graph, UI, $, ace, mode, theme, fullpage, notification) {
     var editor = ace.edit("editor");
     editor.setTheme(theme);
     editor.getSession().setMode("./mode/assembly_x86");
 
-    //var UiManager = new UI("#cycle-counter-table", "#dispatcher-table", "#reserv-stations-table", "#functional-unities-table", "#rob-table");
+    var UiManager = new UI("#cycle-counter-table", "#dispatcher-table", "#reserv-stations-table", "#functional-unities-table", "#rob-table");
 
     var reservationStationsSize = 0,
         dispatcherSize          = 0,
@@ -106,10 +106,10 @@ define(["Instruction", /*"Stack", "Processor",*/ "FunctionalUnit", "Parser", "Gr
 
                     $("#non-tables").alert("close");
 
-                    //UiManager.constructTables(dispatcherTableHeader, rsTableHeader, FUTableHeader);
+                    UiManager.constructTables(dispatcherTableHeader, rsTableHeader, FUTableHeader);
 
                     var instr = Parser.getStack().getInstructions();
-                    //cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
+                    cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
 
                     for (var i in instr) {
                         console.log("INSTRUCCION: "+instr[i].toString());

@@ -52,6 +52,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     }
 
     function reset() {
+        Parser.reset();
         reservationStationsSize = 0;
         dispatcherSize = 0;
         functionalUnits = [];
@@ -94,7 +95,6 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
             reset();
             var lines = editor.getSession().doc.getAllLines();
-            Parser.clearStack();
             initInstructionsCycles();
             initFunctionalUnits();
 

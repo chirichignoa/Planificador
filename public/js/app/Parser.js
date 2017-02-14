@@ -458,6 +458,15 @@ parser.getStack = function() {
     return stack;
 }
 
+parser.reset = function() {
+    this.clearStack();
+    instructionCounter = 0; 
+    instructionsCycles = {};      
+    booleanFunctionalUnits = [];
+    type = " ";
+    errorNoUF = false;
+}
+
 parser.clearStack = function() {
     instructionCounter = 0;
     stack.clear();

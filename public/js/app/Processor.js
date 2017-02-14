@@ -1,28 +1,28 @@
-define(["Instruction", "FunctionalUnit", "Dispatch", "ReOrderBuffer", "ReservationStation", "Stack"], function (Instruction, FuntionalUnit, Dispatch, Rob, ReservationStation, Stack) {
+define(["Instruction", "FunctionalUnit", "Dispatch"/*, "ReOrderBuffer", "ReservationStation"*/, "Stack"], function (Instruction, FuntionalUnit, Dispatch,/* Rob, ReservationStation,*/ Stack) {
     'use strict';
 
     function Gestionator(stack, dispatchSize, rsSize, fu) {
         this.stack = stack;
-        this.inOrderStack = [];
+        this.inOrderStack = []; //Da vuelta la pila
         for (var i = 0; i < this.stack.length; i++) {
             this.inOrderStack.push(this.stack[i].getId());
         }
 
-        this.dispatch = [];
+        this.dispatch = []; 
         for (var i = 0; i < dispatchSize; i++) {
             this.dispatch.push(new Dispatch());
         }
 
         this.functional_units = fu;
 
-        this.reservation_station = [];
+        /*this.reservation_station = [];
         for (var i = 0; i < rsSize; i++) {
             this.reservation_station.push(new ReservationStation());
         }
 
         console.log(rsSize + fu.length);
 
-        this.rob = new Rob(rsSize + fu.length, this.inOrderStack, dispatchSize);
+        this.rob = new Rob(rsSize + fu.length, this.inOrderStack, dispatchSize);*/
         this.currentCycle = 0;
         this.count = 0;
     }

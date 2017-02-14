@@ -109,7 +109,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     UiManager.constructTables(dispatcherTableHeader, rsTableHeader, FUTableHeader);
 
                     var instr = Parser.getStack().getInstructions();
-                    cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
+                    //cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
 
                     for (var i in instr) {
                         console.log("INSTRUCCION: "+instr[i].toString());

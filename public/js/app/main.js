@@ -8,11 +8,25 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     var reservationStationsSize = 0,
         dispatcherSize          = 0,
         functionalUnits         = [],
+        booleanFunctionalUnits  = [],
         instructionsCycles      = {};
 
-    function addFunctionalUnits(type) {
-        for(var i = 0; i < parseInt($("#"+type).val()); i++)
+    function addFunctionalUnits(type,number) {
+        booleanFunctionalUnits[number] = false;
+        for(var i = 0; i < parseInt($("#"+type).val()); i++) {
             functionalUnits.push(new FunctionalUnit(type));
+            if(booleanFunctionalUnits[number] == false) {
+                booleanFunctionalUnits[number] = true;
+            }
+        }
+    }
+
+    function initFunctionalUnits() {     
+        addFunctionalUnits("multi_type",0);
+        addFunctionalUnits("arith_int",1);
+        addFunctionalUnits("arith_float",2);
+        addFunctionalUnits("mem_int",3);
+        addFunctionalUnits("mem_float",4);
     }
 
     function initInstructionsCycles(){
@@ -46,7 +60,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     }
 
     function runParser(_parser, lines) {
-        Parser.setInstructionsCycles(instructionsCycles);
+        Parser.setConfig(instructionsCycles,booleanFunctionalUnits);
         try {
             for (var i = 0; i < lines.length; i++)
                 _parser.parse(lines[i]);
@@ -82,6 +96,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
             Parser.clearStack();
             initInstructionsCycles();
+            initFunctionalUnits();
 
             if (runParser(Parser, lines)) {
 
@@ -91,12 +106,6 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
                 dispatcherSize = parseInt($("#dispatcherSize").val());
                 reservationStationsSize = parseInt($("#reservationStationSize").val());
-
-                addFunctionalUnits("multi_type");
-                addFunctionalUnits("arith_int");
-                addFunctionalUnits("arith_float");
-                addFunctionalUnits("mem_int");
-                addFunctionalUnits("mem_float");
 
                 if(functionalUnits.length > 0) {
 

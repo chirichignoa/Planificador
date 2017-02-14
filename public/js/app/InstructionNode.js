@@ -6,6 +6,7 @@ define(function () {
         this.latenciaAcum = latenciaAcum;
         this.dependencias = [];
         this.dependientes = [];
+        this.caminoCritico = false;
     }
 
     InstructionNode.prototype = (function () {

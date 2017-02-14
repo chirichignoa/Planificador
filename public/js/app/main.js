@@ -105,7 +105,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                 dispatcherSize = parseInt($("#dispatcherSize").val());
                 reservationStationsSize = parseInt($("#reservationStationSize").val());
 
-                if(functionalUnits.length > 0) {
+                console.log("Parser.getErrorNoUF() "+Parser.getErrorNoUF());
+                if((functionalUnits.length > 0) && (!Parser.getErrorNoUF())) {
 
                     FUTableHeader = generateTablesHeaders("UF", functionalUnits.length);
                     dispatcherTableHeader = generateTablesHeaders("D", dispatcherSize);

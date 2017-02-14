@@ -46,6 +46,7 @@ Instruccion :
 Instruccion_Aritmetica : Instruccion_Entera {type = "arith_int";
 					     $$ = $1;
 					     if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[1])) {
+						errorNoUF = true;
 						$.notify({
 							message: "No hay unidades funcionales de aritmética de enteros capas de satisfacer ciertas instrucciones ingresadas."
 						},{
@@ -55,6 +56,7 @@ Instruccion_Aritmetica : Instruccion_Entera {type = "arith_int";
                         | Instruccion_PFlotante {type = "arith_float";
 					         $$ = $1;
 					     if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[2])) {
+						  errorNoUF = true;
 						  $.notify({
 							message: "No hay unidades funcional de aritmética de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
 						  },{
@@ -86,6 +88,7 @@ Instruccion_PFlotante : ADDF {console.log("Gramat: ADDF");
 Instruccion_Memoria : Instruccion_Memoria_Entera {type = "mem_int";
 					         $$ = $1;
 					    	 if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[3])) {
+						        errorNoUF = true;
  							$.notify({
 							message: "No hay unidades funcionales de Acceso a memoria para enteros capas de satisfacer ciertas instrucciones ingresadas."
 						  },{
@@ -95,6 +98,7 @@ Instruccion_Memoria : Instruccion_Memoria_Entera {type = "mem_int";
 		    | Instruccion_Memoria_PFlotante {type = "mem_float";
 						 $$ = $1;
 					    	 if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[4])) {
+						        errorNoUF = true;
  							$.notify({
 							message: "No hay unidades funcionales de De acceso a memoria de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
 						  },{

@@ -46,12 +46,20 @@ Instruccion :
 Instruccion_Aritmetica : Instruccion_Entera {type = "arith_int";
 					     $$ = $1;
 					     if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[1])) {
-						  ERROR("No hay unidades funcionales de aritmética de enteros capas de satisfacer ciertas instrucciones ingresadas."); 
+						$.notify({
+							message: "No hay unidades funcionales de aritmética de enteros capas de satisfacer ciertas instrucciones ingresadas."
+						},{
+							type: 'danger'
+						});
 					     }}
                         | Instruccion_PFlotante {type = "arith_float";
 					         $$ = $1;
 					     if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[2])) {
-						  ERROR("No hay unidades funcional de aritmética de punto flotante capas de satisfacer ciertas instrucciones ingresadas."); 
+						  $.notify({
+							message: "No hay unidades funcional de aritmética de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
+						  },{
+							type: 'danger'
+						});
 					     }}
 ;
 
@@ -78,13 +86,21 @@ Instruccion_PFlotante : ADDF {console.log("Gramat: ADDF");
 Instruccion_Memoria : Instruccion_Memoria_Entera {type = "mem_int";
 					         $$ = $1;
 					    	 if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[3])) {
-							  ERROR("No hay unidades funcionales de Acceso a memoria para enteros capas de satisfacer ciertas instrucciones ingresadas."); 
+ 							$.notify({
+							message: "No hay unidades funcionales de Acceso a memoria para enteros capas de satisfacer ciertas instrucciones ingresadas."
+						  },{
+							type: 'danger'
+						 });
 					    	 }}
 		    | Instruccion_Memoria_PFlotante {type = "mem_float";
 						 $$ = $1;
 					    	 if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[4])) {
-							  ERROR("No hay unidades funcionales de De acceso a memoria de punto flotante capas de satisfacer ciertas instrucciones ingresadas."); 
-					     	}}
+ 							$.notify({
+							message: "No hay unidades funcionales de De acceso a memoria de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
+						  },{
+							type: 'danger'
+						 }); 
+					     	 }}
 ;
 
 Instruccion_Memoria_Entera : LD {console.log("Gramat: LD");

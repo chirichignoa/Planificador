@@ -60,7 +60,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     }
 
     function runParser(_parser, lines) {
-        _parser.setConfig(instructionsCycles,booleanFunctionalUnits);
+        Parser.setConfig(instructionsCycles,booleanFunctionalUnits);
         try {
             for (var i = 0; i < lines.length; i++)
                 _parser.parse(lines[i]);
@@ -92,16 +92,14 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
         $("#init").click(function(){
 
+            reset();
             var lines = editor.getSession().doc.getAllLines();
-
             Parser.clearStack();
             initInstructionsCycles();
             initFunctionalUnits();
 
             if (runParser(Parser, lines)) {
 
-                console.log("TAMANO DE LA PILA"+Parser.getStack().size());
-                reset();
                 graph = new Graph();
 
                 dispatcherSize = parseInt($("#dispatcherSize").val());

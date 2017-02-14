@@ -90,30 +90,39 @@ performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* actio
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:var instructionId = "s" + instructionCounter;
-           instruction = new Instruction(instructionId, $$[$0-4], [$$[$0-2],$$[$0]], $$[$0-5],type,instructionsCycles[$$[$0-5]]);
-           stack.addInstruction(instruction);
-           instructionCounter++;
-            $.notify({
-                message: "CAPRICHOOOOOOO"
-            },{
-                type: 'success'
-            });
+                                  instruction = new Instruction(instructionId, $$[$0-4], [$$[$0-2],$$[$0]], $$[$0-5],type,instructionsCycles[$$[$0-5]]);
+                                  stack.addInstruction(instruction);
+                                  instructionCounter++;
 break;
 case 2:var instructionId = "s" + instructionCounter;
-            if(($$[$0-6] == "LD") || ($$[$0-6] == "LW")){
-                instruction = new Instruction(instructionId, $$[$0-5], [$$[$0-3],$$[$0-1]], $$[$0-6],type,instructionsCycles[$$[$0-6]]);
-            }
-            else {
-                instruction = new Instruction(instructionId, $$[$0-1], [$$[$0-3],$$[$0-5]], $$[$0-6],type,instructionsCycles[$$[$0-6]]);
-            }
-            stack.addInstruction(instruction);
-            instructionCounter++;
+                                    if(($$[$0-6] == "LD") || ($$[$0-6] == "LW")){
+                                        instruction = new Instruction(instructionId, $$[$0-5], [$$[$0-3],$$[$0-1]], $$[$0-6],type,instructionsCycles[$$[$0-6]]);
+                                    }
+                                    else {
+                                        instruction = new Instruction(instructionId, $$[$0-1], [$$[$0-3],$$[$0-5]], $$[$0-6],type,instructionsCycles[$$[$0-6]]);
+                                    }
+                                    stack.addInstruction(instruction);
+                                    instructionCounter++;
 break;
 case 3:type = "arith_int";
                          this.$ = $$[$0];
+                         if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[1])) {
+                        $.notify({
+                            message: "No hay unidades funcionales de aritmética de enteros capas de satisfacer ciertas instrucciones ingresadas."
+                        },{
+                            type: 'danger'
+                        });
+                         }
 break;
 case 4:type = "arith_float";
-                         this.$ = $$[$0];
+                             this.$ = $$[$0];
+                         if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[2])) {
+                          $.notify({
+                            message: "No hay unidades funcional de aritmética de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
+                          },{
+                            type: 'danger'
+                        });
+                         }
 break;
 case 5:console.log("Gramat: ADD");
               this.$ = "ADD";
@@ -141,9 +150,23 @@ case 12:console.log("Gramat: DIVF");
 break;
 case 13:type = "mem_int";
                              this.$ = $$[$0];
+                             if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[3])) {
+                            $.notify({
+                            message: "No hay unidades funcionales de Acceso a memoria para enteros capas de satisfacer ciertas instrucciones ingresadas."
+                          },{
+                            type: 'danger'
+                         });
+                             }
 break;
 case 14:type = "mem_float";
                          this.$ = $$[$0];
+                             if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[4])) {
+                            $.notify({
+                            message: "No hay unidades funcionales de De acceso a memoria de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
+                          },{
+                            type: 'danger'
+                         }); 
+                             }
 break;
 case 15:console.log("Gramat: LD");
                      this.$ = "LD";

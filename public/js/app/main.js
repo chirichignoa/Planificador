@@ -60,7 +60,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     }
 
     function runParser(_parser, lines) {
-        Parser.setConfig(instructionsCycles,booleanFunctionalUnits);
+        _parser.setConfig(instructionsCycles,booleanFunctionalUnits);
         try {
             for (var i = 0; i < lines.length; i++)
                 _parser.parse(lines[i]);

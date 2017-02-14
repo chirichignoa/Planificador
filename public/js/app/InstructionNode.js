@@ -1,12 +1,12 @@
 define(function () {
     'use strict';
 
-    function InstructionNode(instr, latenciaAcum) {
+    function InstructionNode(instr, acumLatency) {
         this.instr = instr;
-        this.latenciaAcum = latenciaAcum;
-        this.dependencias = [];
-        this.dependientes = [];
-        this.caminoCritico = false;
+        this.acumLatency = acumLatency;
+        this.dependencies = [];
+        this.dependents = [];
+        this.criticalPath = false;
     }
 
     InstructionNode.prototype = (function () {

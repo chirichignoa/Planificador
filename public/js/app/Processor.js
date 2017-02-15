@@ -11,11 +11,11 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
         return { 
             constructor: Processor,
 
-            /*addNode: function (instruction) {
+            addNode: function (instruction) {
                 var newNode = new InstructionNode(instruction); //sin cargar dependencias
                 this.nodes.push(newNode);
                 if(instruction.hasDependencies()) { //SI instruction tiene dependencias
-                    var arrDependencies = getInstrucNodeDep(instruction.getDependencies,instruction.getDependenciesWAW);
+                    var arrDependencies = getInstrucNodeDep(instruction.getDependencies);
                     for(instrucN in arrDependencies) {
                         //vincularlas
                         //vincualar dependientes
@@ -25,7 +25,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
                     this.planned.push(); //AGREGAR A LA LISTA DE PLANIFICABLES
                 }
                 //calcular acumLatency
-            }*/
+            }
         }
 
 

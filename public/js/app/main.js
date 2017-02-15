@@ -117,11 +117,11 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     UiManager.constructTables(dispatcherTableHeader, rsTableHeader, FUTableHeader);
 
                     var instr = Parser.getStack().getInstructions();
-                    //cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
+                    cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
 
                     for (var i in instr) {
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].toString() + "</pre></li>");
-                        //cpu.addNode(i);
+                        cpu.addNode(i);
 
                         graph.addNode(instr[i].getId(), i, instr.length);
 

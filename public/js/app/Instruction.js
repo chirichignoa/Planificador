@@ -13,7 +13,6 @@ define(function () {
             this.readRegisters = [].concat(readRegs);
         }
         this.dependencies = [];
-        this.dependenciesWAW = [];
         this.instructionString = str;
         this.type = type;
         this.cycles = cycles; //NUEVO
@@ -73,32 +72,24 @@ define(function () {
             },
 
             setDependency: function (anotherInstruction) {
-                var writeRegister = anotherInstruction.getWriteRegister(); 
+                var writeRegister = anotherInstruction.getWriteRegister(); ;
 
-                if((this.instructionString != "SD") && (this.instructionString != "SW")) { //SALVANDO WAW con STORE, ya que usa la direc de memoria del writeRegister y no su valor.
-                    if (this.writeRegister == writeRegister) {
-                        this.dependenciesWAW.push(anotherInstruction);
-                        //console.log("DEPENDENCIA WAW POR " + this.dependenciesWAW[0].getWriteRegister());       
+                for (var i = 0; i < this.readRegisters.length; i++)
+                    if (countDependencies(this.dependencies) == 0) {
+                        if (this.readRegisters[i] == writeRegister) {
+                            this.dependencies.push(anotherInstruction);
+                            break;
+                        }
                     }
-                }
-
-                if((this.instructionString != "LD") && (this.instructionString != "LW")) { //SALVANDO RAW con LOAD, ya que usa la direc de memoria del readRegister y no su valor.
-                    for (var i = 0; i < this.readRegisters.length; i++)
-                        if (countDependencies(this.dependencies) == 0) { 
-                            if (this.readRegisters[i] == writeRegister) {
+                    else {
+                        if (countDependencies(this.dependencies) < 2 && !this.sameOperands())
+                            console.log("DEPENDENCIA POR " + this.dependencies[0].getWriteRegister());
+                            if (anotherInstruction.getWriteRegister() != this.dependencies[0].getWriteRegister() && this.readRegisters[i] == writeRegister) {
                                 this.dependencies.push(anotherInstruction);
                                 break;
                             }
-                        }
-                        else {
-                            if (countDependencies(this.dependencies) < 2 && !this.sameOperands())
-                                //console.log("DEPENDENCIA RAW POR " + this.dependencies[0].getWriteRegister());
-                                if (anotherInstruction.getWriteRegister() != this.dependencies[0].getWriteRegister() && this.readRegisters[i] == writeRegister) {
-                                    this.dependencies.push(anotherInstruction);
-                                    break;
-                                }
-                        }
-                }
+                    }
+
             },
 
             dependencyExists: function (anotherId) {
@@ -107,10 +98,6 @@ define(function () {
 
             getDependencies: function () {
                 return this.dependencies;
-            },
-
-            getDependenciesWAW: function () {
-                return this.dependenciesWAW;
             },
 
             getRegistersInDependency: function (anotherInstruction) {

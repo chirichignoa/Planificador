@@ -21,14 +21,14 @@ define(["./libs/sigma/sigma"], function (sigma) {
         data["nodes"].push(node);
     }
 
-    Graph.prototype.addEdge = function (from, to,color) {
+    Graph.prototype.addEdge = function (from, to) {
         var edge = {
             "id": from + to,
             "size" : 5,
             "source": from,
             "target": to,
             "type" : "arrow",
-            "color" : color
+            "color" : "#11BFAE"
         };
         
         data["edges"].push(edge);

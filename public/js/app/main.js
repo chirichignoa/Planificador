@@ -117,42 +117,19 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     UiManager.constructTables(dispatcherTableHeader, rsTableHeader, FUTableHeader);
 
                     var instr = Parser.getStack().getInstructions();
-                    cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
+                    //cpu = new Processor(instr, dispatcherSize, reservationStationsSize, functionalUnits);
 
                     for (var i in instr) {
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].toString() + "</pre></li>");
-
-                        cpu.addNode(i);
+                        //cpu.addNode(i);
 
                         graph.addNode(instr[i].getId(), i, instr.length);
 
-                        var dependenciesRAW = instr[i].getDependencies();
-                        var dependenciesWAW = instr[i].getDependenciesWAW();
-
-                        if(dependenciesWAW.length == 0) { //La dependencia es solo RAW
-                            for (var dependency in dependenciesRAW) {
-                                $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
-                                graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#11BFAE");
-                            }
-                        }
-                        else {
-                            var drawWAW = false;
-                            for (var dependency in dependenciesRAW) {
-                                if(dependenciesRAW[dependency] != dependenciesWAW[0]) { //La dependencia es solo RAW 
-                                    $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
-                                    graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#11BFAE");
-                                }
-                                else { //La dependencia entre las instr es RAW y WAW                           
-                                    $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesRAW[dependency].getId() + " por " + dependenciesRAW[dependency].getWriteRegister() + "</pre></li>");
-                                    graph.addEdge(instr[i].getId(), dependenciesRAW[dependency].getId(),"#DFDF00");
-                                    drawWAW = true;
-                                }
-                            }               
-          
-                            if(!drawWAW) { //La dependencia es solo WAW                                                                                       
-                                $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependenciesWAW[0].getId() + " por " + dependenciesWAW[0].getWriteRegister() + "</pre></li>");
-                                graph.addEdge(instr[i].getId(), dependenciesWAW[0].getId(),"#FF0018");
-                            }
+                        var dependencies = instr[i].getDependencies();
+                        for (var dependency in dependencies) {
+                            $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
+                            
+                            graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
                         }
                     }
 

@@ -7,11 +7,11 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
         
     }
 
-   Gestionator.prototype = (function () {
+   Processor.prototype = (function () {
         return { 
             constructor: Processor,
 
-            addNode: function (instruction) {
+            /*addNode: function (instruction) {
                 var newNode = new InstructionNode(instruction); //sin cargar dependencias
                 this.nodes.push(newNode);
                 if(instruction.hasDependencies()) { //SI instruction tiene dependencias
@@ -19,27 +19,18 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
                     for(instrucN in arrDependencies) {
                         //vincularlas
                         //vincualar dependientes
+                    }
                 }
                 else { //Si no tiene
                     this.planned.push(); //AGREGAR A LA LISTA DE PLANIFICABLES
                 }
                 //calcular acumLatency
-            }
-        },
-
-            getInstrucNodeDep: function(/*llegan max 3 instr*/) {
-
-                    //Busca 
-
-            }
+            }*/
+        }
 
 
-       }
-
-
-
-
-   })();
+    }
+    )();
 
    return Processor;
 });

@@ -1,9 +1,9 @@
 define(function () {
     'use strict';
 
-    function InstructionNode(instr, acumLatency) {
+    function InstructionNode(instr) {
         this.instr = instr;
-        this.acumLatency = acumLatency;
+        this.acumLatency = 0;
         this.dependencies = [];
         this.dependents = [];
         this.criticalPath = false;
@@ -34,16 +34,28 @@ define(function () {
             return this.criticalPath;
         },
 
-        setDependencies: function(dependencies){
-            this.dependencies = dependencies;
-        },
-
-        setDependents: function(dependents){
-            this.dependents = dependents;
+        addDependents: function(dependents){
+            this.dependents.push(dependents);
         },
 
         setCriticalPath: function(){
             this.criticalPath = true;
+        },
+
+        calculateAcumLatency: function(){
+            if(this.dependencies == []){
+                return this.instr.getCycles();
+            }
+            else {
+                var maxLatency = 0;
+                for(var dep in dependencies) {
+                    var aux = getAcumLatency
+                    if(aux > maxLatency){
+                        maxLatency = aux;
+                    }
+                }
+                return (maxLatency + instr.getCycles());
+            }
         },
 
         printInstructionNode : function() {

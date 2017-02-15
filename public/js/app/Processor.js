@@ -2,7 +2,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
     'use strict';
 
    function Processor() {
-        this.instructionNode = [];
+        this.nodes = [];
         this.planned = [];
         
     }
@@ -12,8 +12,8 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
             constructor: Processor,
 
             addNode: function (instruction) {
-                var iN = new InstructionNode(instruction); //sin cargar dependencias
-                this.instructionNode.push(iN);
+                var newNode = new InstructionNode(instruction); //sin cargar dependencias
+                this.nodes.push(newNode);
                 if(instruction.hasDependencies()) { //SI instruction tiene dependencias
                     var arrDependencies = getInstrucNodeDep(instruction.getDependencies,instruction.getDependenciesWAW);
                     for(instrucN in arrDependencies) {
@@ -24,7 +24,8 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
                     this.planned.push(); //AGREGAR A LA LISTA DE PLANIFICABLES
                 }
                 //calcular acumLatency
-            },
+            }
+        },
 
             getInstrucNodeDep: function(/*llegan max 3 instr*/) {
 

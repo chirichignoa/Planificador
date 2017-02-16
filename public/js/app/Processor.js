@@ -1,4 +1,4 @@
-define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function (Instruction,InstructionNode, FuntionalUnit, Dispatch) {
+define(["Instruction","InstructionNode"], function (Instruction,InstructionNode) {
     'use strict';
 
    function Processor() {
@@ -14,17 +14,24 @@ define(["Instruction","InstructionNode", "FunctionalUnit", "Dispatch"], function
             addNode: function (instruction) {
                 var newNode = new InstructionNode(instruction); //sin cargar dependencias
                 this.nodes.push(newNode);
-                if(instruction.hasDependencies()) { //SI instruction tiene dependencias
-                    var arrDependencies = getInstrucNodeDep(instruction.getDependencies);
-                    for(instrucN in arrDependencies) {
-                        //vincularlas
-                        //vincualar dependientes
+                var arrDependencies = instruction.getDependencies();
+                //console.log("BOOLEAN: "+instruction);
+                if(arrDependencies.length > 0) { //SI instruction tiene dependencias
+                    for(var d in arrDependencies) {
+                        for(var n in this.nodes){
+                            if(d == n.getInstr()){
+                                newNode.vinculateDependencies(n);
+                                n.vinculateDependents(newNode);
+                                break;                                
+                            }
+                        }
                     }
                 }
                 else { //Si no tiene
-                    this.planned.push(); //AGREGAR A LA LISTA DE PLANIFICABLES
+                    this.planned.push(newNode); //AGREGAR A LA LISTA DE PLANIFICABLES
                 }
-                //calcular acumLatency
+                newNode.calculateAcumLatency();
+                newNode.printInstructionNode();
             }
         }
 

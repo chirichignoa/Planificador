@@ -42,19 +42,27 @@ define(function () {
             this.criticalPath = true;
         },
 
+        vinculateDependencies: function(dependencie){
+            this.dependencies.push(dependencie);
+        },
+
+        vinculateDependents: function(dependent){
+            this.dependents.push(dependent);
+        },
+
         calculateAcumLatency: function(){
             if(this.dependencies == []){
-                return this.instr.getCycles();
+                this.acumLatency = this.instr.getCycles();
             }
             else {
                 var maxLatency = 0;
-                for(var dep in dependencies) {
-                    var aux = getAcumLatency
+                for(var dep in this.dependencies) {
+                    var aux = this.getAcumLatency
                     if(aux > maxLatency){
                         maxLatency = aux;
                     }
                 }
-                return (maxLatency + instr.getCycles());
+                this.acumLatency = maxLatency + this.instr.getCycles();
             }
         },
 

@@ -3,7 +3,8 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
 
    function Processor() {
         this.nodes = [];
-        this.planned = [];
+        this.planned = [],
+        this.terminals = [];
         
     }
 
@@ -14,6 +15,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
             addNode: function (instruction) {
                 var newNode = new InstructionNode(instruction); //sin cargar dependencias
                 this.nodes.push(newNode);
+                this.terminals.push(newNode);
                 var arrDependencies = instruction.getDependencies();
                 //console.log("BOOLEAN: "+instruction);
                 if(arrDependencies.length > 0) { //SI instruction tiene dependencias
@@ -22,6 +24,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                             if(arrDependencies[d] == this.nodes[n].getInstr()){
                                 newNode.vinculateDependencies(this.nodes[n]);
                                 this.nodes[n].vinculateDependents(newNode);
+                                this.removeNodeTerminals(this.nodes[n]);
                                 break;                                
                             }
                         }
@@ -32,6 +35,14 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                 }
                 newNode.calculateAcumLatency();
                 newNode.printInstructionNode();
+                console.log("CANT TERMINALES: "+terminals.length);
+            },
+
+            removeNodeTerminals: function (nodo) {
+                var index = this.terminals.indexOf(nodo);
+                if (index > -1) {
+                    terminals.splice(index, 1);
+                }
             }
         }
 

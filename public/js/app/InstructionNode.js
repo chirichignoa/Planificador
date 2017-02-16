@@ -57,7 +57,7 @@ define(function () {
             else {
                 var maxLatency = 0;
                 for(var dep in this.dependencies) {
-                    var aux = this.getAcumLatency
+                    var aux = this.dependencies[dep].getAcumLatency();
                     if(aux > maxLatency){
                         maxLatency = aux;
                     }
@@ -66,12 +66,16 @@ define(function () {
             }
         },
 
+        toString : function() {
+            console.log("Instr "+ this.instr);
+        },
+
         printInstructionNode : function() {
             console.log("Nodo: ");
             console.log("Instr "+ this.instr);
             console.log("AcumLatency: "+ this.acumLatency);
-            console.log("Dependencies: "+ this.dependencies.toString());
-            console.log("Dependents: "+ this.dependents.toString());
+            console.log("Dependencies: "+ this.dependencies.length);
+            console.log("Dependents: "+ this.dependents.length);
             console.log("CriticalPath: "+ this.criticalPath);
         },
 

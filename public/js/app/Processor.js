@@ -19,9 +19,9 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                 if(arrDependencies.length > 0) { //SI instruction tiene dependencias
                     for(var d in arrDependencies) {
                         for(var n in this.nodes){
-                            if(d == n.getInstr()){
-                                newNode.vinculateDependencies(n);
-                                n.vinculateDependents(newNode);
+                            if(arrDependencies[d] == this.nodes[n].getInstr()){
+                                newNode.vinculateDependencies(this.nodes[n]);
+                                this.nodes[n].vinculateDependents(newNode);
                                 break;                                
                             }
                         }

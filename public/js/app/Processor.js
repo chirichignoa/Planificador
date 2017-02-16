@@ -35,13 +35,13 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                 }
                 newNode.calculateAcumLatency();
                 newNode.printInstructionNode();
-                console.log("CANT TERMINALES: "+terminals.length);
+                console.log("CANT TERMINALES: "+this.terminals.length);
             },
 
             removeNodeTerminals: function (nodo) {
                 var index = this.terminals.indexOf(nodo);
                 if (index > -1) {
-                    terminals.splice(index, 1);
+                    this.terminals.splice(index, 1);
                 }
             }
         }

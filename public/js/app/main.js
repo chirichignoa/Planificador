@@ -134,6 +134,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     }
 
                     graph.draw($);
+                    cpu.generateCriticalPath();
                 }
                 else {
                      $.notify({

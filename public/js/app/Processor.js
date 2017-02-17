@@ -17,7 +17,6 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                 this.nodes.push(newNode);
                 this.terminals.push(newNode);
                 var arrDependencies = instruction.getDependencies();
-                //console.log("BOOLEAN: "+instruction);
                 if(arrDependencies.length > 0) { //SI instruction tiene dependencias
                     for(var d in arrDependencies) {
                         for(var n in this.nodes){
@@ -34,8 +33,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                     this.planned.push(newNode); //AGREGAR A LA LISTA DE PLANIFICABLES
                 }
                 newNode.calculateAcumLatency();
-                newNode.printInstructionNode();
-                console.log("CANT TERMINALES: "+this.terminals.length);
+                //newNode.printInstructionNode();
             },
 
             removeNodeTerminals: function (nodo) {
@@ -43,7 +41,33 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                 if (index > -1) {
                     this.terminals.splice(index, 1);
                 }
-            }
+            },
+
+            findMaxAcumLatency: function (arrNodes) {
+                var max = 0, index = 0;
+                for(node in arrNodes) {
+                    aux = arrNodes[node].getAcumLatency();
+                    if( aux > max) {
+                        max = aux;
+                        index = node;
+                    }
+                }
+                return node;
+            },
+
+            generateCriticalPath: function (){
+                var node = nodes[this.findMaxAcumLatency(this.terminals)];
+                var dependencies, criticalPath = [];
+                node.setCriticalPath();
+                criticalPath.unshift(node);
+                while (node.getDependencies() !== undefined){
+                    dependencies = node.getDependencies();
+                    node = dependencies[this.findMaxAcumLatency(dependencies)];
+                    node.setCriticalPath();
+                    criticalPath.unshift(node);
+                }
+                console.log("Camino critico: "+ criticalPath.toString());
+            },
         }
 
 

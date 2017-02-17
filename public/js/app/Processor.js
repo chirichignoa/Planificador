@@ -44,7 +44,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
             },
 
             findMaxAcumLatency: function (arrNodes) {
-                var max = 0, index = 0;
+                var max = 0, index = -1;
                 for(var node in arrNodes) {
                     var aux = arrNodes[node].getAcumLatency();
                     if( aux > max) {
@@ -52,19 +52,26 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                         index = node;
                     }
                 }
-                return node;
+                return index;
             },
 
             generateCriticalPath: function (){
-                var node = this.nodes[this.findMaxAcumLatency(this.terminals)];
-                var dependencies, criticalPath = [];
+                this.printNodes();
+                var index = this.findMaxAcumLatency(this.terminals);
+                var node, dependencies, criticalPath = [];
+                console.log("Indice: "+ index);
+                if(index != -1){
+                    node = this.nodes[this.findMaxAcumLatency(this.terminals)];
+                }
                 node.setCriticalPath();
                 criticalPath.unshift(node);
-                while (node.getDependencies() !== undefined){
+                index = this.findMaxAcumLatency(node.getDependencies());
+                while (index != -1){
                     dependencies = node.getDependencies();
-                    node = dependencies[this.findMaxAcumLatency(dependencies)];
+                    node = dependencies[index];
                     node.setCriticalPath();
                     criticalPath.unshift(node);
+                    index = this.findMaxAcumLatency(node.getDependencies());
                 }
                 console.log("Camino critico: "+ criticalPath.toString());
             },
@@ -72,7 +79,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
             printNodes: function () {
                 for(var node in this.nodes) {
                     console.log("///////////////////");
-                    nodes[node].printInstructionNode();
+                    this.nodes[node].printInstructionNode();
                     console.log("///////////////////");
                 }
             },

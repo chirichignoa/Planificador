@@ -45,8 +45,8 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
 
             findMaxAcumLatency: function (arrNodes) {
                 var max = 0, index = 0;
-                for(node in arrNodes) {
-                    aux = arrNodes[node].getAcumLatency();
+                for(var node in arrNodes) {
+                    var aux = arrNodes[node].getAcumLatency();
                     if( aux > max) {
                         max = aux;
                         index = node;
@@ -56,7 +56,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
             },
 
             generateCriticalPath: function (){
-                var node = nodes[this.findMaxAcumLatency(this.terminals)];
+                var node = this.nodes[this.findMaxAcumLatency(this.terminals)];
                 var dependencies, criticalPath = [];
                 node.setCriticalPath();
                 criticalPath.unshift(node);
@@ -67,6 +67,14 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                     criticalPath.unshift(node);
                 }
                 console.log("Camino critico: "+ criticalPath.toString());
+            },
+
+            printNodes: function () {
+                for(var node in this.nodes) {
+                    console.log("///////////////////");
+                    nodes[node].printInstructionNode();
+                    console.log("///////////////////");
+                }
             },
         }
 

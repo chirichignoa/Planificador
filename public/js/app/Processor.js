@@ -4,8 +4,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
    function Processor() {
         this.nodes = [];
         this.planned = [],
-        this.terminals = [];
-        
+        this.terminals = [];        
     }
 
    Processor.prototype = (function () {
@@ -30,10 +29,27 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                 else { //Si no tiene
                     this.planned.push(this.nodes.length); //AGREGAR A LA LISTA DE PLANIFICABLES
                 }
-                newNode.calculateAcumLatency();
+                this.calculateAcumLatency(newNode);
                 this.nodes.push(newNode);
                 this.terminals.push(this.nodes.length);
                 //newNode.printInstructionNode();
+            },
+
+            calculateAcumLatency: function(node){
+                if(node.getDependencies() == []){
+                    node.setAcumLatency(0);
+                }
+                else {
+                    var maxLatency = 0;
+                    var dependencies = node.getDependencies();
+                    for(var dep in dependencies) {
+                        var aux = (this.nodes[dependencies[dep]]).getAcumLatency();
+                        if(aux > maxLatency){
+                            maxLatency = aux;
+                        }
+                    }
+                    node.setAcumLatency(maxLatency);
+                }
             },
 
             removeNodeTerminals: function (nodo) {
@@ -46,7 +62,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
             findMaxAcumLatency: function (arrNodes) {
                 var max = 0, index = -1;
                 for(var node in arrNodes) {
-                    var aux = this.nodes[arrNodes[node]].getAcumLatency();
+                    var aux = (this.nodes[arrNodes[node]]).getAcumLatency();
                     if( aux > max) {
                         max = aux;
                         index = node;
@@ -82,7 +98,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                     this.nodes[node].printInstructionNode();
                     console.log("///////////////////");
                 }
-            },
+            }
         }
 
 

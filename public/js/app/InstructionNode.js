@@ -1,4 +1,4 @@
-define(function () {
+define(["Processor"], function (Processor) {
     'use strict';
 
     function InstructionNode(instr) {
@@ -50,20 +50,8 @@ define(function () {
             this.dependents.push(dependent);
         },
 
-        calculateAcumLatency: function(){
-            if(this.dependencies == []){
-                this.acumLatency = this.instr.getCycles();
-            }
-            else {
-                var maxLatency = 0;
-                for(var dep in this.dependencies) {
-                    var aux = this.dependencies[dep].getAcumLatency();
-                    if(aux > maxLatency){
-                        maxLatency = aux;
-                    }
-                }
-                this.acumLatency = maxLatency + this.instr.getCycles();
-            }
+        setAcumLatency: function(latency) {
+            this.acumLatency = latency + this.instr.getCycles();
         },
 
         toString : function() {

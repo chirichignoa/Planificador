@@ -14,6 +14,7 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
             addNode: function (instruction) {
                 var newNode = new InstructionNode(instruction); //sin cargar dependencias
                 var arrDependencies = instruction.getDependencies();
+                this.terminals.push(this.nodes.length);
                 if(arrDependencies.length > 0) { //SI instruction tiene dependencias
                     for(var d in arrDependencies) {
                         for(var n in this.nodes){
@@ -31,7 +32,6 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                 }
                 this.calculateAcumLatency(newNode);
                 this.nodes.push(newNode);
-                this.terminals.push(this.nodes.length);
                 //newNode.printInstructionNode();
             },
 
@@ -62,20 +62,21 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
             findMaxAcumLatency: function (arrNodes) {
                 var max = 0, index = -1;
                 for(var node in arrNodes) {
-                    var aux = (this.nodes[arrNodes[node]]).getAcumLatency();
-                    if( aux > max) {
-                        max = aux;
-                        index = node;
+                    var indexNode = arrNodes[node];
+                    if(indexNode < this.nodes.length){
+                        var aux = this.nodes[indexNode].getAcumLatency();
+                        if( aux > max) {
+                            max = aux;
+                            index = node;
+                        }
                     }
                 }
                 return index;
             },
 
             generateCriticalPath: function (){
-                //this.printNodes();
                 var index = this.findMaxAcumLatency(this.terminals);
                 var node, dependencies, criticalPath = [];
-                console.log("Indice: "+ index);
                 if(index != -1){
                     node = this.nodes[this.findMaxAcumLatency(this.terminals)];
                 }
@@ -89,7 +90,8 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                     criticalPath.unshift(node);
                     index = this.findMaxAcumLatency(node.getDependencies());
                 }
-                console.log("Camino critico: "+ criticalPath.toString());
+                console.log("Camino critico: "+ criticalPath.length);
+                this.printNodes();
             },
 
             printNodes: function () {

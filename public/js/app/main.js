@@ -121,7 +121,6 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     for (var i in instr) {
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].toString() + "</pre></li>");
                         cpu.addNode(instr[i]);
-                        console.log("///////////////////////");
 
                         graph.addNode(instr[i].getId(), i, instr.length);
 

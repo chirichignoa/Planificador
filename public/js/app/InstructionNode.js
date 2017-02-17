@@ -1,4 +1,4 @@
-define(["Processor"], function (Processor) {
+define(function () {
     'use strict';
 
     function InstructionNode(instr) {

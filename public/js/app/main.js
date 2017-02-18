@@ -3,11 +3,9 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     editor.setTheme(theme);
     editor.getSession().setMode("./mode/assembly_x86");
 
-    var UiManager = new UI("#cycle-counter-table", "#dispatcher-table", "#reserv-stations-table", "#functional-unities-table", "#rob-table");
+    var UiManager = new UI("#cycle-counter-table", "#functional-unities-table", "#rob-table");
 
-    var reservationStationsSize = 0,
-        dispatcherSize          = 0,
-        functionalUnits         = [],
+    var functionalUnits         = [],
         booleanFunctionalUnits  = [],
         instructionsCycles      = {};
 
@@ -53,8 +51,6 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
     function reset() {
         Parser.reset();
-        reservationStationsSize = 0;
-        dispatcherSize = 0;
         functionalUnits = [];
         $('#keys-list').html('');
         $('#dependencies-list').html('');
@@ -102,14 +98,9 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
                 graph = new Graph();
 
-                dispatcherSize = parseInt($("#dispatcherSize").val());
-                reservationStationsSize = parseInt($("#reservationStationSize").val());
-
                 if((functionalUnits.length > 0) && (!Parser.getErrorNoUF())) {
 
                     FUTableHeader = generateTablesHeaders("UF", functionalUnits.length);
-                    dispatcherTableHeader = generateTablesHeaders("D", dispatcherSize);
-                    rsTableHeader = generateTablesHeaders("ER",reservationStationsSize);
 
                     $("#non-tables").alert("close");
 

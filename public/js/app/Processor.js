@@ -1,10 +1,12 @@
-define(["Instruction","InstructionNode"], function (Instruction,InstructionNode) {
+define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instruction,InstructionNode, FunctionalUnits) {
     'use strict';
 
-   function Processor() {
+   function Processor(fu) {
         this.nodes = [];
         this.planned = [],
-        this.terminals = [];        
+        this.terminals = [],
+        this.criticalPath = [],
+        this.functionalUnits = fu;        
     }
 
    Processor.prototype = (function () {
@@ -28,11 +30,10 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
                     }
                 }
                 else { //Si no tiene
-                    this.planned.push(this.nodes.length); //AGREGAR A LA LISTA DE PLANIFICABLES
+                    this.planned.push(this.nodes.length); 
                 }
                 this.calculateAcumLatency(newNode);
                 this.nodes.push(newNode);
-                //newNode.printInstructionNode();
             },
 
             calculateAcumLatency: function(node){
@@ -76,23 +77,115 @@ define(["Instruction","InstructionNode"], function (Instruction,InstructionNode)
 
             generateCriticalPath: function (){
                 var index = this.findMaxAcumLatency(this.terminals);
-                var node, dependencies, criticalPath = [];
+                var node, dependencies;
                 if(index != -1){
                     node = this.nodes[this.findMaxAcumLatency(this.terminals)];
                 }
                 node.setCriticalPath();
-                criticalPath.unshift(node);
+                this.criticalPath.unshift(node);
                 index = this.findMaxAcumLatency(node.getDependencies());
                 while (index != -1){
                     dependencies = node.getDependencies();
                     node = this.nodes[dependencies[index]];
                     node.setCriticalPath();
-                    criticalPath.unshift(node);
+                    this.criticalPath.unshift(node);
                     index = this.findMaxAcumLatency(node.getDependencies());
                 }
-                console.log("Camino critico: "+ criticalPath.length);
+                console.log("Camino critico: "+ this.criticalPath.length);
                 this.printNodes();
+            },           
+
+            isFullyProcessed: function () {
+                return this.planned.length == 0;
             },
+
+            isCanRun: function (node) {
+            //Verifica si una instruccion puede ejecutarse si sus dependencias estas ejecutadas
+                var dependencies = node.getDependencies();
+                if(dependencies.length > 0) {
+                    for(i in dependencies) {
+                        if(!(this.nodes[dependencies[i]]).getExecuted()) {//No puede ejecutarse
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            availableUF: function (type) {
+                var ufMulti = -1;
+                for(uf in this.functionalUnits) {
+                    if(!this.functionalUnits[uf].isOccupied()) {  //No esta ocupada
+                        if(this.functionalUnits[uf].getType() == "multi_type") { //Si  es multi
+                            ufMulti = uf;
+                        }
+                        else {
+                            if(this.functionalUnits[uf].getType() == type) { //Mismo tipo y libre se asigna
+                                return uf;
+                            }
+                        }
+                    }
+                }
+                return ufMulti;
+            },
+
+            unlockCC: function(instrCritical) {
+            //Busca la instruc que bloquea la instr del CC, recursionando, subiendo mas de un nivel, ademas cuando encuentre
+            //la instr verificar que existen UF que las puedan resolver. Si no hay, buscar otra instr
+                var index = -1;
+                while (index != -1) { //Recursion
+                    var dependencies = instrCritical.getDependencies();
+                    if(dependencies.length > 0) {
+                        for(var i in dependencies) {
+                            if(this.nodes[dependencies[i]].getDependencies().length == 0){
+                                return dependents[i];
+                            }
+                            else {
+
+                            }
+                        }
+                    }
+                }
+                return index;
+
+
+
+            },
+
+            run: function () {
+                while (this.planned.length != 0) {
+                    this.nextCycle();
+                }
+            },
+
+            nextCycle: function () {
+                var instrCritical = this.criticalPath[0];
+                var UF = this.availableUF(instrCritical.getInstr().getType());
+                if(this.isCanRun(instrCritical)) { //Se puede ejecutar 
+                    if(UF != -1) { //Hay UF disponibles
+                        ejecutarla
+                    } 
+                }
+                else {
+                    //Aca me complique porque hay que hacer la recursion en el metodo hasta encontrar un nodo a ejecutar
+                    // y ademas habria que asegurarse de ese nodo pueda ser satisfecho con las UF disponibles**FUNDAMENTAL
+                    // sino va a quedar ciclando como loco
+                    var index = this.unlockCC(instrCritical);
+                    if(index != -1) {
+                        UF = this.availableUF(this.nodes[index].getInstr().getType());
+                        if(UF != -1) {
+                            ejecutarla
+                        }
+                    }
+                }
+
+                
+                // Puede que salte todos los if y hasta aca no ejecute nada 
+                //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
+                if( quedan mas UF libres) {
+                    ejecutar las primeras de planned segun la #UF
+                }
+            }
 
             printNodes: function () {
                 for(var node in this.nodes) {

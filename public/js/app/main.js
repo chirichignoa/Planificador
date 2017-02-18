@@ -106,7 +106,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     UiManager.constructTables();
 
                     var instr = Parser.getStack().getInstructions();
-                    cpu = new Processor();
+                    cpu = new Processor(functionalUnits);
 
                     for (var i in instr) {
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].toString() + "</pre></li>");
@@ -146,7 +146,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
         $("#nextCycle").click(function () {
             if(!cpu.isFullyProcessed()) {
-                cpu.nextCycle();
+                cpu.run();
                 UiManager.addRows(cpu.getCurrentCycle(), cpu.getDispatcherState(), cpu.getReservStationsState(), cpu.getFunctionalUnitsState(), cpu.getRobInstructions(), cpu.getRobStates());
             }
             else {

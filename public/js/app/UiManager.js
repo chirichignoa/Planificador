@@ -37,7 +37,6 @@ define(["jquery"], function ($) {
     }
 
     UiManager.prototype.constructTables = function () {
-
         $(getBodyTable(this.ciclesTableId)).html(generateHead(["Ciclos"]));
         $(getBodyTable(this.plannedTableId)).html(generateHead(["Planificables"]));
         $(getBodyTable(this.choosedTableId)).html(generateHead(["Elegidas"]));

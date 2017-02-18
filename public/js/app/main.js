@@ -98,9 +98,12 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
             if (runParser(Parser, lines)) {
 
                 graph = new Graph();
+
                 if((functionalUnits.length > 0) && (!Parser.getErrorNoUF())) {
 
                     $("#non-tables").alert("close");
+
+                    UiManager.constructTables();
 
                     var instr = Parser.getStack().getInstructions();
                     cpu = new Processor();

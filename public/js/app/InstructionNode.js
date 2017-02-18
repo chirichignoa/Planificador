@@ -7,6 +7,7 @@ define(function () {
         this.dependencies = [];
         this.dependents = [];
         this.criticalPath = false;
+        this.executed = false;
     }
 
     InstructionNode.prototype = (function () {
@@ -34,6 +35,10 @@ define(function () {
             return this.criticalPath;
         },
 
+        getExecuted: function() {
+            return this.executed;
+        },
+
         addDependents: function(dependents){
             this.dependents.push(dependents);
         },
@@ -52,6 +57,10 @@ define(function () {
 
         setAcumLatency: function(latency) {
             this.acumLatency = latency + this.instr.getCycles();
+        },
+
+        setExecuted: function() {
+            this.executed = true;
         },
 
         toString : function() {

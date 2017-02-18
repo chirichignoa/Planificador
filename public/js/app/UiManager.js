@@ -21,12 +21,10 @@ define(["jquery"], function ($) {
         };
 
 
-    function UiManager(ciclesTbId, dpId, rsTbId, fuTbId, robTbId) {
+    function UiManager(ciclesTbId, plannedId, choosedId) {
         this.ciclesTableId = ciclesTbId;
-        this.dispatcherTableId = dpId;
-        this.reservStationsTableId = rsTbId;
-        this.functionalUnitiesTableId = fuTbId;
-        this.robTableId = robTbId;
+        this.plannedTableId = plannedId;
+        this.choosedTableId = choosedId;
     }
 
     var getRobAsArray = function (iterations) {
@@ -38,17 +36,11 @@ define(["jquery"], function ($) {
         return columns;
     }
 
-    UiManager.prototype.constructTables = function (dp, rs, fu) {
-        this.dispatcher = dp;
-        this.reservStations = rs;
-        this.functionalUnities = fu;
-        this.rob = rs.length + fu.length;
+    UiManager.prototype.constructTables = function () {
 
         $(getBodyTable(this.ciclesTableId)).html(generateHead(["Ciclos"]));
-        $(getBodyTable(this.dispatcherTableId)).html(generateHead(this.dispatcher));
-        $(getBodyTable(this.reservStationsTableId)).html(generateHead(this.reservStations));
-        $(getBodyTable(this.functionalUnitiesTableId)).html(generateHead(this.functionalUnities));
-        $(getBodyTable(this.robTableId)).html(generateHead(getRobAsArray(this.rob)));
+        $(getBodyTable(this.plannedTableId)).html(generateHead(["Planificables"]));
+        $(getBodyTable(this.choosedTableId)).html(generateHead(["Elegidas"]));
     }
 
     var getState = function (index, object) {
@@ -73,23 +65,15 @@ define(["jquery"], function ($) {
         return row;
     };
 
-    UiManager.prototype.addRows = function (cicle, dispatcherState, reservStationsQueue, functionalUnitiesCurrents, robInstructions, robStates) {
+    UiManager.prototype.addRows = function () {
         $(getBodyTable(this.ciclesTableId)).append(generateRow([cicle]));
 
-        $(getBodyTable(this.dispatcherTableId)).append(
+        $(getBodyTable(this.plannedTableId)).append(
             generateRow(dispatcherState)
         );
 
-        $(getBodyTable(this.reservStationsTableId)).append(
+        $(getBodyTable(this.choosedTableId)).append(
             generateRow(reservStationsQueue)
-        );
-
-        $(getBodyTable(this.functionalUnitiesTableId)).append(
-            generateRow(functionalUnitiesCurrents)
-        );
-
-        $(getBodyTable(this.robTableId)).append(
-            generateRow(getRobRow(robInstructions, robStates))
         );
     }
 

@@ -99,7 +99,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                 return this.planned.length == 0;
             },
 
-            isCanRun: function (node) {
+            canRun: function (node) {
             //Verifica si una instruccion puede ejecutarse si sus dependencias estas ejecutadas
                 var dependencies = node.getDependencies();
                 if(dependencies.length > 0) {
@@ -161,7 +161,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
             nextCycle: function () {
                 var instrCritical = this.criticalPath[0];
                 var UF = this.availableUF(instrCritical.getInstr().getType());
-                if(this.isCanRun(instrCritical)) { //Se puede ejecutar 
+                if(this.canRun(instrCritical)) { //Se puede ejecutar 
                     if(UF != -1) { //Hay UF disponibles
                         ejecutarla
                     } 

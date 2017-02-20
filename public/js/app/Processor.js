@@ -155,6 +155,9 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
 
             run: function () {
                 while (this.planned.length != 0) {
+                    for(fu in this.functionalUnits) {
+                        functionalUnits[fu].nextCycle();
+                    }
                     this.nextCycle();
                 }
             },

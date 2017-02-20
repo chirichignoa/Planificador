@@ -178,12 +178,22 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                         }
                     }
                 }
-
-                
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
                 if( quedan mas UF libres) {
-                    ejecutar las primeras de planned segun la #UF
+                    var uf = functionalUnits.length - 1;
+                    while(uf >= 0){
+                        if(!(this.functionalUnits[uf].isOccupied())){
+                            for(var instr in this.planned){
+                                var possibleInstruction = this.planned[instr].getInstr();
+                                if( (possibleInstruction.getType() == this.functionalUnits[uf].getType()) || (possibleInstruction.getType() == "multi_type") ){
+                                    ejecutarla
+                                    break;
+                                }
+                            }
+                        }
+                        uf--;
+                    }
                 }
             }
 

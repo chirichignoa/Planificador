@@ -99,7 +99,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                 return this.planned.length == 0;
             },
 
-            isCanRun: function (node) {
+            canRun: function (node) {
             //Verifica si una instruccion puede ejecutarse si sus dependencias estas ejecutadas
                 var dependencies = node.getDependencies();
                 if(dependencies.length > 0) {

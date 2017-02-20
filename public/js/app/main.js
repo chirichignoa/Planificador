@@ -124,6 +124,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
                     graph.draw($);
                     cpu.generateCriticalPath();
+                    cpu.run();
                 }
                 else {
                      $.notify({
@@ -146,8 +147,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
         $("#nextCycle").click(function () {
             if(!cpu.isFullyProcessed()) {
-                cpu.run();
-                UiManager.addRows(cpu.getCurrentCycle(), cpu.getDispatcherState(), cpu.getReservStationsState(), cpu.getFunctionalUnitsState(), cpu.getRobInstructions(), cpu.getRobStates());
+                //UiManager.addRows(cpu.getCurrentCycle(), cpu.getDispatcherState(), cpu.getReservStationsState(), cpu.getFunctionalUnitsState(), cpu.getRobInstructions(), cpu.getRobStates());
             }
             else {
                 $.notify({

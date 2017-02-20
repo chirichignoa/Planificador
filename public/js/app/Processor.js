@@ -118,7 +118,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             availableUF: function(type) {
                 console.log("Buscando UF");
                 var ufMulti = -1;
-                for(uf in this.functionalUnits) {
+                for(var uf in this.functionalUnits) {
                     if(!this.functionalUnits[uf].isOccupied()) {  //No esta ocupada
                         if(this.functionalUnits[uf].getType() == "multi_type") { //Si  es multi
                             ufMulti = uf;

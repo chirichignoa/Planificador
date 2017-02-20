@@ -17,7 +17,7 @@ define(function () {
 
             execute: function (instr) {
                 this.instruction.push(instr);
-                console.log("EJECUCION DE: "+this.getId);
+                console.log("EJECUCION ");
                 this.occupied = true;
             },
 
@@ -33,7 +33,7 @@ define(function () {
                 if (this.occupied == true) {
                     this.cycles_execution += 1;
                     if (this.cycles_execution == instr.cycles) {   //Si son iguales, ya termino
-                        console.log("INSTR COMPLETADA: "+this.getId);
+                        console.log("INSTR COMPLETADA");
                         this.getInstCompleted();
                         this.cycles_execution = 0;
                         this.occupied = false;

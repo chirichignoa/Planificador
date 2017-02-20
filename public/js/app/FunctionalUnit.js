@@ -6,6 +6,7 @@ define(function () {
         this.type = type;
         this.occupied = false;
         this.instruction = [];
+        this.current_cycle = 0;
     }
 
 
@@ -30,10 +31,11 @@ define(function () {
 
             nextCycle: function () {
                 if (this.occupied == true) {
-                    this.current_cycle += 1;
+                    this.cycles_execution += 1;
                     if (this.cycles_execution == instr.cycles) {   //Si son iguales, ya termino
                         console.log("INSTR COMPLETADA: "+this.getId);
                         this.getInstCompleted();
+                        this.cycles_execution = 0;
                         this.occupied = false;
                     }
                 }

@@ -1,4 +1,4 @@
-define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instruction,InstructionNode, FunctionalUnits) {
+define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instruction,InstructionNode, FunctionalUnit) {
     'use strict';
 
    function Processor(fu) {
@@ -7,7 +7,8 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
         this.terminals = [],
         this.criticalPath = [],
         this.functionalUnits = fu;  
-        this.availablesUF = fu.length;      
+        this.availablesUF = fu.length;
+        this.currentCycle = 0;      
     }
 
    Processor.prototype = (function () {
@@ -102,6 +103,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
 
             canRun: function (node) {
             //Verifica si una instruccion puede ejecutarse si sus dependencias estas ejecutadas
+                console.log("Verificando si puedo ejecutar");
                 var dependencies = node.getDependencies();
                 if(dependencies.length > 0) {
                     for(i in dependencies) {
@@ -111,9 +113,10 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                     }
                 }
                 return true;
-            }
+            },
 
-            availableUF: function (type) {
+            availableUF: function(type) {
+                console.log("Buscando UF");
                 var ufMulti = -1;
                 for(uf in this.functionalUnits) {
                     if(!this.functionalUnits[uf].isOccupied()) {  //No esta ocupada
@@ -131,6 +134,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
             },
 
             unlockCC: function(instrCritical) {
+                console.log("Desbloqueando CC");
                 var index = -1;
                 while (index != -1) { //Recursion
                     var dependencies = instrCritical.getDependencies();
@@ -155,15 +159,19 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
 
             run: function () {
                 while (this.planned.length != 0) {
-                    for(fu in this.functionalUnits) {
-                        functionalUnits[fu].nextCycle();
+                    if(this.currentCycle > 0) {
+                        for(fu in this.functionalUnits) {
+                            functionalUnits[fu].nextCycle();
+                        }
+                        this.currentCycle += 1;
+                        console.log("Ciclo numero: "+ this.currentCycle);
                     }
                     this.nextCycle();
                 }
             },
 
             updatePlanned: function (index) {
-            //
+                console.log("Actualizando planned");
                 var dependents = this.nodes[this.planned[index]].getDependents(); //obtengo sus dependientes
                 for (d in dependents) {
                     if(this.canRun(dependents[d])) {
@@ -178,6 +186,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                 var fu = this.availableUF(instrCritical.getInstr().getType());
                 if(this.canRun(instrCritical)) { //Se puede ejecutar 
                     if(fu != -1) { //Hay UF disponibles
+                        console.log("Ejecutando instruccion del CC");
                         this.functionalUnits[fu].execute(instrCritical);
                         this.availablesUF -= 1;
                         var indexNodes = this.nodes.indexOf(instrCritical);
@@ -194,6 +203,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                     if(index != -1) {
                         fu = this.availableUF(this.nodes[index].getInstr().getType());
                         if(fu != -1) {
+                            console.log("Ejecutando para destrabar el CC");
                             this.functionalUnits[fu].execute(this.nodes[index].getInstr());
                             this.availablesUF -= 1;
                             this.nodes[index].setExecuted();
@@ -210,6 +220,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                             for(var instr in this.planned){
                                 var possibleInstruction = this.planned[instr].getInstr();
                                 if( (possibleInstruction.getType() == this.functionalUnits[fu].getType()) || (possibleInstruction.getType() == "multi_type") ){
+                                    console.log("Hay mas UFs libres y encontre instruccion para dicha UF.");
                                     this.functionalUnits[fu].execute(this.planned[instr].getInstr());
                                     this.availablesUF -= 1;
                                     this.nodes[this.planned[instr]].setExecuted();
@@ -221,7 +232,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                         uf--;
                     }
                 }
-            }
+            },
 
             printNodes: function () {
                 for(var node in this.nodes) {
@@ -229,7 +240,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                     this.nodes[node].printInstructionNode();
                     console.log("///////////////////");
                 }
-            }
+            },
         }
 
 

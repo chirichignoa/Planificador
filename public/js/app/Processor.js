@@ -130,26 +130,26 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
             },
 
             unlockCC: function(instrCritical) {
-            //Busca la instruc que bloquea la instr del CC, recursionando, subiendo mas de un nivel, ademas cuando encuentre
-            //la instr verificar que existen UF que las puedan resolver. Si no hay, buscar otra instr
                 var index = -1;
                 while (index != -1) { //Recursion
                     var dependencies = instrCritical.getDependencies();
                     if(dependencies.length > 0) {
                         for(var i in dependencies) {
-                            if(this.nodes[dependencies[i]].getDependencies().length == 0){
-                                return dependents[i];
-                            }
-                            else {
-
-                            }
+                            var d = this.nodes[dependencies[i]];
+                            if(!d.getExecuted()) { //Si no ha sido ejecutada
+                                if(this.canRun(d)) { //Si se puede ejecutar
+                                    if(this.availableUF(this.nodes[index].getInstr().getType()) != -1) { //Hay UF disponible
+                                        return dependents[i];
+                                    } 
+                                }
+                                else { //Entonces tiene dependencias no ejecutadas, recursionamos
+                                    return unlockCC(d);
+                                }
+                            } 
                         }
                     }
                 }
                 return index;
-
-
-
             },
 
             run: function () {

@@ -6,7 +6,8 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
         this.planned = [],
         this.terminals = [],
         this.criticalPath = [],
-        this.functionalUnits = fu;        
+        this.functionalUnits = fu;  
+        this.availablesUF = fu.length;      
     }
 
    Processor.prototype = (function () {
@@ -164,6 +165,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                 if(this.canRun(instrCritical)) { //Se puede ejecutar 
                     if(UF != -1) { //Hay UF disponibles
                         ejecutarla
+                        this.availablesUF -= 1;
                     } 
                 }
                 else {
@@ -175,12 +177,13 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                         UF = this.availableUF(this.nodes[index].getInstr().getType());
                         if(UF != -1) {
                             ejecutarla
+                            this.availablesUF -= 1;
                         }
                     }
                 }
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
-                if( quedan mas UF libres) {
+                if(this.availablesUF > 0) {
                     var uf = functionalUnits.length - 1;
                     while(uf >= 0){
                         if(!(this.functionalUnits[uf].isOccupied())){
@@ -188,6 +191,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                                 var possibleInstruction = this.planned[instr].getInstr();
                                 if( (possibleInstruction.getType() == this.functionalUnits[uf].getType()) || (possibleInstruction.getType() == "multi_type") ){
                                     ejecutarla
+                                    this.availablesUF -= 1;
                                     break;
                                 }
                             }

@@ -159,13 +159,25 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                 }
             },
 
+            updatePlanned: function (index) {
+            //
+                var dependents = this.nodes[this.planned[index]].getDependents(); //obtengo sus dependientes
+                for (d in dependents) {
+                    if(this.canRun(dependents[d])) {
+                        this.planned.push(d); //agregamos a planificables
+                    }
+                }
+                this.planned.splice(index,1); //saco la instr ejecutada
+            },
+
             nextCycle: function () {
                 var instrCritical = this.criticalPath[0];
-                var UF = this.availableUF(instrCritical.getInstr().getType());
+                var fu = this.availableUF(instrCritical.getInstr().getType());
                 if(this.canRun(instrCritical)) { //Se puede ejecutar 
-                    if(UF != -1) { //Hay UF disponibles
-                        ejecutarla
+                    if(fu != -1) { //Hay UF disponibles
+                        this.functionalUnits[fu].execute(instrCritical);
                         this.availablesUF -= 1;
+                        this.updatePlanned(this.planned.indexOf(this.nodes.indexOf(instrCritical)));
                     } 
                 }
                 else {
@@ -174,24 +186,26 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                     // sino va a quedar ciclando como loco
                     var index = this.unlockCC(instrCritical);
                     if(index != -1) {
-                        UF = this.availableUF(this.nodes[index].getInstr().getType());
-                        if(UF != -1) {
-                            ejecutarla
+                        fu = this.availableUF(this.nodes[index].getInstr().getType());
+                        if(fu != -1) {
+                            this.functionalUnits[fu].execute(this.nodes[index].getInstr());
                             this.availablesUF -= 1;
+                            updatePlanned(this.planned.indexOf(index)); 
                         }
                     }
                 }
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
                 if(this.availablesUF > 0) {
-                    var uf = functionalUnits.length - 1;
-                    while(uf >= 0){
-                        if(!(this.functionalUnits[uf].isOccupied())){
+                    var fu = functionalUnits.length - 1;
+                    while(fuCount >= 0){
+                        if(!(this.functionalUnits[fu].isOccupied())){
                             for(var instr in this.planned){
                                 var possibleInstruction = this.planned[instr].getInstr();
-                                if( (possibleInstruction.getType() == this.functionalUnits[uf].getType()) || (possibleInstruction.getType() == "multi_type") ){
-                                    ejecutarla
+                                if( (possibleInstruction.getType() == this.functionalUnits[fu].getType()) || (possibleInstruction.getType() == "multi_type") ){
+                                    this.functionalUnits[fu].execute(this.planned[instr].getInstr());
                                     this.availablesUF -= 1;
+                                    updatePlanned(instr);
                                     break;
                                 }
                             }

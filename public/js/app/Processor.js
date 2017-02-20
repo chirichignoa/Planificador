@@ -177,7 +177,10 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                     if(fu != -1) { //Hay UF disponibles
                         this.functionalUnits[fu].execute(instrCritical);
                         this.availablesUF -= 1;
+                        var indexNodes = this.nodes.indexOf(instrCritical);
+                        this.nodes[indexNodes].setExecuted();
                         this.updatePlanned(this.planned.indexOf(this.nodes.indexOf(instrCritical)));
+                        this.criticalPath.splice(0,1);
                     } 
                 }
                 else {
@@ -190,6 +193,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                         if(fu != -1) {
                             this.functionalUnits[fu].execute(this.nodes[index].getInstr());
                             this.availablesUF -= 1;
+                            this.nodes[index].setExecuted();
                             updatePlanned(this.planned.indexOf(index)); 
                         }
                     }
@@ -205,6 +209,7 @@ define(["Instruction","InstructionNode", "FunctionalUnits"], function (Instructi
                                 if( (possibleInstruction.getType() == this.functionalUnits[fu].getType()) || (possibleInstruction.getType() == "multi_type") ){
                                     this.functionalUnits[fu].execute(this.planned[instr].getInstr());
                                     this.availablesUF -= 1;
+                                    this.nodes[this.planned[instr]].setExecuted();
                                     updatePlanned(instr);
                                     break;
                                 }

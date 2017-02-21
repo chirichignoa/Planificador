@@ -158,17 +158,19 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             },
 
             run: function () {
-                while (this.planned.length != 0) {
-                    if(this.currentCycle > 0) {
-                        for(var fu in this.functionalUnits) {
-                            if(this.functionalUnits[fu].nextCycle()) {
-                                this.availablesUF +=1;
-                            }
-                        }
-                    }
+                var finished = false;
+                while (this.planned.length != 0) && (!finished) {
                     console.log("Ciclo numero: "+ this.currentCycle);
                     this.nextCycle();
-                    this.currentCycle += 1;
+                    this.currentCycle += 1;                        
+                    for(var fu in this.functionalUnits) {
+                        if(this.functionalUnits[fu].nextCycle()) {
+                            this.availablesUF +=1;
+                        }
+                    }
+                    if(this.functionalUnits.length == this.availablesUF) {
+                        finished = true;
+                    }
                 }
             },
 

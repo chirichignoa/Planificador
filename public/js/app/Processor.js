@@ -94,7 +94,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                     index = this.findMaxAcumLatency(node.getDependencies());
                 }
                 console.log("Camino critico: "+ this.criticalPath.length);
-                this.printNodes();
+                //this.printNodes();
             },           
 
             isFullyProcessed: function () {
@@ -106,7 +106,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 console.log("Verificando si puedo ejecutar");
                 var dependencies = node.getDependencies();
                 if(dependencies.length > 0) {
-                    for(i in dependencies) {
+                    for(var i in dependencies) {
                         if(!(this.nodes[dependencies[i]]).getExecuted()) {//No puede ejecutarse
                             return false;
                         }
@@ -160,7 +160,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             run: function () {
                 while (this.planned.length != 0) {
                     if(this.currentCycle > 0) {
-                        for(fu in this.functionalUnits) {
+                        for(var fu in this.functionalUnits) {
                             functionalUnits[fu].nextCycle();
                         }
                         this.currentCycle += 1;
@@ -174,7 +174,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 console.log("Actualizando planned");
                 var dependents = this.nodes[this.planned[index]].getDependents(); //obtengo sus dependientes
                 for (var d in dependents) {
-                    if(this.canRun(dependents[d])) {
+                    if(this.canRun(this.nodes[dependents[d]])) {
                         this.planned.push(d); //agregamos a planificables
                     }
                 }

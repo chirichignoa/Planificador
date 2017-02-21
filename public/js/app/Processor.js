@@ -165,10 +165,10 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                                 availablesUF +=1;
                             }
                         }
-                        this.currentCycle += 1;
-                        console.log("Ciclo numero: "+ this.currentCycle);
                     }
+                    console.log("Ciclo numero: "+ this.currentCycle);
                     this.nextCycle();
+                    this.currentCycle += 1;
                 }
             },
 

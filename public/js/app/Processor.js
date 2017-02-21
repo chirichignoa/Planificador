@@ -217,7 +217,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
                 if(this.availablesUF > 0) {
                     var fu = this.functionalUnits.length - 1;
-                    while(fu >= 0){
+                    while(fuCount >= 0){
                         if(!(this.functionalUnits[fu].isOccupied())){
                             for(var instr in this.planned){
                                 var possibleInstruction = this.planned[instr].getInstr();
@@ -231,7 +231,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                                 }
                             }
                         }
-                        fu--;
+                        uf--;
                     }
                 }
             },

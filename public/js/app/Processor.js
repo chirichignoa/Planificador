@@ -184,36 +184,39 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             },
 
             nextCycle: function () {
-                var instrCritical = this.criticalPath[0];
-                console.log("instrCritical: "+this.criticalPath[0]);
-                var fu = this.availableUF(instrCritical.getInstr().getType());
-                if(this.canRun(instrCritical)) { //Se puede ejecutar 
-                    if(fu != -1) { //Hay UF disponibles
-                        console.log("Ejecutando instruccion del CC");
-                        this.functionalUnits[fu].execute(instrCritical);
-                        this.availablesUF -= 1;
-                        var indexNodes = this.nodes.indexOf(instrCritical);
-                        this.nodes[indexNodes].setExecuted();
-                        this.updatePlanned(indexNodes);
-                        this.criticalPath.splice(0,1);
-                    } 
-                }
-                else {
-                    //Aca me complique porque hay que hacer la recursion en el metodo hasta encontrar un nodo a ejecutar
-                    // y ademas habria que asegurarse de ese nodo pueda ser satisfecho con las UF disponibles**FUNDAMENTAL
-                    // sino va a quedar ciclando como loco
-                    var index = this.unlockCC(instrCritical);
-                    if(index != -1) {
-                        fu = this.availableUF(this.nodes[index].getInstr().getType());
-                        if(fu != -1) {
-                            console.log("Ejecutando para destrabar el CC");
-                            this.functionalUnits[fu].execute(this.nodes[index].getInstr());
+                if(this.criticalPath.length > 0) {
+                    var instrCritical = this.criticalPath[0];
+                    console.log("instrCritical: "+this.criticalPath[0]);
+                    var fu = this.availableUF(instrCritical.getInstr().getType());
+                    if(this.canRun(instrCritical)) { //Se puede ejecutar 
+                        if(fu != -1) { //Hay UF disponibles
+                            console.log("Ejecutando instruccion del CC");
+                            this.functionalUnits[fu].execute(instrCritical);
                             this.availablesUF -= 1;
-                            this.nodes[index].setExecuted();
-                            updatePlanned(this.planned.indexOf(index)); 
-                        }
+                            var indexNodes = this.nodes.indexOf(instrCritical);
+                            this.nodes[indexNodes].setExecuted();
+                            this.updatePlanned(indexNodes);
+                            this.criticalPath.splice(0,1);
+                        } 
                     }
+                    else {
+                        //Aca me complique porque hay que hacer la recursion en el metodo hasta encontrar un nodo a ejecutar
+                        // y ademas habria que asegurarse de ese nodo pueda ser satisfecho con las UF disponibles**FUNDAMENTAL
+                        // sino va a quedar ciclando como loco
+                        var index = this.unlockCC(instrCritical);
+                        if(index != -1) {
+                            fu = this.availableUF(this.nodes[index].getInstr().getType());
+                            if(fu != -1) {
+                                console.log("Ejecutando para destrabar el CC");
+                                this.functionalUnits[fu].execute(this.nodes[index].getInstr());
+                                this.availablesUF -= 1;
+                                this.nodes[index].setExecuted();
+                                updatePlanned(this.planned.indexOf(index)); 
+                            }
+                        }
+                    }                    
                 }
+
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
                 if(this.availablesUF > 0) {

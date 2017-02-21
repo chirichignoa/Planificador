@@ -174,15 +174,15 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 }
             },
 
-            updatePlanned: function (index) {
+            updatePlanned: function (indexPlanned) {
                 console.log("Actualizando planned");
-                var dependents = this.nodes[index].getDependents(); //obtengo sus dependientes
+                var dependents = this.nodes[this.planned[indexPlanned]].getDependents(); //obtengo sus dependientes
                 for (var d in dependents) {
                     if(this.canRun(this.nodes[dependents[d]])) {
                         this.planned.push(d); //agregamos a planificables
                     }
                 }
-                this.planned.splice(index,1); //saco la instr ejecutada
+                this.planned.splice(indexPlanned,1); //saco la instr ejecutada
             },
 
             nextCycle: function () {
@@ -197,7 +197,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                             this.availablesUF -= 1;
                             var indexNodes = this.nodes.indexOf(instrCritical);
                             this.nodes[indexNodes].setExecuted();
-                            this.updatePlanned(indexNodes);
+                            this.updatePlanned(this.planned.indexOf(indexNodes);
                             this.criticalPath.splice(0,1);
                         } 
                     }

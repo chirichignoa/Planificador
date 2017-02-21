@@ -173,7 +173,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             updatePlanned: function (index) {
                 console.log("Actualizando planned");
                 var dependents = this.nodes[this.planned[index]].getDependents(); //obtengo sus dependientes
-                for (d in dependents) {
+                for (var d in dependents) {
                     if(this.canRun(dependents[d])) {
                         this.planned.push(d); //agregamos a planificables
                     }
@@ -214,7 +214,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
                 if(this.availablesUF > 0) {
-                    var fu = functionalUnits.length - 1;
+                    var fu = this.functionalUnits.length - 1;
                     while(fuCount >= 0){
                         if(!(this.functionalUnits[fu].isOccupied())){
                             for(var instr in this.planned){

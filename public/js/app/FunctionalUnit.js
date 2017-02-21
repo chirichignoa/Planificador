@@ -5,7 +5,7 @@ define(function () {
         this.cycles_execution = 0; //Cant de ciclos que lleva
         this.type = type;
         this.occupied = false;
-        this.instruction = [];
+        this.nodeInstr = 0;
         this.current_cycle = 0;
     }
 
@@ -15,9 +15,9 @@ define(function () {
 
         return {
 
-            execute: function (instr) {
-                this.instruction.push(instr);
-                console.log("EJECUCION ");
+            execute: function (nodeInstr) {
+                this.nodeInstr = nodeInstr;
+                console.log("EJECUCION DE: "+ this.nodeInstr.getInstr().getId());
                 this.occupied = true;
             },
 
@@ -32,19 +32,13 @@ define(function () {
             nextCycle: function () {
                 if (this.occupied == true) {
                     this.cycles_execution += 1;
-                    if (this.cycles_execution == instr.cycles) {   //Si son iguales, ya termino
-                        console.log("INSTR COMPLETADA");
-                        this.getInstCompleted();
+                    if (this.cycles_execution == this.nodeInstr.cycles) {   //Si son iguales, ya termino
+                        console.log("INSTR COMPLETADA: "+ this.nodeInstr.getInstr().getId());
                         this.cycles_execution = 0;
                         this.occupied = false;
                     }
                 }
             },
-
-            getInstCompleted: function () {
-                return this.instruction.pop();
-            },
-
             /*hasInstruction: function () {
                 if (this.instruction.length != 0) {
                     return true;
@@ -53,7 +47,7 @@ define(function () {
             },*/
             getId: function () {
                 if (this.occupied == true) {
-                    return this.instruction[0].getId();
+                    return this.nodeInstr.getInstr().getId();
                 } else {
                     return "-";
                 }

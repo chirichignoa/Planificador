@@ -185,6 +185,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
 
             nextCycle: function () {
                 var instrCritical = this.criticalPath[0];
+                console.log("instrCritical: "+this.criticalPath[0]);
                 var fu = this.availableUF(instrCritical.getInstr().getType());
                 if(this.canRun(instrCritical)) { //Se puede ejecutar 
                     if(fu != -1) { //Hay UF disponibles

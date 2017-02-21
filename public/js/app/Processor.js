@@ -216,8 +216,8 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
                 if(this.availablesUF > 0) {
-                    var fu = this.functionalUnits.length - 1;
-                    while(fuCount >= 0){
+                    fu = this.functionalUnits.length - 1;
+                    while(fu >= 0){
                         if(!(this.functionalUnits[fu].isOccupied())){
                             for(var instr in this.planned){
                                 var possibleInstruction = this.planned[instr].getInstr();

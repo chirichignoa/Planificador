@@ -64,16 +64,13 @@ define(function () {
         },
 
         toString : function() {
-            console.log("Instr "+ this.instr);
-        },
-
-        printInstructionNode : function() {
-            console.log("Nodo: ");
-            console.log("Instr "+ this.instr);
-            console.log("AcumLatency: "+ this.acumLatency);
-            console.log("Dependencies: "+ this.dependencies.length);
-            console.log("Dependents: "+ this.dependents.length);
-            console.log("CriticalPath: "+ this.criticalPath);
+            var result = "\nNodo: ";
+            result += "Instr " + this.instr + "\n";
+            result += "AcumLatency: "+ this.acumLatency + "\n";;
+            result += "Dependencies: "+ this.dependencies.length+ "\n";
+            result += "Dependents: "+ this.dependents.length+ "\n";
+            result += "CriticalPath: "+ this.criticalPath+ "\n";
+            return result;
         },
 
         }

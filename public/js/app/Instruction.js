@@ -128,16 +128,17 @@ define(function () {
                 this.execute = true;
             },
 
-            printInstruction : function() {
-                console.log("Instruccion: ");
-                console.log("Id "+ this.instructionId);
-                console.log("WriteRegister: "+ this.writeRegister);
-                console.log("ReadRegisters: "+ this.readRegisters.toString());
-                console.log("Dependencies: "+ this.dependencies.toString());
-                console.log("InstructionStr "+ this.instructionString);
-                console.log("Type: "+ this.type);
-                console.log("Cycles: "+ this.cycles);
-                console.log("Execute: "+ this.execute);
+            toString : function() {
+                var result = ("\nInstruccion: ");
+                result += "Id "+ this.instructionId + "\n";
+                result += "WriteRegister: "+ this.writeRegister + "\n";
+                result += "ReadRegisters: "+ this.readRegisters.toString() + "\n";
+                result += "Dependencies: "+ this.dependencies.toString() + "\n";
+                result += "InstructionStr "+ this.instructionString + "\n";
+                result += "Type: "+ this.type + "\n";
+                result += "Cycles: "+ this.cycles + "\n";
+                result += "Execute: "+ this.execute + "\n";
+                return result;
             },
         }
     })();

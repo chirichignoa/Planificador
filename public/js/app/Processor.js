@@ -186,7 +186,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             nextCycle: function () {
                 if(this.criticalPath.length > 0) {
                     var instrCritical = this.criticalPath[0];
-                    console.log("instrCritical: "+this.criticalPath[0]);
+                    console.log("instrCritical: "+instrCritical.);
                     var fu = this.availableUF(instrCritical.getInstr().getType());
                     if(this.canRun(instrCritical)) { //Se puede ejecutar 
                         if(fu != -1) { //Hay UF disponibles
@@ -243,7 +243,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             printNodes: function () {
                 for(var node in this.nodes) {
                     console.log("///////////////////");
-                    this.nodes[node].printInstructionNode();
+                    this.nodes[node].toString();
                     console.log("///////////////////");
                 }
             },

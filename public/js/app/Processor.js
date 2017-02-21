@@ -231,7 +231,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                                 }
                             }
                         }
-                        uf--;
+                        fu--;
                     }
                 }
             },

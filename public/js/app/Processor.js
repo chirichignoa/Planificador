@@ -162,7 +162,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                     if(this.currentCycle > 0) {
                         for(var fu in this.functionalUnits) {
                             if(this.functionalUnits[fu].nextCycle()) {
-                                availablesUF +=1;
+                                this.availablesUF +=1;
                             }
                         }
                     }
@@ -208,7 +208,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                             fu = this.availableUF(this.nodes[index].getInstr().getType());
                             if(fu != -1) {
                                 console.log("Ejecutando para destrabar el CC");
-                                this.functionalUnits[fu].execute(this.nodes[index].getInstr());
+                                this.functionalUnits[fu].execute(this.nodes[index]);
                                 this.availablesUF -= 1;
                                 this.nodes[index].setExecuted();
                                 updatePlanned(this.planned.indexOf(index)); 
@@ -219,18 +219,19 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
 
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
+                console.log("UF DISPONIBLES: "+this.availablesUF);
                 if(this.availablesUF > 0) {
                     fu = this.functionalUnits.length - 1;
                     while(fu >= 0){
                         if(!(this.functionalUnits[fu].isOccupied())){
                             for(var instr in this.planned){
                                 var possibleInstruction = this.nodes[this.planned[instr]].getInstr();
-                                if( (possibleInstruction.getType() == this.functionalUnits[fu].getType()) || (possibleInstruction.getType() == "multi_type") ){
+                                if( (possibleInstruction.getType() == this.functionalUnits[fu].getType()) || (this.functionalUnits[fu].getType() == "multi_type") ){
                                     console.log("Hay mas UFs libres y encontre instruccion para dicha UF.");
-                                    this.functionalUnits[fu].execute(this.planned[instr].getInstr());
+                                    this.functionalUnits[fu].execute(this.nodes[this.planned[instr]]);
                                     this.availablesUF -= 1;
                                     this.nodes[this.planned[instr]].setExecuted();
-                                    updatePlanned(instr);
+                                    this.updatePlanned(instr);
                                     break;
                                 }
                             }

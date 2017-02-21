@@ -33,7 +33,7 @@ define(function () {
 
                 if (this.occupied == true) {
                     this.cycles_execution += 1;
-                    if (this.cycles_execution == this.nodeInstr.cycles) {   //Si son iguales, ya termino
+                    if (this.cycles_execution == this.nodeInstr.getInstr().getCycles()) {   //Si son iguales, ya termino
                         console.log("INSTR COMPLETADA: "+ this.nodeInstr.getInstr().getId());
                         this.cycles_execution = 0;
                         this.occupied = false;
@@ -42,12 +42,7 @@ define(function () {
                 }
                 return false;
             },
-            /*hasInstruction: function () {
-                if (this.instruction.length != 0) {
-                    return true;
-                }
-                return false;
-            },*/
+
             getId: function () {
                 if (this.occupied == true) {
                     return this.nodeInstr.getInstr().getId();

@@ -64,8 +64,8 @@ define(function () {
         },
 
         toString : function() {
-            var result = "\nNodo: ";
-            result += "Instr " + this.instr + "\n";
+            var result = "\nNodo: "+ "\n";
+            result += "Instr " + this.instr.getId() + "\n";
             result += "AcumLatency: "+ this.acumLatency + "\n";;
             result += "Dependencies: "+ this.dependencies.length+ "\n";
             result += "Dependents: "+ this.dependents.length+ "\n";

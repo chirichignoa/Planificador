@@ -159,7 +159,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
 
             run: function () {
                 var finished = false;
-                while (this.planned.length != 0) && (!finished) {
+                while ((this.planned.length != 0) && (!finished)) {
                     console.log("Ciclo numero: "+ this.currentCycle);
                     this.nextCycle();
                     this.currentCycle += 1;                        

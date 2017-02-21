@@ -159,15 +159,17 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
 
             run: function () {
                 var finished = false;
+                console.log("Ciclo numero: "+ this.currentCycle);
+                this.nextCycle(); //cargo las UF
                 while ((this.planned.length != 0) || (!finished)) { //Si no quedan planificables y no ha terminado
-                    console.log("Ciclo numero: "+ this.currentCycle);
-                    this.nextCycle();
-                    this.currentCycle += 1;                        
+                    this.currentCycle += 1;
+                    console.log("Ciclo numero: "+ this.currentCycle);                        
                     for(var fu in this.functionalUnits) {
                         if(this.functionalUnits[fu].nextCycle()) {
                             this.availablesUF +=1;
                         }
                     }
+                    this.nextCycle();
                     if(this.functionalUnits.length == this.availablesUF) {
                         finished = true;
                     }
@@ -197,7 +199,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                             this.availablesUF -= 1;
                             var indexNodes = this.nodes.indexOf(instrCritical);
                             this.nodes[indexNodes].setExecuted();
-                            this.updatePlanned(this.planned.indexOf(indexNodes);
+                            this.updatePlanned(this.planned.indexOf(indexNodes));
                             this.criticalPath.splice(0,1);
                         } 
                     }

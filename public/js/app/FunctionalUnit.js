@@ -30,14 +30,17 @@ define(function () {
             },
 
             nextCycle: function () {
+
                 if (this.occupied == true) {
                     this.cycles_execution += 1;
                     if (this.cycles_execution == this.nodeInstr.cycles) {   //Si son iguales, ya termino
                         console.log("INSTR COMPLETADA: "+ this.nodeInstr.getInstr().getId());
                         this.cycles_execution = 0;
                         this.occupied = false;
+                        return true;
                     }
                 }
+                return false;
             },
             /*hasInstruction: function () {
                 if (this.instruction.length != 0) {

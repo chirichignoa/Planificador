@@ -161,7 +161,9 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 while (this.planned.length != 0) {
                     if(this.currentCycle > 0) {
                         for(var fu in this.functionalUnits) {
-                            functionalUnits[fu].nextCycle();
+                            if(functionalUnits[fu].nextCycle()) {
+                                availablesUF +=1;
+                            }
                         }
                         this.currentCycle += 1;
                         console.log("Ciclo numero: "+ this.currentCycle);

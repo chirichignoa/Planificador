@@ -161,7 +161,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 while (this.planned.length != 0) {
                     if(this.currentCycle > 0) {
                         for(var fu in this.functionalUnits) {
-                            if(functionalUnits[fu].nextCycle()) {
+                            if(this.functionalUnits[fu].nextCycle()) {
                                 availablesUF +=1;
                             }
                         }
@@ -220,7 +220,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                     while(fu >= 0){
                         if(!(this.functionalUnits[fu].isOccupied())){
                             for(var instr in this.planned){
-                                var possibleInstruction = this.planned[instr].getInstr();
+                                var possibleInstruction = this.nodes[this.planned[instr]].getInstr();
                                 if( (possibleInstruction.getType() == this.functionalUnits[fu].getType()) || (possibleInstruction.getType() == "multi_type") ){
                                     console.log("Hay mas UFs libres y encontre instruccion para dicha UF.");
                                     this.functionalUnits[fu].execute(this.planned[instr].getInstr());

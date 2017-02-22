@@ -181,7 +181,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                 var dependents = this.nodes[this.planned[indexPlanned]].getDependents(); //obtengo sus dependientes
                 for (var d in dependents) {
                     if(this.canRun(this.nodes[dependents[d]])) {
-                        this.planned.push(d); //agregamos a planificables
+                        this.planned.push(dependents[d]); //agregamos a planificables
                     }
                 }
                 this.planned.splice(indexPlanned,1); //saco la instr ejecutada

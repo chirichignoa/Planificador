@@ -17,8 +17,9 @@ define(['Instruction'], function (Instruction) {
 
     return {
         addInstruction: function (instruction) {
-            //Siempre agrega al final.
-            setDependendencies(instruction);
+            if((instruction.getString() != "LD") && (instruction.getString() != "LW")) { //Si es load no hay RAW
+                setDependendencies(instruction);                
+            }
             instructions.push(instruction);
         },
 

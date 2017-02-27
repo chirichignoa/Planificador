@@ -108,7 +108,7 @@ define(function () {
                 return (this.countDependencies(this.dependencies) > 0) ? true : false;
             },
 
-            toString: function () {
+            getString: function () {
                 return this.instructionString;
             },
 

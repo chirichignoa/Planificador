@@ -175,6 +175,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                         finished = true;
                     }
                 }
+                return this.cpuStates;
             },
 
             updatePlanned: function (indexPlanned) {
@@ -190,6 +191,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
 
             nextCycle: function () {
                 var state = new CpuState(this.currentCycle,this.planned);
+
                 if(this.criticalPath.length > 0) {
                     var instrCritical = this.criticalPath[0];
                     console.log("instrCritical: "+instrCritical.toString());
@@ -257,10 +259,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                     this.nodes[node].toString();
                     console.log("///////////////////");
                 }
-            },
-
-            getStates: function () {
-                return this.cpuStates;
             },
         }
 

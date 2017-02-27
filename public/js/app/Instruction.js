@@ -140,6 +140,14 @@ define(function () {
                 result += "Execute: "+ this.execute + "\n";
                 return result;
             },
+
+            constructInstruction: function(){
+                var result = this.instructionString + " " + this.writeRegister ;
+                for(var i in this.readRegisters){
+                    result += ", "+ this.readRegisters[i];
+                }
+                return result;
+            }
         }
     })();
 

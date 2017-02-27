@@ -112,7 +112,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     cpu = new Processor(functionalUnits);
 
                     for (var i in instr) {
-                        $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].toString() + "</pre></li>");
+                        $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].constructInstruction() + "</pre></li>");
                         cpu.addNode(instr[i]);
 
                         graph.addNode(instr[i].getId(), i, instr.length);

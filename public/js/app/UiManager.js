@@ -10,6 +10,9 @@ define(["jquery"], function ($) {
         },
         generateRow = function (arr) {
             var row = "<tr>";
+            if(arr.length == 0) {
+                row += "<td>" + " - " + "</td>";
+            }
             for (var i = 0; i < arr.length; i++)
                 row += "<td>" + arr[i] + "</td>";
 

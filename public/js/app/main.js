@@ -9,8 +9,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
         booleanFunctionalUnits  = [], 
         states                  = [],
         instructionsCycles      = {},
-        nextState               ,
-        lastIndex               = 0;
+        lastIndex               = 0,
+        nextState               = null;
  
 
     function addFunctionalUnits(type,number) {
@@ -127,7 +127,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
                     graph.draw($);
                     cpu.generateCriticalPath();
-                    this.states = cpu.run();
+                    states = cpu.run();
                     console.log("Cant de Estados: "+states.length);
                 }
                 else {
@@ -150,10 +150,10 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
 
         $("#nextCycle").click(function () {
-            if((this.lastIndex >= 0)&&(this.lastIndex < this.states.length)) {
-                this.nextState = this.states[this.lastIndex]
-                UiManager.addRows(this.nextState.getCycle(), this.nextState.getPlanned(), this.nextState.getSelected());
-                this.lastIndex +=1;
+            if((lastIndex >= 0)&&(lastIndex < states.length)) {
+                nextState = states[lastIndex]
+                UiManager.addRows(nextState.getCycle(), nextState.getPlanned(), nextState.getSelected());
+                lastIndex +=1;
             }
             else {
                 $.notify({
@@ -166,7 +166,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
         });
 
         $("#previousCycle").click(function () {
-            if((this.lastIndex >= 0)&&(this.lastIndex < this.states.length)) {
+            if((lastIndex >= 0)&&(lastIndex < states.length)) {
                 //this.lastIndex -=1;
                 //this.nextState = this.states[this.lastIndex]
                 //UiManager.addRows(this.nextState.getCycle(), this.nextState.getPlanned(), this.nextState.getSelected());

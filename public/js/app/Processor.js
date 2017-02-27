@@ -254,11 +254,12 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             translatePlanned: function () {
-                var arr;
-                for(p in this.planned) {
-                    arr.push((this.nodes[this.planned[p]]).getInstr().getId());
+                var arr = [];
+                for(var p in this.planned) {
+                    arr.push(this.nodes[this.planned[p]].getInstr().getId());
                 }
-            }
+                return arr;
+            },
 
             printNodes: function () {
                 for(var node in this.nodes) {

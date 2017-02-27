@@ -7,7 +7,10 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
     var functionalUnits         = [], 
         booleanFunctionalUnits  = [], 
-        instructionsCycles      = {};
+        states                  = [],
+        instructionsCycles      = {},
+        nextState               ,
+        lastIndex               = 0;
  
 
     function addFunctionalUnits(type,number) {
@@ -124,7 +127,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
                     graph.draw($);
                     cpu.generateCriticalPath();
-                    var states = cpu.run();
+                    this.states = cpu.run();
                     console.log("Cant de Estados: "+states.length);
                 }
                 else {
@@ -147,8 +150,10 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
 
         $("#nextCycle").click(function () {
-            if(!cpu.isFullyProcessed()) {
-                //UiManager.addRows(cpu.getCurrentCycle(), cpu.getDispatcherState(), cpu.getReservStationsState(), cpu.getFunctionalUnitsState(), cpu.getRobInstructions(), cpu.getRobStates());
+            if((this.lastIndex >= 0)&&(this.lastIndex < this.states.length)) {
+                this.nextState = this.states[this.lastIndex]
+                UiManager.addRows(this.nextState.getCycle(), this.nextState.getPlanned(), this.nextState.getSelected());
+                this.lastIndex +=1;
             }
             else {
                 $.notify({
@@ -159,6 +164,24 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
             }
 
         });
+
+        $("#previousCycle").click(function () {
+            if((this.lastIndex >= 0)&&(this.lastIndex < this.states.length)) {
+                //this.lastIndex -=1;
+                //this.nextState = this.states[this.lastIndex]
+                //UiManager.addRows(this.nextState.getCycle(), this.nextState.getPlanned(), this.nextState.getSelected());
+                //ELIMINAR
+            }
+            else {
+                $.notify({
+                    message: "<strong>:D</strong> La ejecución de las instrucciones fueron completadas con éxito."
+                },{
+                    type: 'success'
+                });
+            }
+
+        });
+
 
     });
 });

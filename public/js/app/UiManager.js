@@ -64,15 +64,15 @@ define(["jquery"], function ($) {
         return row;
     };
 
-    UiManager.prototype.addRows = function () {
+    UiManager.prototype.addRows = function (cicle, planned, choosed) {
         $(getBodyTable(this.ciclesTableId)).append(generateRow([cicle]));
 
         $(getBodyTable(this.plannedTableId)).append(
-            generateRow(dispatcherState)
+            generateRow(planned)
         );
 
         $(getBodyTable(this.choosedTableId)).append(
-            generateRow(reservStationsQueue)
+            generateRow(choosed)
         );
     }
 

@@ -6,9 +6,10 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
         this.planned = [],
         this.terminals = [],
         this.criticalPath = [],
-        this.functionalUnits = fu;  
-        this.availablesUF = fu.length;
-        this.currentCycle = 0;      
+        this.functionalUnits = fu,
+        this.availablesUF = fu.length,
+        this.currentCycle = 0,      
+        this.cpuStates = [];
     }
 
    Processor.prototype = (function () {
@@ -188,7 +189,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             nextCycle: function () {
-                state = new CpuState(this.currentCycle,this.planned);
+                var state = new CpuState(this.currentCycle,this.planned);
                 if(this.criticalPath.length > 0) {
                     var instrCritical = this.criticalPath[0];
                     console.log("instrCritical: "+instrCritical.toString());
@@ -247,6 +248,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                         fu--;
                     }
                 }
+                this.cpuStates.push(state);
             },
 
             printNodes: function () {
@@ -255,6 +257,10 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                     this.nodes[node].toString();
                     console.log("///////////////////");
                 }
+            },
+
+            getStates: function () {
+                return this.cpuStates;
             },
         }
 

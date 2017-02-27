@@ -125,6 +125,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     graph.draw($);
                     cpu.generateCriticalPath();
                     cpu.run();
+                    console.log("Cant de Estados: "+cpu.getStates().length);
                 }
                 else {
                      $.notify({

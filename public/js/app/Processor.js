@@ -1,4 +1,4 @@
-define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instruction,InstructionNode, FunctionalUnit) {
+define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function (Instruction,InstructionNode, FunctionalUnit, CpuState) {
     'use strict';
 
    function Processor(fu) {
@@ -188,6 +188,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
             },
 
             nextCycle: function () {
+                state = new CpuState(this.currentCycle,this.planned);
                 if(this.criticalPath.length > 0) {
                     var instrCritical = this.criticalPath[0];
                     console.log("instrCritical: "+instrCritical.toString());
@@ -199,6 +200,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                             this.availablesUF -= 1;
                             var indexNodes = this.nodes.indexOf(instrCritical);
                             this.nodes[indexNodes].setExecuted();
+                            state.addSelected(this.nodes[indexNodes]);
                             this.updatePlanned(this.planned.indexOf(indexNodes));
                             this.criticalPath.splice(0,1);
                         } 
@@ -214,7 +216,8 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                                 console.log("Ejecutando para destrabar el CC");
                                 this.functionalUnits[fu].execute(this.nodes[index]);
                                 this.availablesUF -= 1;
-                                this.nodes[index].setExecuted();
+                                this.nodes[index].setExecuted();                                
+                                state.addSelected(this.nodes[index]);
                                 updatePlanned(this.planned.indexOf(index)); 
                             }
                         }
@@ -235,6 +238,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit"], function (Instructio
                                     this.functionalUnits[fu].execute(this.nodes[this.planned[instr]]);
                                     this.availablesUF -= 1;
                                     this.nodes[this.planned[instr]].setExecuted();
+                                    state.addSelected(this.nodes[this.planned[instr]]);
                                     this.updatePlanned(instr);
                                     break;
                                 }

@@ -152,14 +152,14 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
 
         $("#nextCycle").click(function () {
-            if((lastIndex >= 0)&&(lastIndex < states.length)) {
+            if(lastIndex < states.length) {
                 nextState = states[lastIndex]
                 UiManager.addRows(nextState.getCycle(), nextState.getPlanned(), nextState.getSelected());
                 lastIndex +=1;
             }
             else {
                 $.notify({
-                    message: "<strong>:D</strong> La ejecución de las instrucciones fueron completadas con éxito."
+                    message: "<strong>No hay mas ciclos para avanzar.</strong>"
                 },{
                     type: 'success'
                 });
@@ -168,17 +168,15 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
         });
 
         $("#previousCycle").click(function () {
-            if((lastIndex >= 0)&&(lastIndex < states.length)) {
-                //this.lastIndex -=1;
-                //this.nextState = this.states[this.lastIndex]
-                //UiManager.addRows(this.nextState.getCycle(), this.nextState.getPlanned(), this.nextState.getSelected());
-                //ELIMINAR
+            if (lastIndex > 0) {
+                lastIndex -=1;
+                UiManager.deleteLastRow();
             }
             else {
                 $.notify({
-                    message: "<strong>:D</strong> La ejecución de las instrucciones fueron completadas con éxito."
+                    message: "<strong>No hay mas ciclos para retroceder.</strong> "
                 },{
-                    type: 'success'
+                    type: 'warning'
                 });
             }
 

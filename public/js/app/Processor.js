@@ -190,7 +190,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             nextCycle: function () {
-                var state = new CpuState(this.currentCycle,this.planned);
+                var state = new CpuState(this.currentCycle,this.translatePlanned());
 
                 if(this.criticalPath.length > 0) {
                     var instrCritical = this.criticalPath[0];
@@ -203,7 +203,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                             this.availablesUF -= 1;
                             var indexNodes = this.nodes.indexOf(instrCritical);
                             this.nodes[indexNodes].setExecuted();
-                            state.addSelected(this.nodes[indexNodes]);
+                            state.addSelected(this.nodes[indexNodes].getInstr().getId());
                             this.updatePlanned(this.planned.indexOf(indexNodes));
                             this.criticalPath.splice(0,1);
                         } 
@@ -220,7 +220,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                 this.functionalUnits[fu].execute(this.nodes[index]);
                                 this.availablesUF -= 1;
                                 this.nodes[index].setExecuted();                                
-                                state.addSelected(this.nodes[index]);
+                                state.addSelected(this.nodes[index].getInstr().getId());
                                 updatePlanned(this.planned.indexOf(index)); 
                             }
                         }
@@ -241,7 +241,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                     this.functionalUnits[fu].execute(this.nodes[this.planned[instr]]);
                                     this.availablesUF -= 1;
                                     this.nodes[this.planned[instr]].setExecuted();
-                                    state.addSelected(this.nodes[this.planned[instr]]);
+                                    state.addSelected(this.nodes[this.planned[instr]].getInstr().getId());
                                     this.updatePlanned(instr);
                                     break;
                                 }
@@ -252,6 +252,13 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                 }
                 this.cpuStates.push(state);
             },
+
+            translatePlanned: function () {
+                var arr;
+                for(p in this.planned) {
+                    arr.push((this.nodes[this.planned[p]]).getInstr().getId());
+                }
+            }
 
             printNodes: function () {
                 for(var node in this.nodes) {

@@ -56,6 +56,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     function reset() {
         Parser.reset();
         functionalUnits = [];
+        lastIndex = 0;
+        states = [];
         $('#keys-list').html('');
         $('#dependencies-list').html('');
     }

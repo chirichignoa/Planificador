@@ -104,7 +104,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
 
             canRun: function (node) {
             //Verifica si una instruccion puede ejecutarse si sus dependencias estas ejecutadas
-                console.log("Verificando si puedo ejecutar");
                 var dependencies = node.getDependencies();
                 if(dependencies.length > 0) {
                     for(var i in dependencies) {
@@ -117,7 +116,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             availableUF: function(type) {
-                console.log("Buscando UF");
                 var ufMulti = -1;
                 for(var uf in this.functionalUnits) {
                     if(!this.functionalUnits[uf].isOccupied()) {  //No esta ocupada
@@ -135,7 +133,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             unlockCC: function(instrCritical) {
-                console.log("Desbloqueando CC");
                 var index = -1;
                 while (index != -1) { //Recursion
                     var dependencies = instrCritical.getDependencies();
@@ -179,7 +176,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             updatePlanned: function (indexPlanned) {
-                console.log("Actualizando planned");
                 var dependents = this.nodes[this.planned[indexPlanned]].getDependents(); //obtengo sus dependientes
                 for (var d in dependents) {
                     if(this.canRun(this.nodes[dependents[d]])) {
@@ -194,7 +190,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
 
                 if(this.criticalPath.length > 0) {
                     var instrCritical = this.criticalPath[0];
-                    console.log("instrCritical: "+instrCritical.toString());
                     var fu = this.availableUF(instrCritical.getInstr().getType());
                     if(this.canRun(instrCritical)) { //Se puede ejecutar 
                         if(fu != -1) { //Hay UF disponibles
@@ -229,7 +224,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
 
                 // Puede que salte todos los if y hasta aca no ejecute nada 
                 //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
-                console.log("UF DISPONIBLES: "+this.availablesUF);
                 if(this.availablesUF > 0) {
                     fu = this.functionalUnits.length - 1;
                     while(fu >= 0){

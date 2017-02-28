@@ -133,26 +133,23 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             unlockCC: function(instrCritical) {
-                var index = -1;
-                while (index != -1) { //Recursion
-                    var dependencies = instrCritical.getDependencies();
-                    if(dependencies.length > 0) {
-                        for(var i in dependencies) {
-                            var d = this.nodes[dependencies[i]];
-                            if(!d.getExecuted()) { //Si no ha sido ejecutada
-                                if(this.canRun(d)) { //Si se puede ejecutar
-                                    if(this.availableUF(this.nodes[index].getInstr().getType()) != -1) { //Hay UF disponible
-                                        return dependents[i];
-                                    } 
+                var dependencies = instrCritical.getDependencies();
+                if(dependencies.length > 0) {
+                    for(var i in dependencies) { //Ciclamos en las dependencias
+                        var d = this.nodes[dependencies[i]];
+                        if(!d.getExecuted()) { //Si no ha sido ejecutada
+                            if(this.canRun(d)) { //Si se puede ejecutar
+                                if(this.availableUF(this.nodes[dependencies[i]].getInstr().getType()) != -1) { //Hay UF disponible
+                                    return dependencies[i];
                                 }
-                                else { //Entonces tiene dependencias no ejecutadas, recursionamos
-                                    return unlockCC(d);
-                                }
-                            } 
-                        }
+                            }
+                            else { //Entonces tiene dependencias no ejecutadas, recursionamos
+                                return unlockCC(d);
+                            }
+                        } 
                     }
                 }
-                return index;
+                return -1;
             },
 
             run: function () {
@@ -176,6 +173,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             updatePlanned: function (indexPlanned) {
+                console.log("***************************" +this.nodes[this.planned[indexPlanned]]);
                 var dependents = this.nodes[this.planned[indexPlanned]].getDependents(); //obtengo sus dependientes
                 for (var d in dependents) {
                     if(this.canRun(this.nodes[dependents[d]])) {
@@ -216,7 +214,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                 this.availablesUF -= 1;
                                 this.nodes[index].setExecuted();                                
                                 state.addSelected(this.nodes[index].getInstr().getId());
-                                updatePlanned(this.planned.indexOf(index)); 
+                                this.updatePlanned(this.planned.indexOf(index)); 
                             }
                         }
                     }                    

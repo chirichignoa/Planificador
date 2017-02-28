@@ -80,12 +80,6 @@ define(["jquery"], function ($) {
     }
 
      UiManager.prototype.deleteLastRow = function () {
-        console.log("Intento borrar");
-        /*$(getBodyTable(this.ciclesTableId)).closest('tr').remove();
-
-        $(getBodyTable(this.plannedTableId)).closest('tr').remove();
-
-        $(getBodyTable(this.choosedTableId)).closest('tr').remove();*/
         var table = document.getElementById("cycle-counter-table");
         var rowCount = table.rows.length;
         table.deleteRow(rowCount -1);

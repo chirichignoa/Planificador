@@ -65,12 +65,12 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
 
             findMaxAcumLatency: function (arrNodes) {
                 var max = 0, index = -1;
-                for(var node in arrNodes) {
-                    var indexNode = arrNodes[node];
-                    if(indexNode < this.nodes.length){
-                        var aux = this.nodes[indexNode].getAcumLatency();
-                        if( aux > max) {
-                            max = aux;
+                for(var node in arrNodes) { 
+                    var indexNode = arrNodes[node]; 
+                    if(indexNode < this.nodes.length){ 
+                        var latency = this.nodes[indexNode].getAcumLatency(); 
+                        if( latency > max) {
+                            max = latency;
                             index = node;
                         }
                     }
@@ -82,20 +82,20 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                 var index = this.findMaxAcumLatency(this.terminals);
                 var node, dependencies;
                 if(index != -1){
-                    node = this.nodes[this.findMaxAcumLatency(this.terminals)];
-                }
-                node.setCriticalPath();
-                this.criticalPath.unshift(node);
-                index = this.findMaxAcumLatency(node.getDependencies());
-                while (index != -1){
-                    dependencies = node.getDependencies();
-                    node = this.nodes[dependencies[index]];
+                    node = this.nodes[index];
                     node.setCriticalPath();
                     this.criticalPath.unshift(node);
                     index = this.findMaxAcumLatency(node.getDependencies());
+                    while (index != -1){
+                        dependencies = node.getDependencies();
+                        node = this.nodes[dependencies[index]];
+                        node.setCriticalPath();
+                        this.criticalPath.unshift(node);
+                        index = this.findMaxAcumLatency(node.getDependencies());
+                    }
+                    console.log("Camino critico: "+ this.criticalPath.length);
+                    this.printNodes();
                 }
-                console.log("Camino critico: "+ this.criticalPath.length);
-                //this.printNodes();
             },           
 
             isFullyProcessed: function () {
@@ -258,7 +258,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             printNodes: function () {
                 for(var node in this.nodes) {
                     console.log("///////////////////");
-                    this.nodes[node].toString();
+                    console.log(this.nodes[node].toString());
                     console.log("///////////////////");
                 }
             },

@@ -158,7 +158,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                 UiManager.addRows(nextState.getCycle(), nextState.getPlanned(), nextState.getSelected());
                 lastIndex += 1;
             }
-            else {
+            if (lastIndex == states.lenght - 1) {
                 $(this).prop('disabled', true);
                 $("#previousCycle").prop('disabled', false);    
             }
@@ -167,10 +167,10 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
         $("#previousCycle").click(function () {
             if (lastIndex >= 0) {
-                lastIndex -= 1;
                 UiManager.deleteLastRow();
+                lastIndex -= 1;
             }
-            else {
+            if (lastIndex < 0 ) {
                 $(this).prop('disabled', true);
                 $("#nextCycle").prop('disabled', false);
             }

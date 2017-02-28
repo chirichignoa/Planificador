@@ -173,7 +173,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             updatePlanned: function (indexPlanned) {
-                console.log("***************************" +this.nodes[this.planned[indexPlanned]]);
                 var dependents = this.nodes[this.planned[indexPlanned]].getDependents(); //obtengo sus dependientes
                 for (var d in dependents) {
                     if(this.canRun(this.nodes[dependents[d]])) {
@@ -202,9 +201,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                         } 
                     }
                     else {
-                        //Aca me complique porque hay que hacer la recursion en el metodo hasta encontrar un nodo a ejecutar
-                        // y ademas habria que asegurarse de ese nodo pueda ser satisfecho con las UF disponibles**FUNDAMENTAL
-                        // sino va a quedar ciclando como loco
                         var index = this.unlockCC(instrCritical);
                         if(index != -1) {
                             fu = this.availableUF(this.nodes[index].getInstr().getType());
@@ -214,14 +210,18 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                 this.availablesUF -= 1;
                                 this.nodes[index].setExecuted();                                
                                 state.addSelected(this.nodes[index].getInstr().getId());
-                                this.updatePlanned(this.planned.indexOf(index)); 
+                                var aux = -1;
+                                for(var i in this.planned) {
+                                    if(this.planned[i] == index){
+                                        aux = i;
+                                        break;
+                                    }
+                                }
+                                this.updatePlanned(aux); 
                             }
                         }
                     }                    
                 }
-
-                // Puede que salte todos los if y hasta aca no ejecute nada 
-                //Depende de las UF que haya libres, las instr q se van a ejecutar aca, no simplemente la primera
                 if(this.availablesUF > 0) {
                     fu = this.functionalUnits.length - 1;
                     while(fu >= 0){

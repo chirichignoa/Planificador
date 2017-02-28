@@ -75,6 +75,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
     }
 
     $(document).ready(function () {
+        $("#previousCycle").prop('disabled', true);
 
         $("#about").click(function(){
             $.notify({
@@ -155,29 +156,23 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
             if(lastIndex < states.length) {
                 nextState = states[lastIndex]
                 UiManager.addRows(nextState.getCycle(), nextState.getPlanned(), nextState.getSelected());
-                lastIndex +=1;
+                lastIndex += 1;
             }
             else {
-                $.notify({
-                    message: "<strong>No hay mas ciclos para avanzar.</strong>"
-                },{
-                    type: 'success'
-                });
+                $(this).prop('disabled', true);
+                $("#previousCycle").prop('disabled', false);    
             }
 
         });
 
         $("#previousCycle").click(function () {
-            if (lastIndex > 0) {
-                lastIndex -=1;
+            if (lastIndex >= 0) {
+                lastIndex -= 1;
                 UiManager.deleteLastRow();
             }
             else {
-                $.notify({
-                    message: "<strong>No hay mas ciclos para retroceder.</strong> "
-                },{
-                    type: 'warning'
-                });
+                $(this).prop('disabled', true);
+                $("#nextCycle").prop('disabled', false);
             }
 
         });

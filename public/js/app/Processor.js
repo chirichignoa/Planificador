@@ -194,7 +194,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                             this.functionalUnits[fu].execute(instrCritical);
                             this.availablesUF -= 1;
                             var indexNodes = this.nodes.indexOf(instrCritical);
-                            this.nodes[indexNodes].setExecuted();
+                            //this.nodes[indexNodes].setExecuted();
                             state.addSelected(this.nodes[indexNodes].getInstr().getId());
                             this.updatePlanned(this.planned.indexOf(indexNodes));
                             this.criticalPath.splice(0,1);
@@ -208,7 +208,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                 console.log("Ejecutando para destrabar el CC");
                                 this.functionalUnits[fu].execute(this.nodes[index]);
                                 this.availablesUF -= 1;
-                                this.nodes[index].setExecuted();                                
+                                //this.nodes[index].setExecuted();                                
                                 state.addSelected(this.nodes[index].getInstr().getId());
                                 this.updatePlanned(this.planned.indexOf(index)); 
                             }
@@ -225,7 +225,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                     console.log("Hay mas UFs libres y encontre instruccion para dicha UF.");
                                     this.functionalUnits[fu].execute(this.nodes[this.planned[instr]]);
                                     this.availablesUF -= 1;
-                                    this.nodes[this.planned[instr]].setExecuted();
+                                    //this.nodes[this.planned[instr]].setExecuted();
                                     state.addSelected(this.nodes[this.planned[instr]].getInstr().getId());
                                     this.updatePlanned(instr);
                                     break;

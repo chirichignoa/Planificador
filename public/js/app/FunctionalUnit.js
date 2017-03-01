@@ -35,6 +35,7 @@ define(function () {
                     this.cycles_execution += 1;
                     if (this.cycles_execution == this.nodeInstr.getInstr().getCycles()) {   //Si son iguales, ya termino
                         console.log("INSTR COMPLETADA: "+ this.nodeInstr.getInstr().getId());
+                        this.nodeInstr.setExecuted();
                         this.cycles_execution = 0;
                         this.occupied = false;
                         return true;

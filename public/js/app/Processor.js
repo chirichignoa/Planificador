@@ -201,7 +201,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                         } 
                     }
                     else {
-                        var index = this.unlockCC(instrCritical);
+                        var index = parseInt(this.unlockCC(instrCritical));
                         if(index != -1) {
                             fu = this.availableUF(this.nodes[index].getInstr().getType());
                             if(fu != -1) {
@@ -210,14 +210,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                 this.availablesUF -= 1;
                                 this.nodes[index].setExecuted();                                
                                 state.addSelected(this.nodes[index].getInstr().getId());
-                                var aux = -1;
-                                for(var i in this.planned) {
-                                    if(this.planned[i] == index){
-                                        aux = i;
-                                        break;
-                                    }
-                                }
-                                this.updatePlanned(aux); 
+                                this.updatePlanned(this.planned.indexOf(index)); 
                             }
                         }
                     }                    

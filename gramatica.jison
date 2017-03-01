@@ -3,18 +3,18 @@
 %%
 
 \s+                   /* skip whitespace */
-"ADD" {return 'ADD';}
-"ADDF" {return 'ADDF';}
-"SUB" {return 'SUB';}
-"SUBF" {return 'SUBF';}
-"MUL" {return 'MUL';}
-"MULF" {return 'MULF';}
-"DIV" {return 'DIV';}
-"DIVF" {return 'DIVF';}
-"LD" {return 'LD';}
-"LW" {return 'LW';}
-"SD" {return 'SD';}
-"SW" {return 'SW';}
+[A-a][D-d][D-d] {return 'ADD';}
+[A-a][D-d][D-d][F-f]  {return 'ADDF';}
+[S-s][U-u][B-b]  {return 'SUB';}
+[S-s][U-u][B-b][F-f]  {return 'SUBF';}
+[M-m][U-u][L-l] {return 'MUL';}
+[M-m][U-u][L-l][F-f] {return 'MULF';}
+[D-d][I-i][V-v] {return 'DIV';}
+[D-d][I-i][V-v][F-f] {return 'DIVF';}
+[L-l][D-d] {return 'LD';}
+[L-l][W-w] {return 'LW';}
+[S-s][D-d]  {return 'SD';}
+[S-s][W-w]  {return 'SW';}
 "," {return ',';}
 "(" {return '(';}
 ")" {return ')';}

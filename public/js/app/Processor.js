@@ -94,7 +94,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                         index = this.findMaxAcumLatency(node.getDependencies());
                     }
                     console.log("Camino critico: "+ this.criticalPath.length);
-                    this.printNodes();
+                    //this.printNodes();
                 }
             },           
 
@@ -155,13 +155,23 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             run: function () {
                 var finished = false;
                 console.log("Ciclo numero: "+ this.currentCycle);
+                for(var i in this.planned){
+                    console.log("######### "+this.nodes[this.planned[i]].getInstr().getId());
+                }
                 this.nextCycle(); //cargo las UF
                 while ((this.planned.length != 0) || (!finished)) { //Si no quedan planificables y no ha terminado
                     this.currentCycle += 1;
-                    console.log("Ciclo numero: "+ this.currentCycle);                        
+                    console.log("Ciclo numero: "+ this.currentCycle); 
+                    for(var i in this.planned){
+                        console.log("######### "+this.nodes[this.planned[i]].getInstr().getId());
+                    }                       
                     for(var fu in this.functionalUnits) {
                         if(this.functionalUnits[fu].nextCycle()) {
                             this.availablesUF +=1;
+                        }
+                        var node = this.functionalUnits[fu].getCompleted();
+                        if(node != null) {
+                            this.updatePlanned(this.nodes.indexOf(node));
                         }
                     }
                     this.nextCycle();
@@ -173,13 +183,13 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
             },
 
             updatePlanned: function (indexPlanned) {
-                var dependents = this.nodes[this.planned[indexPlanned]].getDependents(); //obtengo sus dependientes
+                var dependents = this.nodes[indexPlanned].getDependents(); //obtengo sus dependientes
                 for (var d in dependents) {
                     if(this.canRun(this.nodes[dependents[d]])) {
                         this.planned.push(dependents[d]); //agregamos a planificables
+                        console.log("AGREGO: "+this.nodes[dependents[d]].getInstr().getId());
                     }
                 }
-                this.planned.splice(indexPlanned,1); //saco la instr ejecutada
             },
 
             nextCycle: function () {
@@ -194,9 +204,8 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                             this.functionalUnits[fu].execute(instrCritical);
                             this.availablesUF -= 1;
                             var indexNodes = this.nodes.indexOf(instrCritical);
-                            //this.nodes[indexNodes].setExecuted();
                             state.addSelected(this.nodes[indexNodes].getInstr().getId());
-                            this.updatePlanned(this.planned.indexOf(indexNodes));
+                            this.planned.splice(this.planned.indexOf(indexNodes),1); //saco la instr ejecutada
                             this.criticalPath.splice(0,1);
                         } 
                     }
@@ -207,10 +216,9 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                             if(fu != -1) {
                                 console.log("Ejecutando para destrabar el CC");
                                 this.functionalUnits[fu].execute(this.nodes[index]);
-                                this.availablesUF -= 1;
-                                //this.nodes[index].setExecuted();                                
+                                this.availablesUF -= 1;                 
                                 state.addSelected(this.nodes[index].getInstr().getId());
-                                this.updatePlanned(this.planned.indexOf(index)); 
+                                this.planned.splice(this.planned.indexOf(index),1); //saco la instr ejecutada
                             }
                         }
                     }                    
@@ -225,9 +233,8 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                                     console.log("Hay mas UFs libres y encontre instruccion para dicha UF.");
                                     this.functionalUnits[fu].execute(this.nodes[this.planned[instr]]);
                                     this.availablesUF -= 1;
-                                    //this.nodes[this.planned[instr]].setExecuted();
                                     state.addSelected(this.nodes[this.planned[instr]].getInstr().getId());
-                                    this.updatePlanned(instr);
+                                    this.planned.splice(instr,1); //saco la instr ejecutada
                                     break;
                                 }
                             }

@@ -2,11 +2,12 @@ define(function () {
     'use strict';
 
     function FunctionalUnit(type) {
-        this.cycles_execution = 0; //Cant de ciclos que lleva
-        this.type = type;
-        this.occupied = false;
-        this.nodeInstr = 0;
-        this.current_cycle = 0;
+        this.cycles_execution = 0, //Cant de ciclos que lleva
+        this.type = type,
+        this.occupied = false,
+        this.nodeInstr,
+        this.current_cycle = 0,
+        this.completed = false;
     }
 
 
@@ -36,6 +37,7 @@ define(function () {
                     if (this.cycles_execution == this.nodeInstr.getInstr().getCycles()) {   //Si son iguales, ya termino
                         console.log("INSTR COMPLETADA: "+ this.nodeInstr.getInstr().getId());
                         this.nodeInstr.setExecuted();
+                        this.completed = true;
                         this.cycles_execution = 0;
                         this.occupied = false;
                         return true;
@@ -50,8 +52,16 @@ define(function () {
                 } else {
                     return "-";
                 }
-            }
+            },
 
+            getCompleted: function () {
+                if(this.completed) {
+                    return this.nodeInstr;
+                }
+                else {
+                    return null;
+                }
+            }
         }
     })();
 

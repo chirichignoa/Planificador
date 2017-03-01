@@ -137,7 +137,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                 if(dependencies.length > 0) {
                     for(var i in dependencies) { //Ciclamos en las dependencias
                         var d = this.nodes[dependencies[i]];
-                        if(!d.getExecuted()) { //Si no ha sido ejecutada
+                        if((!d.getExecuted()) && (!d.getExecuting())) { //Si no ha sido ejecutada
                             if(this.canRun(d)) { //Si se puede ejecutar
                                 if(this.availableUF(this.nodes[dependencies[i]].getInstr().getType()) != -1) { //Hay UF disponible
                                     return dependencies[i];

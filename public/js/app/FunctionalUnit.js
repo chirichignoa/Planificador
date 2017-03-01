@@ -19,6 +19,7 @@ define(function () {
             execute: function (nodeInstr) {
                 this.nodeInstr = nodeInstr;
                 console.log("EJECUCION DE: "+ this.nodeInstr.getInstr().getId());
+                this.nodeInstr.setExecuting();
                 this.occupied = true;
             },
 

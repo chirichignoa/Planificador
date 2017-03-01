@@ -8,6 +8,7 @@ define(function () {
         this.dependents = [];
         this.criticalPath = false;
         this.executed = false;
+        this.executing = false;
     }
 
     InstructionNode.prototype = (function () {
@@ -39,6 +40,10 @@ define(function () {
             return this.executed;
         },
 
+        getExecuting: function() {
+            return this.executing;
+        },
+
         addDependents: function(dependents){
             this.dependents.push(dependents);
         },
@@ -60,7 +65,12 @@ define(function () {
         },
 
         setExecuted: function() {
+            this.executing = false;
             this.executed = true;
+        },
+
+        setExecuting: function() {
+            this.executing = true;
         },
 
         toString : function() {

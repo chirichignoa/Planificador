@@ -57,6 +57,7 @@ define(function () {
 
             getCompleted: function () {
                 if(this.completed) {
+                    this.completed = false;
                     return this.nodeInstr;
                 }
                 else {

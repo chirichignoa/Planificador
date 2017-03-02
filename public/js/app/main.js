@@ -46,13 +46,6 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
       instructionsCycles["SW"] = parseInt($("#swCycles").val());
     }
 
-    function generateTablesHeaders(str, number) {
-        headers = [];
-        for(var i = 0; i < number; i++)
-            headers [i] = str + i;
-        return headers;
-    }
-
     function reset() {
         Parser.reset();
         functionalUnits = [];
@@ -131,7 +124,6 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                     graph.draw($);
                     cpu.generateCriticalPath();
                     states = cpu.run();
-                    console.log("Cant de Estados: "+states.length);
                 }
                 else {
                      $.notify({

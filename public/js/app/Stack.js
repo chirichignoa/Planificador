@@ -11,7 +11,9 @@ define(['Instruction'], function (Instruction) {
         //Busco desde el final hasta el principio.
         for (var i = instructions.length - 1; i >= 0; i--) {
             currentInstruction = instructions[i];
-            instruction.setDependency(currentInstruction);
+            if((currentInstruction.getString() != "SD") && (currentInstruction.getString() != "SW")) { //Si es load no hay RAW
+                instruction.setDependency(currentInstruction);
+            }            
         }
     };
 

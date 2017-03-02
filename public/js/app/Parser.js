@@ -107,7 +107,7 @@ case 2:var instructionId = "s" + instructionCounter;
 break;
 case 3:type = "arith_int";
                          this.$ = $$[$0];
-                         if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[1])) {
+                         if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[1]) && (!errorNoUF)) {
                         errorNoUF = true;
                         $.notify({
                             message: "No hay unidades funcionales de aritmética de enteros capas de satisfacer ciertas instrucciones ingresadas."
@@ -118,7 +118,7 @@ case 3:type = "arith_int";
 break;
 case 4:type = "arith_float";
                              this.$ = $$[$0];
-                         if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[2])) {
+                         if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[2]) && (!errorNoUF)) {
                           errorNoUF = true;
                           $.notify({
                             message: "No hay unidades funcional de aritmética de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
@@ -153,7 +153,7 @@ case 12:console.log("Gramat: DIVF");
 break;
 case 13:type = "mem_int";
                              this.$ = $$[$0];
-                             if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[3])) {
+                             if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[3]) && (!errorNoUF)) {
                                 errorNoUF = true;
                             $.notify({
                             message: "No hay unidades funcionales de Acceso a memoria para enteros capas de satisfacer ciertas instrucciones ingresadas."
@@ -164,7 +164,7 @@ case 13:type = "mem_int";
 break;
 case 14:type = "mem_float";
                          this.$ = $$[$0];
-                             if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[4])) {
+                             if((!booleanFunctionalUnits[0]) && (!booleanFunctionalUnits[4]) && (!errorNoUF)) {
                                 errorNoUF = true;
                             $.notify({
                             message: "No hay unidades funcionales de De acceso a memoria de punto flotante capas de satisfacer ciertas instrucciones ingresadas."
@@ -425,7 +425,7 @@ case 17:return 8;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:ADD\b)/,/^(?:ADDF\b)/,/^(?:SUB\b)/,/^(?:SUBF\b)/,/^(?:MUL\b)/,/^(?:MULF\b)/,/^(?:DIV\b)/,/^(?:DIVF\b)/,/^(?:LD\b)/,/^(?:LW\b)/,/^(?:SD\b)/,/^(?:SW\b)/,/^(?:,)/,/^(?:\()/,/^(?:\))/,/^(?:[R-r][0-9]\d*)/,/^(?:[0-9]\d*)/], 
+rules: [/^(?:\s+)/,/^(?:ADD\b)/,/^(?:ADDF\b)/,/^(?:SUB\b)/,/^(?:SUBF\b)/,/^(?:MUL\b)/,/^(?:MULF\b)/,/^(?:DIV\b)/,/^(?:DIVF\b)/,/^(?:LD\b)/,/^(?:LW\b)/,/^(?:SD\b)/,/^(?:SW\b)/,/^(?:,)/,/^(?:\()/,/^(?:\))/,/^(?:[R-r][0-9]\d*)/,/^(?:[0-9]\d*)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],"inclusive":true}}
 };
 return lexer;

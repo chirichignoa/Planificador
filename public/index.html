@@ -117,10 +117,11 @@
                 <h4 class="modal-title">Juego de instrucciones</h4>
               </div>
               <div class="modal-body">
-                <p><pre>{add | sub | mul | div} r0, r1, r2</pre> para operaciones aritméticas de enteros.</p>
-                <p><pre>{addf | subf | mulf | divf} r0, r1, r2</pre> para operaciones aritméticas de punto flotante.</p>
-                <p><pre>{lw | sw} r0, 80(r1)</pre> para operaciones de memoria de enteros.</p>
-                <p><pre>{lf | sf} r0, 4(r1)</pre> para operaciones de memoria de punto flotante.</p>
+                <p><pre>{ADD | SUB | MUL | DIV} r0, r1, r2</pre> para operaciones aritméticas de enteros.</p>
+                <p><pre>{ADDF | SUBF | MULF | DIVF} r0, r1, r2</pre> para operaciones aritméticas de punto flotante.</p>
+                <p><pre>{LD | SD} r0, 80(r1)</pre> para operaciones de memoria de enteros.</p>
+                <p><pre>{LW | SW} r0, 4(r1)</pre> para operaciones de memoria de punto flotante.</p>
+                <p style="color:red;">* Las instrucciones sólo serán aceptadas si están en mayúsculas.</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Entendido</button>

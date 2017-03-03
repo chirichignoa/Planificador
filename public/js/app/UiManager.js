@@ -4,7 +4,7 @@ define(["jquery"], function ($) {
         generateHead = function (head) {
             var headRow = "<tr>";
             for (var i = 0; i < head.length; i++)
-                headRow += "<th>" + head[i] + "</th>";
+                headRow += "<th colspan=100%>" + head[i] + "</th>";
 
             return headRow + "</tr>";
         },
@@ -43,6 +43,8 @@ define(["jquery"], function ($) {
         $(getBodyTable(this.ciclesTableId)).html(generateHead(["Ciclos"]));
         $(getBodyTable(this.plannedTableId)).html(generateHead(["Planificables"]));
         $(getBodyTable(this.choosedTableId)).html(generateHead(["Elegidas"]));
+
+        $('tbody tr th').addClass("processor-table-header");
     }
 
     var getState = function (index, object) {

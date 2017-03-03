@@ -53,6 +53,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
         states = [];
         $('#keys-list').html('');
         $('#dependencies-list').html('');
+        $('#previousCycle').prop('disabled', true);
+        $("#nextCycle").prop('disabled', false);
     }
 
     function runParser(_parser, lines) {

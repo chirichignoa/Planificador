@@ -211,10 +211,13 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                             cCExecuted = true;
                         } 
                     }
-                    /*if(cCExecuted) {
-                        instrCritical = this.criticalPath[0]; //actualizo el prox instruc Critical para desbloquear sus dependencias
-                    }*/
-                    var index = parseInt(this.unlockCC(instrCritical));
+                    var index = -1;
+                    if(cCExecuted) {
+                        if(this.criticalPath.length > 0) {
+                            instrCritical = this.criticalPath[0]; //actualizo el prox instruc Critical para desbloquear sus dependencias
+                            index = parseInt(this.unlockCC(instrCritical));
+                        }
+                    }
                     while(index != -1) {
                         fu = this.availableUF(this.nodes[index].getInstr().getType());
                         if(fu != -1) {

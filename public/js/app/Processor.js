@@ -198,6 +198,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                 if(this.criticalPath.length > 0) {
                     var instrCritical = this.criticalPath[0];
                     var fu = this.availableUF(instrCritical.getInstr().getType());
+                    var cCExecuted = false;
                     if(this.canRun(instrCritical)) { //Se puede ejecutar 
                         if(fu != -1) { //Hay UF disponibles
                             console.log("Ejecutando instruccion del CC");
@@ -207,20 +208,23 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                             state.addSelected(this.nodes[indexNodes].getInstr().getId());
                             this.planned.splice(this.planned.indexOf(indexNodes),1); //saco la instr ejecutada
                             this.criticalPath.splice(0,1);
+                            cCExecuted = true;
                         } 
                     }
-                    else {
-                        var index = parseInt(this.unlockCC(instrCritical));
-                        if(index != -1) {
-                            fu = this.availableUF(this.nodes[index].getInstr().getType());
-                            if(fu != -1) {
-                                console.log("Ejecutando para destrabar el CC");
-                                this.functionalUnits[fu].execute(this.nodes[index]);
-                                this.availablesUF -= 1;                 
-                                state.addSelected(this.nodes[index].getInstr().getId());
-                                this.planned.splice(this.planned.indexOf(index),1); //saco la instr ejecutada
-                            }
+                    /*if(cCExecuted) {
+                        instrCritical = this.criticalPath[0]; //actualizo el prox instruc Critical para desbloquear sus dependencias
+                    }*/
+                    var index = parseInt(this.unlockCC(instrCritical));
+                    while(index != -1) {
+                        fu = this.availableUF(this.nodes[index].getInstr().getType());
+                        if(fu != -1) {
+                            console.log("Ejecutando para destrabar el CC");
+                            this.functionalUnits[fu].execute(this.nodes[index]);
+                            this.availablesUF -= 1;                 
+                            state.addSelected(this.nodes[index].getInstr().getId());
+                            this.planned.splice(this.planned.indexOf(index),1); //saco la instr ejecutada
                         }
+                        index = parseInt(this.unlockCC(instrCritical));
                     }                    
                 }
                 if(this.availablesUF > 0) {

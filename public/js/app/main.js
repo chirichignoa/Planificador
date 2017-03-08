@@ -155,6 +155,9 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                 nextState = states[lastIndex]
                 UiManager.addRows(nextState.getCycle(), nextState.getPlanned(), nextState.getSelected());
                 lastIndex +=1;
+                if(lastIndex == states.length){
+                    $(this).prop('disabled', true);
+                }
             }
             else {
                 $(this).prop('disabled', true);
@@ -171,6 +174,9 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
             if (lastIndex > 0) {
                 lastIndex -=1;
                 UiManager.deleteLastRow();
+                if(lastIndex == 0){
+                    $(this).prop('disabled', true);
+                }
             }
             else {
                 $(this).prop('disabled', true);

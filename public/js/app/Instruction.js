@@ -18,15 +18,6 @@ define(function () {
         this.cycles = cycles; //NUEVO
     }
 
-    var countDependencies = function (dependencies) {  //Devuelve la cantidad de dependencias
-        var size = 0, key;
-        for (key in dependencies) {
-            if (dependencies.hasOwnProperty(key))
-                size++;
-        }
-        return size;
-    };
-
     //public methods.
     Instruction.prototype = (function () {
 
@@ -74,14 +65,14 @@ define(function () {
                 var writeRegister = anotherInstruction.getWriteRegister(); ;
 
                 for (var i = 0; i < this.readRegisters.length; i++)
-                    if (countDependencies(this.dependencies) == 0) {
+                    if (this.countDependencies() == 0) {
                         if (this.readRegisters[i] == writeRegister) {
                             this.dependencies.push(anotherInstruction);
                             break;
                         }
                     }
                     else {
-                        if (countDependencies(this.dependencies) < 2 && !this.sameOperands())
+                        if (this.countDependencies() < 2 && !this.sameOperands())
                             console.log("DEPENDENCIA POR " + this.dependencies[0].getWriteRegister());
                             if (anotherInstruction.getWriteRegister() != this.dependencies[0].getWriteRegister() && this.readRegisters[i] == writeRegister) {
                                 this.dependencies.push(anotherInstruction);
@@ -89,6 +80,10 @@ define(function () {
                             }
                     }
 
+            },
+
+            countDependencies: function () {  //Devuelve la cantidad de dependencias
+                return this.dependencies.length;
             },
 
             dependencyExists: function (anotherId) {
@@ -104,7 +99,7 @@ define(function () {
             },
 
             hasDependencies: function () {
-                return (this.countDependencies(this.dependencies) > 0) ? true : false;
+                return (this.countDependencies() > 0) ? true : false;
             },
 
             getString: function () {

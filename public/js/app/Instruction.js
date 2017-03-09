@@ -73,7 +73,6 @@ define(function () {
                     }
                     else {
                         if (this.countDependencies() < 2 && !this.sameOperands())
-                            console.log("DEPENDENCIA POR " + this.dependencies[0].getWriteRegister());
                             if (anotherInstruction.getWriteRegister() != this.dependencies[0].getWriteRegister() && this.readRegisters[i] == writeRegister) {
                                 this.dependencies.push(anotherInstruction);
                                 break;

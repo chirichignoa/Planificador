@@ -18,7 +18,6 @@ define(function () {
 
             execute: function (nodeInstr) {
                 this.nodeInstr = nodeInstr;
-                console.log("EJECUCION DE: "+ this.nodeInstr.getInstr().getId());
                 this.nodeInstr.setExecuting();
                 this.occupied = true;
             },
@@ -36,7 +35,6 @@ define(function () {
                 if (this.occupied == true) {
                     this.cycles_execution += 1;
                     if (this.cycles_execution == this.nodeInstr.getInstr().getCycles()) {   //Si son iguales, ya termino
-                        console.log("INSTR COMPLETADA: "+ this.nodeInstr.getInstr().getId());
                         this.nodeInstr.setExecuted();
                         this.completed = true;
                         this.cycles_execution = 0;

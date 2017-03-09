@@ -93,8 +93,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                         this.criticalPath.unshift(node);
                         index = this.findMaxAcumLatency(node.getDependencies());
                     }
-                    console.log("Camino critico: "+ this.criticalPath.length);
-                    //this.printNodes();
                 }
             },           
 
@@ -154,17 +152,9 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
 
             run: function () {
                 var finished = false;
-                console.log("Ciclo numero: "+ this.currentCycle);
-                for(var i in this.planned){
-                    console.log("######### "+this.nodes[this.planned[i]].getInstr().getId());
-                }
-                this.nextCycle(); //cargo las UF
-                while ((this.planned.length != 0) || (!finished)) { //Si no quedan planificables y no ha terminado
-                    this.currentCycle += 1;
-                    console.log("Ciclo numero: "+ this.currentCycle); 
-                    for(var i in this.planned){
-                        console.log("######### "+this.nodes[this.planned[i]].getInstr().getId());
-                    }                       
+                this.nextCycle(); 
+                while ((this.planned.length != 0) || (!finished)) { 
+                    this.currentCycle += 1;           
                     for(var fu in this.functionalUnits) {
                         if(this.functionalUnits[fu].nextCycle()) {
                             this.availablesUF +=1;
@@ -187,7 +177,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                 for (var d in dependents) {
                     if(this.canRun(this.nodes[dependents[d]])) {
                         this.planned.push(dependents[d]); //agregamos a planificables
-                        console.log("AGREGO: "+this.nodes[dependents[d]].getInstr().getId());
                     }
                 }
             },
@@ -201,7 +190,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                     var cCExecuted = false;
                     if(this.canRun(instrCritical)) { //Se puede ejecutar 
                         if(fu != -1) { //Hay UF disponibles
-                            console.log("Ejecutando instruccion del CC");
                             this.functionalUnits[fu].execute(instrCritical);
                             this.availablesUF -= 1;
                             var indexNodes = this.nodes.indexOf(instrCritical);
@@ -221,7 +209,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                     while(index != -1) {
                         fu = this.availableUF(this.nodes[index].getInstr().getType());
                         if(fu != -1) {
-                            console.log("Ejecutando para destrabar el CC");
                             this.functionalUnits[fu].execute(this.nodes[index]);
                             this.availablesUF -= 1;                 
                             state.addSelected(this.nodes[index].getInstr().getId());
@@ -237,7 +224,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                             for(var instr in this.planned){
                                 var possibleInstruction = this.nodes[this.planned[instr]].getInstr();
                                 if( (possibleInstruction.getType() == this.functionalUnits[fu].getType()) || (this.functionalUnits[fu].getType() == "multi_type") ){
-                                    console.log("Hay mas UFs libres y encontre instruccion para dicha UF.");
                                     this.functionalUnits[fu].execute(this.nodes[this.planned[instr]]);
                                     this.availablesUF -= 1;
                                     state.addSelected(this.nodes[this.planned[instr]].getInstr().getId());
@@ -260,13 +246,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                 return arr;
             },
 
-            printNodes: function () {
-                for(var node in this.nodes) {
-                    console.log("///////////////////");
-                    console.log(this.nodes[node].toString());
-                    console.log("///////////////////");
-                }
-            },
         }
 
 

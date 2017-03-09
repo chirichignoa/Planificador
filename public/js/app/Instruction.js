@@ -16,7 +16,6 @@ define(function () {
         this.instructionString = str;
         this.type = type;
         this.cycles = cycles; //NUEVO
-        this.execute = false;
     }
 
     var countDependencies = function (dependencies) {  //Devuelve la cantidad de dependencias
@@ -118,14 +117,6 @@ define(function () {
 
             getCycles: function () { //NUEVO
                 return this.cycles;
-            },
-
-            isExecute: function () {
-                return this.execute;
-            },
-
-            setExecute: function () {
-                this.execute = true;
             },
 
             toString : function() {

@@ -15,7 +15,7 @@ define(function () {
         this.dependencies = [];
         this.instructionString = str;
         this.type = type;
-        this.cycles = cycles; //NUEVO
+        this.cycles = cycles; 
     }
 
     //public methods.
@@ -36,7 +36,7 @@ define(function () {
                 return this.instructionId;
             },
 
-            depends: function (anotherInstruction) {     //Este mira si algunos de los reg de lectura se estan por escribir en otra instruc
+            depends: function (anotherInstruction) {     
                 this.readRegisters.some(function (element) {
                     return (element == anotherInstruction.getWriteRegister());
                 });
@@ -54,7 +54,7 @@ define(function () {
                 return same;
             },
 
-            registerExistsInDependency: function (register) { //Si el registro tiene alguna dependencia
+            registerExistsInDependency: function (register) { 
                 for (var key in this.dependencies)
                     if (this.dependencies[key] == register)
                         return true;
@@ -82,12 +82,8 @@ define(function () {
 
             },
 
-            countDependencies: function () {  //Devuelve la cantidad de dependencias
+            countDependencies: function () {  
                 return this.dependencies.length;
-            },
-
-            dependencyExists: function (anotherId) {
-                return (anotherId in this.dependencies);
             },
 
             getDependencies: function () {
@@ -98,10 +94,6 @@ define(function () {
                 return this.dependencies[anotherInstruction];
             },
 
-            hasDependencies: function () {
-                return (this.countDependencies() > 0) ? true : false;
-            },
-
             getString: function () {
                 return this.instructionString;
             },
@@ -110,7 +102,7 @@ define(function () {
                 return this.type;
             },
 
-            getCycles: function () { //NUEVO
+            getCycles: function () { 
                 return this.cycles;
             },
 

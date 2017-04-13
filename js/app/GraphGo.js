@@ -4,6 +4,7 @@ define(["./libs/go/go-debug"], function (go) {
     var myDiagram;
     var nodeDataArray = [];
     var linkDataArray = [];
+    var i = 0;
 
     function GraphGo(containerId) {
       var $ = go.GraphObject.make;
@@ -22,13 +23,13 @@ define(["./libs/go/go-debug"], function (go) {
                "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
                contentAlignment: go.Spot.Center,  // align document to the center of the viewport
                layout:
-                 $(go.ForceDirectedLayout,  // automatically spread nodes apart
-                   { maxIterations: 200, defaultSpringLength: 30, defaultElectricalCharge: 100 })
+                 $(go.LayeredDigraphLayout,
+                   {direction: 90, layerSpacing: 40, columnSpacing: 30}  // automatically spread nodes apart
              });
          // define each Node's appearance
          this.myDiagram.nodeTemplate =
            $(go.Node, "Auto",  // the whole node panel
-             { locationSpot: go.Spot.Center },
+               {locationSpot: go.Spot.Center },
              // define the node's outer shape, which will surround the TextBlock
              $(go.Shape, "Rectangle",
                { fill: $(go.Brush, "Linear", { 0: "rgb(254, 201, 0)", 1: "rgb(254, 162, 0)" }), stroke: "black" }),

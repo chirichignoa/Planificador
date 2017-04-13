@@ -1,4 +1,4 @@
-define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphGo" /*"Graph"*/, "UiManager", "jquery", "./libs/ace/ace", "./libs/ace/mode/assembly_x86", "./libs/ace/theme/tomorrow", "./libs/fullPage/jquery.fullPage", "./libs/notification/notification"], function (Instruction, stack, Processor, FunctionalUnit, Parser, GraphGo/*Graph*/, UI, $, ace, mode, theme, fullpage, notification) {
+define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphGo" , "UiManager", "jquery", "./libs/ace/ace", "./libs/ace/mode/assembly_x86", "./libs/ace/theme/tomorrow", "./libs/fullPage/jquery.fullPage", "./libs/notification/notification"], function (Instruction, stack, Processor, FunctionalUnit, Parser, GraphGo, UI, $, ace, mode, theme, fullpage, notification) {
     var editor = ace.edit("editor");
     editor.setTheme(theme);
     editor.getSession().setMode("./mode/assembly_x86");
@@ -98,7 +98,6 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
 
             if (runParser(Parser, lines)) {
 
-                //graph = new Graph();
                 graph = new GraphGo("myDiagramDiv");
 
                 if((functionalUnits.length > 0) && (!Parser.getErrorNoUF())) {
@@ -114,19 +113,16 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].constructInstruction() + "</pre></li>");
                         cpu.addNode(instr[i]);
 
-                        // graph.addNode(instr[i].getId(), i, instr.length);
                         graph.addNode(instr[i].getId());
 
                         var dependencies = instr[i].getDependencies();
                         for (var dependency in dependencies) {
                             $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
 
-                            // graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
                             graph.addEdge(instr[i].getId(), dependencies[dependency].getId(),instr[i].cycles,80);
                         }
                     }
 
-                    // graph.draw($);
                     graph.draw();
                     cpu.generateCriticalPath();
                     states = cpu.run();

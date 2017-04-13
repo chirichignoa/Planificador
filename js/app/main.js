@@ -122,7 +122,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
                             $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
 
                             // graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
-                            graph.addEdge(instr[i].getId(), dependencies[dependency].getId(),50,80);
+                            graph.addEdge(instr[i].getId(), dependencies[dependency].getId(),instr[i].cycles,80);
                         }
                     }
 

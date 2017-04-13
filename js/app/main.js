@@ -98,6 +98,9 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
 
             if (runParser(Parser, lines)) {
 
+                if(graph){
+                  graph.reset();
+                }
                 graph = new GraphGo("myDiagramDiv");
 
                 if((functionalUnits.length > 0) && (!Parser.getErrorNoUF())) {

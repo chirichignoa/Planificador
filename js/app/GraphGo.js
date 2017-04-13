@@ -1,11 +1,5 @@
 define(["./libs/go/go-debug"], function (go) {
 
-    var containerId;
-    var myDiagram;
-    var nodeDataArray = [];
-    var linkDataArray = [];
-    var i = 0;
-
     function GraphGo(containerId) {
       var $ = go.GraphObject.make;
       var containerId;
@@ -77,10 +71,14 @@ define(["./libs/go/go-debug"], function (go) {
 
        GraphGo.prototype.draw = function(){
          this.myDiagram.model = new go.GraphLinksModel(this.nodeDataArray, this.linkDataArray);
-         this.nodeDataArray = [];
-         this.linkDataArray = [];
+
        }
 
+       GraphGo.prototype.reset = function (){
+         this.nodeDataArray = [];
+         this.linkDataArray = [];
+         this.myDiagram.div = null;
+       }
 
     return GraphGo;
 });

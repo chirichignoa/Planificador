@@ -19,6 +19,7 @@ define(["./libs/go/go-debug"], function (go) {
              {
                initialAutoScale: go.Diagram.Uniform,  // an initial automatic zoom-to-fit
                allowZoom: true,
+               "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
                contentAlignment: go.Spot.Center,  // align document to the center of the viewport
                layout:
                  $(go.ForceDirectedLayout,  // automatically spread nodes apart

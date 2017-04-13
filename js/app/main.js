@@ -1,17 +1,17 @@
-define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph", "UiManager", "jquery", "./libs/ace/ace", "./libs/ace/mode/assembly_x86", "./libs/ace/theme/tomorrow", "./libs/fullPage/jquery.fullPage", "./libs/notification/notification"], function (Instruction, stack, Processor, FunctionalUnit, Parser, Graph, UI, $, ace, mode, theme, fullpage, notification) {
+define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphGo" /*"Graph"*/, "UiManager", "jquery", "./libs/ace/ace", "./libs/ace/mode/assembly_x86", "./libs/ace/theme/tomorrow", "./libs/fullPage/jquery.fullPage", "./libs/notification/notification"], function (Instruction, stack, Processor, FunctionalUnit, Parser, GraphGo/*Graph*/, UI, $, ace, mode, theme, fullpage, notification) {
     var editor = ace.edit("editor");
     editor.setTheme(theme);
     editor.getSession().setMode("./mode/assembly_x86");
 
     var UiManager = new UI("#cycle-counter-table", "#planned-table", "#choosed-table");
 
-    var functionalUnits         = [], 
-        booleanFunctionalUnits  = [], 
+    var functionalUnits         = [],
+        booleanFunctionalUnits  = [],
         states                  = [],
         instructionsCycles      = {},
         lastIndex               = 0,
         nextState               = null;
- 
+
 
     function addFunctionalUnits(type,number) {
         booleanFunctionalUnits[number] = false;
@@ -23,7 +23,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
         }
     }
 
-    function initFunctionalUnits() {     
+    function initFunctionalUnits() {
         addFunctionalUnits("multi_type",0);
         addFunctionalUnits("arith_int",1);
         addFunctionalUnits("arith_float",2);
@@ -74,7 +74,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
         $("#about").click(function(){
             $.notify({
-                    message: "Trabajo final de cátedra de <i>Arquitectura de Computadoras y Técnicas Digitales</i>. Implementado por <strong>Agustin Chirichigno</strong> y <strong>Damian Dominguez</strong>, a cargo de los docentes <strong>Ing. Martín Menchón</strong> e <strong>Ing. Marcerlo Tosini</strong>."
+                    message: "Trabajo final de cátedra de <i>Arquitectura de Computadoras y Técnicas Digitales</i>. Implementado por <strong>Agustin Chirichigno</strong> y <strong>Damian Dominguez</strong>, a cargo de los docentes <strong>Ing. Martín Menchón</strong> e <strong>Mg. Marcerlo Tosini</strong>."
                 },{
                     type: 'success'
             });
@@ -98,7 +98,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
             if (runParser(Parser, lines)) {
 
-                graph = new Graph();
+                //graph = new Graph();
+                graph = new GraphGo("myDiagramDiv");
 
                 if((functionalUnits.length > 0) && (!Parser.getErrorNoUF())) {
 
@@ -113,17 +114,20 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].constructInstruction() + "</pre></li>");
                         cpu.addNode(instr[i]);
 
-                        graph.addNode(instr[i].getId(), i, instr.length);
+                        // graph.addNode(instr[i].getId(), i, instr.length);
+                        graph.addNode(instr[i].getId());
 
                         var dependencies = instr[i].getDependencies();
                         for (var dependency in dependencies) {
                             $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
-                            
-                            graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
+
+                            // graph.addEdge(instr[i].getId(), dependencies[dependency].getId());
+                            graph.addEdge(instr[i].getId(), dependencies[dependency].getId(),50,80);
                         }
                     }
 
-                    graph.draw($);
+                    // graph.draw($);
+                    graph.draw();
                     cpu.generateCriticalPath();
                     states = cpu.run();
                 }
@@ -148,7 +152,7 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
 
         $("#nextCycle").click(function () {
             if($("#previousCycle").is(":disabled")){
-                $("#previousCycle").prop('disabled', false);  
+                $("#previousCycle").prop('disabled', false);
             }
 
             if(lastIndex < states.length) {
@@ -161,14 +165,14 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "Graph"
             }
             else {
                 $(this).prop('disabled', true);
-                $("#previousCycle").prop('disabled', false);    
+                $("#previousCycle").prop('disabled', false);
             }
 
         });
 
         $("#previousCycle").click(function () {
             if($("#nextCycle").is(":disabled")){
-                $("#nextCycle").prop('disabled', false);  
+                $("#nextCycle").prop('disabled', false);
             }
 
             if (lastIndex > 0) {

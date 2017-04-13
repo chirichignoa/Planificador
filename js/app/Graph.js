@@ -17,7 +17,7 @@ define(["./libs/sigma/sigma"], function (sigma) {
             "y": Math.sin(Math.PI * 2 * i / nodesNum),
             "color" : "#03A678"
         };
-        
+
         data["nodes"].push(node);
     }
 
@@ -30,7 +30,7 @@ define(["./libs/sigma/sigma"], function (sigma) {
             "type" : "arrow",
             "color" : "#11BFAE"
         };
-        
+
         data["edges"].push(edge);
     }
 

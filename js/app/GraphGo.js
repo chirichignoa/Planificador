@@ -18,6 +18,7 @@ define(["./libs/go/go-debug"], function (go) {
            $(go.Diagram, this.containerId,  // must name or refer to the DIV HTML element
              {
                initialAutoScale: go.Diagram.Uniform,  // an initial automatic zoom-to-fit
+               allowZoom: true,
                contentAlignment: go.Spot.Center,  // align document to the center of the viewport
                layout:
                  $(go.ForceDirectedLayout,  // automatically spread nodes apart
@@ -25,7 +26,7 @@ define(["./libs/go/go-debug"], function (go) {
              });
          // define each Node's appearance
          this.myDiagram.nodeTemplate =
-           $(go.Node, "Vertical",  // the whole node panel
+           $(go.Node, "Auto",  // the whole node panel
              { locationSpot: go.Spot.Center },
              // define the node's outer shape, which will surround the TextBlock
              $(go.Shape, "Rectangle",

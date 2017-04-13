@@ -24,7 +24,7 @@ define(["./libs/go/go-debug"], function (go) {
                contentAlignment: go.Spot.Center,  // align document to the center of the viewport
                layout:
                  $(go.LayeredDigraphLayout,
-                   {direction: 90, layerSpacing: 40, columnSpacing: 30}  // automatically spread nodes apart
+                   {direction: 90, layerSpacing: 40, columnSpacing: 30})  // automatically spread nodes apart
              });
          // define each Node's appearance
          this.myDiagram.nodeTemplate =

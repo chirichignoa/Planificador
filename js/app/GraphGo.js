@@ -26,7 +26,8 @@ define(["./libs/go/go-debug"], function (go) {
                {locationSpot: go.Spot.Center },
              // define the node's outer shape, which will surround the TextBlock
              $(go.Shape, "Rectangle",
-               { fill: $(go.Brush, "Linear", { 0: "rgb(254, 201, 0)", 1: "rgb(254, 162, 0)" }), stroke: "black" }),
+               { fill: $(go.Brush, "Linear", { 0: "rgb(254, 201, 0)", 1: "rgb(254, 162, 0)" }), stroke: "black" },
+                new go.Binding("fill", "color")),
              $(go.TextBlock,
                { font: "bold 10pt helvetica, bold arial, sans-serif", margin: 4 },
                new go.Binding("text", "text"))

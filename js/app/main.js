@@ -110,19 +110,19 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
                     UiManager.constructTables();
 
                     var instr = Parser.getStack().getInstructions();
-                    cpu = new Processor(functionalUnits);
+                    cpu = new Processor(functionalUnits,graph);
 
                     for (var i in instr) {
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].constructInstruction() + "</pre></li>");
                         cpu.addNode(instr[i]);
 
-                        graph.addNode(instr[i].getId());
+                        //graph.addNode(instr[i].getId());
 
                         var dependencies = instr[i].getDependencies();
                         for (var dependency in dependencies) {
                             $("#dependencies-list").append("<li><pre>" + instr[i].getId() + " depende de " + dependencies[dependency].getId() + " por " + dependencies[dependency].getWriteRegister() + "</pre></li>");
 
-                            graph.addEdge(instr[i].getId(), dependencies[dependency].getId(),instr[i].cycles,80);
+                            //graph.addEdge(instr[i].getId(), dependencies[dependency].getId(),instr[i].cycles,80);
                         }
                     }
 

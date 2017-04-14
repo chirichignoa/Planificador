@@ -1,7 +1,7 @@
-define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function (Instruction,InstructionNode, FunctionalUnit, CpuState) {
+define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"], function (Instruction,InstructionNode, FunctionalUnit, CpuState, Graph) {
     'use strict';
 
-   function Processor(fu) {
+   function Processor(fu,graph) {
         this.nodes = [];
         this.planned = [],
         this.terminals = [],
@@ -9,7 +9,8 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
         this.functionalUnits = fu,
         this.availablesUF = fu.length,
         this.currentCycle = 0,      
-        this.cpuStates = [];
+        this.cpuStates = [],
+        this.graph = graph;
     }
 
    Processor.prototype = (function () {
@@ -18,6 +19,9 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
 
             addNode: function (instruction) {
                 var newNode = new InstructionNode(instruction); //sin cargar dependencias
+
+                this.graph.addNode(instruction.getId());
+
                 var arrDependencies = instruction.getDependencies();
                 this.terminals.push(this.nodes.length);
                 if(arrDependencies.length > 0) { //SI instruction tiene dependencias
@@ -25,7 +29,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                         for(var n in this.nodes){
                             if(arrDependencies[d] == this.nodes[n].getInstr()){
                                 newNode.vinculateDependencies(n);
-                                this.nodes[n].vinculateDependents(this.nodes.length);
+                                this.nodes[n].vinculateDependents(this.nodes.length);                   
                                 this.removeNodeTerminals(n);
                                 break;                                
                             }
@@ -48,6 +52,9 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState"], function 
                     var dependencies = node.getDependencies();
                     for(var dep in dependencies) {
                         var aux = (this.nodes[dependencies[dep]]).getAcumLatency();
+
+                        this.graph.addEdge(node.getInstr().getId(),this.nodes[dependencies[dep]].getInstr().getId(), this.nodes[dependencies[dep]].getInstr().getCycles(),aux);
+
                         if(aux > maxLatency){
                             maxLatency = aux;
                         }

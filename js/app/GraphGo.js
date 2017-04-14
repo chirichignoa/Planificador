@@ -31,6 +31,7 @@ define(["./libs/go/go-debug"], function (go) {
                { font: "bold 10pt helvetica, bold arial, sans-serif", margin: 4 },
                new go.Binding("text", "text"))
            );
+
          // replace the default Link template in the linkTemplateMap
          this.myDiagram.linkTemplate =
            $(go.Link,  // the whole link panel
@@ -56,6 +57,8 @@ define(["./libs/go/go-debug"], function (go) {
          var node = {
              key: nodeId,
              text: nodeId,
+             criticalPath: "false",
+             color: "red"
            }
           this.nodeDataArray.push(node);
        };

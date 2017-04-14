@@ -125,9 +125,9 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
                             //graph.addEdge(instr[i].getId(), dependencies[dependency].getId(),instr[i].cycles,80);
                         }
                     }
-
-                    graph.draw();
                     cpu.generateCriticalPath();
+                    cpu.addNodeFinal();
+                    graph.draw();
                     states = cpu.run();
                 }
                 else {

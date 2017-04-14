@@ -85,6 +85,24 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                 return index;
             },
 
+            /*addNodeFinal: function () {
+                this.graph.addNode("Final");
+                for(var t in this.terminals) {
+                    var node = this.nodes[this.terminals[t]];
+                   this.graph.addEdge(node.getInstr().getId(),"Final", node.getInstr().getCycles(),node.getAcumLatency());
+                }
+            },*/
+
+            addNodeFinal: function () {
+                this.graph.addNode("Final");
+                for(var n in this.nodes) {
+                    if(this.nodes[n].getDependents().length == 0) {
+                        var node = this.nodes[n];
+                        this.graph.addEdge("Final",node.getInstr().getId(), node.getInstr().getCycles(),node.getAcumLatency());
+                    }
+                }
+            },
+
             generateCriticalPath: function (){
                 var index = this.findMaxAcumLatency(this.terminals);
                 var node, dependencies;

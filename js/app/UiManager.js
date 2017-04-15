@@ -1,21 +1,26 @@
 define(["jquery"], function ($) {
 
-    var 
+    var
         generateHead = function (head) {
             var headRow = "<tr>";
             for (var i = 0; i < head.length; i++)
-                headRow += "<th colspan=100%>" + head[i] + "</th>";
+                headRow += "<th>" + head[i] + "</th>";
 
             return headRow + "</tr>";
         },
         generateRow = function (arr) {
             var row = "<tr>";
             if(arr.length == 0) {
-                row += "<td>" + " - " + "</td>";
-            }
-            for (var i = 0; i < arr.length; i++)
-                row += "<td>" + arr[i] + "</td>";
+                row += "<td>" + "-" + "</td>";
+            } else {
+              var res = "";
+              for (var i = 0; i < arr.length; i++)
+                res += arr[i] + ", ";
 
+              res = res.slice(0, -2);
+              console.log(res);
+              row += "<td>" + res + "</td>";
+            }
             return row + "</tr>";
         },
 
@@ -56,18 +61,6 @@ define(["jquery"], function ($) {
         }
         return null;
     }
-
-    var getRobRow = function (instructions, states) {
-        var row = [];
-        var counter = 0;
-        for (var i = 0; i < instructions.length; i++) {
-            console.log(counter + " " + (counter + 1));
-            row[counter] = instructions[i];
-            row[counter + 1] = getState(i, states);
-            counter = counter + 2;
-        }
-        return row;
-    };
 
     UiManager.prototype.addRows = function (cicle, planned, choosed) {
         $(getBodyTable(this.ciclesTableId)).append(generateRow([cicle]));

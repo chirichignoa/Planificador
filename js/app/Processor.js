@@ -8,13 +8,13 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
         this.criticalPath = [],
         this.functionalUnits = fu,
         this.availablesUF = fu.length,
-        this.currentCycle = 0,      
+        this.currentCycle = 0,
         this.cpuStates = [],
         this.graph = graph;
     }
 
    Processor.prototype = (function () {
-        return { 
+        return {
             constructor: Processor,
 
             addNode: function (instruction) {
@@ -29,15 +29,15 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                         for(var n in this.nodes){
                             if(arrDependencies[d] == this.nodes[n].getInstr()){
                                 newNode.vinculateDependencies(n);
-                                this.nodes[n].vinculateDependents(this.nodes.length);                   
+                                this.nodes[n].vinculateDependents(this.nodes.length);
                                 this.removeNodeTerminals(n);
-                                break;                                
+                                break;
                             }
                         }
                     }
                 }
                 else { //Si no tiene
-                    this.planned.push(this.nodes.length); 
+                    this.planned.push(this.nodes.length);
                 }
                 this.calculateAcumLatency(newNode);
                 this.nodes.push(newNode);
@@ -72,10 +72,10 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
 
             findMaxAcumLatency: function (arrNodes) {
                 var max = 0, index = -1;
-                for(var node in arrNodes) { 
-                    var indexNode = arrNodes[node]; 
-                    if(indexNode < this.nodes.length){ 
-                        var latency = this.nodes[indexNode].getAcumLatency(); 
+                for(var node in arrNodes) {
+                    var indexNode = arrNodes[node];
+                    if(indexNode < this.nodes.length){
+                        var latency = this.nodes[indexNode].getAcumLatency();
                         if( latency > max) {
                             max = latency;
                             index = node;
@@ -84,14 +84,6 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                 }
                 return index;
             },
-
-            /*addNodeFinal: function () {
-                this.graph.addNode("Final");
-                for(var t in this.terminals) {
-                    var node = this.nodes[this.terminals[t]];
-                   this.graph.addEdge(node.getInstr().getId(),"Final", node.getInstr().getCycles(),node.getAcumLatency());
-                }
-            },*/
 
             addNodeFinal: function () {
                 this.graph.addNode("Final");
@@ -121,7 +113,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                         index = this.findMaxAcumLatency(node.getDependencies());
                     }
                 }
-            },           
+            },
 
             isFullyProcessed: function () {
                 return this.planned.length == 0;
@@ -171,7 +163,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                             else { //Entonces tiene dependencias no ejecutadas, recursionamos
                                 return unlockCC(d);
                             }
-                        } 
+                        }
                     }
                 }
                 return -1;
@@ -179,9 +171,9 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
 
             run: function () {
                 var finished = false;
-                this.nextCycle(); 
-                while ((this.planned.length != 0) || (!finished)) { 
-                    this.currentCycle += 1;           
+                this.nextCycle();
+                while ((this.planned.length != 0) || (!finished)) {
+                    this.currentCycle += 1;
                     for(var fu in this.functionalUnits) {
                         if(this.functionalUnits[fu].nextCycle()) {
                             this.availablesUF +=1;
@@ -215,7 +207,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                     var instrCritical = this.criticalPath[0];
                     var fu = this.availableUF(instrCritical.getInstr().getType());
                     var cCExecuted = false;
-                    if(this.canRun(instrCritical)) { //Se puede ejecutar 
+                    if(this.canRun(instrCritical)) { //Se puede ejecutar
                         if(fu != -1) { //Hay UF disponibles
                             this.functionalUnits[fu].execute(instrCritical);
                             this.availablesUF -= 1;
@@ -224,7 +216,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                             this.planned.splice(this.planned.indexOf(indexNodes),1); //saco la instr ejecutada
                             this.criticalPath.splice(0,1);
                             cCExecuted = true;
-                        } 
+                        }
                     }
                     var index = -1;
                     if(cCExecuted) {
@@ -237,12 +229,12 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                         fu = this.availableUF(this.nodes[index].getInstr().getType());
                         if(fu != -1) {
                             this.functionalUnits[fu].execute(this.nodes[index]);
-                            this.availablesUF -= 1;                 
+                            this.availablesUF -= 1;
                             state.addSelected(this.nodes[index].getInstr().getId());
                             this.planned.splice(this.planned.indexOf(index),1); //saco la instr ejecutada
                         }
                         index = parseInt(this.unlockCC(instrCritical));
-                    }                    
+                    }
                 }
                 if(this.availablesUF > 0) {
                     fu = this.functionalUnits.length - 1;

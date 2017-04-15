@@ -55,13 +55,23 @@ define(["./libs/go/go-debug"], function (go) {
          }
 
        GraphGo.prototype.addNode = function (nodeId) {
-         var node = {
-             key: nodeId,
-             text: nodeId,
-             criticalPath: "false",
-             color: "red"
-           }
-          this.nodeDataArray.push(node);
+	       	if(nodeId == "Final") {
+	       		var node = {
+	            	key: nodeId,
+	            	text: nodeId,
+	            	criticalPath: "true",
+	            	color: "red"
+	            }
+	       	 }
+	       	 else {
+	       	 	var node = {
+	            	key: nodeId,
+	            	text: nodeId,
+	            	criticalPath: "false",
+	            	color: "yellow"	
+	            }       	 	
+	       	 }
+	        this.nodeDataArray.push(node);
        };
 
        GraphGo.prototype.addEdge = function (nodeIdSource, nodeIdDest, instrLatency, acumLatency) {
@@ -82,6 +92,17 @@ define(["./libs/go/go-debug"], function (go) {
          this.nodeDataArray = [];
          this.linkDataArray = [];
          this.myDiagram.div = null;
+       }
+
+       GraphGo.prototype.setCriticalPath = function(nodeId){
+       		for(var n in this.nodeDataArray){
+       			var node = this.nodeDataArray[n];
+       			if(node.key == nodeId) {
+       				node.criticalPath = "true"
+       				node.color = "red";
+       			}
+       		}
+
        }
 
     return GraphGo;

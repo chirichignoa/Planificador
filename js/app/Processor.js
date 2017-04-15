@@ -105,6 +105,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
 
             generateCriticalPath: function (){
                 var index = this.findMaxAcumLatency(this.terminals);
+                this.graph.setCriticalPath(this.nodes[index].getInstr().getId());
                 var node, dependencies;
                 if(index != -1){
                     node = this.nodes[index];
@@ -115,6 +116,7 @@ define(["Instruction","InstructionNode", "FunctionalUnit","CpuState","GraphGo"],
                         dependencies = node.getDependencies();
                         node = this.nodes[dependencies[index]];
                         node.setCriticalPath();
+                        this.graph.setCriticalPath(node.getInstr().getId());
                         this.criticalPath.unshift(node);
                         index = this.findMaxAcumLatency(node.getDependencies());
                     }

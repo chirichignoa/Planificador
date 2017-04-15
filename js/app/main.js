@@ -100,8 +100,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
 
             if (runParser(Parser, lines)) {
               $("#graph").append('<div id="myDiagramDiv" class="canvas-graph"></div>');
-              $("#graph-keys").append('<p><div class="square-key node-no-cc"></div> Nodo no perteneciente al camino critico.</p>');
               $("#graph-keys").append('<p><div class="square-key node-cc"></div> Nodo perteneciente al camino critico.</p>');
+              $("#graph-keys").append('<p><div class="square-key node-no-cc"></div> Nodo que no pertene al camino critico.</p>');
               $("#dependencies-alert").alert("close");
 
                 if(graph){

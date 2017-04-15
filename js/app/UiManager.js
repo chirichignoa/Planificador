@@ -18,7 +18,6 @@ define(["jquery"], function ($) {
                 res += arr[i] + ", ";
 
               res = res.slice(0, -2);
-              console.log(res);
               row += "<td>" + res + "</td>";
             }
             return row + "</tr>";

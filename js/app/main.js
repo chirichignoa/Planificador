@@ -53,6 +53,8 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
         states = [];
         $('#keys-list').html('');
         $('#dependencies-list').html('');
+        $('#graph').html('');
+        $('#graph-keys').html('');
         $('#previousCycle').prop('disabled', true);
         $("#nextCycle").prop('disabled', false);
     }
@@ -97,6 +99,10 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
             initFunctionalUnits();
 
             if (runParser(Parser, lines)) {
+              $("#graph").append('<div id="myDiagramDiv" class="canvas-graph"></div>');
+              $("#graph-keys").append('<p><div class="square-key node-no-cc"></div> Nodo no perteneciente al camino critico.</p>');
+              $("#graph-keys").append('<p><div class="square-key node-cc"></div> Nodo perteneciente al camino critico.</p>');
+              $("#dependencies-alert").alert("close");
 
                 if(graph){
                   graph.reset();
@@ -105,13 +111,13 @@ define(["Instruction", "Stack", "Processor", "FunctionalUnit", "Parser", "GraphG
 
                 if((functionalUnits.length > 0) && (!Parser.getErrorNoUF())) {
 
-                    $("#non-tables").alert("close");
+                  $("#non-tables").alert("close");
+
 
                     UiManager.constructTables();
 
                     var instr = Parser.getStack().getInstructions();
                     cpu = new Processor(functionalUnits,graph);
-
                     for (var i in instr) {
                         $("#keys-list").append("<li><pre>" + instr[i].getId() + ": " + instr[i].constructInstruction() + "</pre></li>");
                         cpu.addNode(instr[i]);

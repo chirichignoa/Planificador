@@ -68,8 +68,8 @@ define(["./libs/go/go-debug"], function (go) {
 	            	key: nodeId,
 	            	text: nodeId,
 	            	criticalPath: "false",
-	            	color: "yellow"	
-	            }       	 	
+	            	color: "yellow"
+	            }
 	       	 }
 	        this.nodeDataArray.push(node);
        };
